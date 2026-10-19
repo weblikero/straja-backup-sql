@@ -1,0 +1,30 @@
+﻿StrajaBackupSQL — VERSIÓN PRELIMINAR 0.1.7
+strajabackup.com
+
+Empiece en cuatro pasos
+
+1. Las herramientas MariaDB, MySQL y PostgreSQL están incluidas y se seleccionan automáticamente. Para otra versión, active una carpeta personalizada en las opciones avanzadas de conexión.
+
+2. Añada y pruebe la conexión. Use una cuenta de exportación dedicada con privilegios mínimos. Las bases del sistema se ocultan en el explorador.
+
+3. Cree un plan: elija bases, destino, compresión y programación. Ejecute una copia manual y revise el resultado en Actividad.
+
+4. Inicie el agente. Configure SMTP y active alertas en cada plan. Conserve otra copia en un disco o servidor distinto.
+
+Qué verificamos
+
+Se comprueban el código de salida, el marcador final, la relectura SHA-256 y el contenido GZIP descomprimido. Detectan corrupción, pero no garantizan una restauración completa. Pruebe periódicamente la restauración en un servidor separado con herramientas oficiales.
+
+Consistencia y programación
+
+MySQL/MariaDB usan single-transaction: la consistencia se aplica a tablas transaccionales (InnoDB). Evite cambios de esquema durante la exportación. Las bases se exportan por turnos sin instantánea común. PostgreSQL usa la instantánea de pg_dump. No se exportan roles globales de PostgreSQL.
+
+Al volver el agente se recupera una ejecución vencida por plan. Los fallos no se reintentan al instante; la siguiente programación o Crear copia ahora inicia otro intento. Se omiten horas inexistentes por cambio horario; las repetidas se ejecutan una vez. Cada hora significa 60 minutos desde el guardado o ejecución programada.
+
+Los planes nuevos usan UTC. Elija la zona horaria IANA, por ejemplo Europe/Madrid o America/New_York.
+
+Datos locales y desinstalación
+
+Los ajustes están en %LOCALAPPDATA%\StrajaSQL. Las contraseñas usan DPAPI y solo funcionan con la misma cuenta de Windows. Las copias SQL/GZIP no están cifradas. La desinstalación conserva ajustes y copias. Las herramientas incluidas son privadas de la aplicación; no cambian PATH, servicios ni instalaciones SQL existentes.
+
+Elija su idioma. Los menús y las nuevas notificaciones se actualizan automáticamente. Los registros existentes conservan su idioma.

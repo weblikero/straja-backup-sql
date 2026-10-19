@@ -1,0 +1,83 @@
+StrajaBackupSQL - Updates and release publication
+
+PUBLIC REPOSITORY
+https://github.com/weblikero/straja-backup-sql
+This repository is separate from weblikero/straja-backup (the Windows file backup product).
+
+INSTALLED APPLICATION
+Version 0.1.7 introduces update discovery. Earlier versions must be upgraded manually once.
+With automatic checking enabled (default), the open GUI checks at startup when due and
+then at most once every 24 hours. Last attempt is persisted across restarts. The tray
+agent alone does not check for updates. Settings offers a manual check and opt-out.
+
+A new release appears in an in-app banner. Skip this version dismisses that version
+across restarts; a later version still appears. A manual check shows skipped updates
+again. Open release page opens the validated HTTPS page in the default browser.
+Nothing downloads or installs automatically. Finish backups, stop the agent gracefully,
+close the GUI, then run the normal installer. Keep the installer AppId unchanged to
+retain the same installation identity. Configuration and backups are preserved.
+
+UPDATE SOURCES, IN ORDER
+1. https://strajabackup.com/updates/strajabackupsql/windows-x64/stable.json
+2. https://api.github.com/repos/weblikero/straja-backup-sql/releases/latest
+
+A valid website feed is authoritative, including a version pin. When the feed is
+missing, inaccessible or invalid, the app tries the product's public GitHub releases.
+GitHub must return a non-draft, non-prerelease release tagged vMAJOR.MINOR.PATCH,
+with an uploaded nonempty asset named:
+StrajaBackupSQL-MAJOR.MINOR.PATCH-windows-x64-setup.exe
+Tags without a release, draft releases and preview releases are not update offers.
+If GitHub has no stable release and the website returns 404, Settings says the feed
+has not been published. Network/server/format failures show a retry message; they
+never report successful verification or affect backup jobs. Cached valid offers remain
+available offline. The website may pin the installed version to withdraw an offer.
+
+Each source request has a 15-second total timeout, 5-second connection timeout,
+32-KiB response limit, verified HTTPS and no redirects. Worst case is two requests.
+No GitHub token is bundled or requested from end users. Requests carry the product
+and app version User-Agent plus normal HTTP/IP metadata; they contain no connection
+names, database names, passwords, backups, Windows user names or machine identifiers.
+
+FEED SCHEMA 1 (example only; do not publish a future version before its release)
+{
+  "schema_version": 1,
+  "product": "strajabackupsql",
+  "platform": "windows-x64",
+  "channel": "stable",
+  "version": "1.0.0",
+  "release_url": "https://github.com/weblikero/straja-backup-sql/releases/tag/v1.0.0"
+}
+
+An alternative release_url is https://strajabackup.com/downloads/strajabackupsql/.
+Use the real download page if hosting the installer on your own website. Other products
+need their own product identifier, feed path, repository, installer and installation ID.
+The current client rejects another product/platform/channel, unknown schema, prerelease
+versions, unknown fields and release links outside these exact product locations.
+Versions use semantic ordering: 1.10.0 is newer than 1.9.0. Equal/older versions and
+changes only to build metadata are not offered. There is no automatic rollback.
+
+PUBLISH A NEW VERSION
+1. Increment Cargo.toml and installer default version; update the validation report.
+2. Run the tests, localization generator, dependency notices and release packaging.
+3. Test install/upgrade/uninstall and SQL restore on a separate clean Windows station.
+   Complete publisher signing and redistribution review before a production release.
+4. Create a GitHub draft release in weblikero/straja-backup-sql with tag vX.Y.Z.
+   Upload the normal installer, its SHA-256 file, release notes, dependency notices
+   and corresponding MariaDB/MySQL source archives from dist/sources. Never upload
+   database backups, test profiles, .vendor-cache or local credentials.
+5. Publish previews with the prerelease flag. Publish a validated production version
+   as a normal release and mark it Latest. The app can now discover it via GitHub
+   without a website change, provided no valid website feed pins an older version.
+6. Optional website feed: run scripts/prepare-update-feed.ps1 -Version X.Y.Z.
+   Upload the resulting dist/update-feed/updates/strajabackupsql/windows-x64/stable.json
+   to the identical site path, AFTER the matching release/assets are publicly available.
+   Use application/json, UTF-8 without BOM, Cache-Control: max-age=300 and atomic replace.
+   Serve the exact URL directly over HTTPS; exclude it from HTML fallback routing and
+   redirects. Other software feeds on strajabackup.com remain separate.
+7. On a machine with an older version, select Settings > Check for updates and verify
+   the offered version and release page. Also verify offline and skipped-version behavior.
+
+The SHA-256 file is for checking downloaded artifacts; the app only discovers releases
+and opens their pages. It does not download, hash, verify Authenticode or execute the
+installer. HTTPS/feed validation is not a substitute for publisher signing.
+No stable feed is uploaded and no production release is published by the build scripts.

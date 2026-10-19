@@ -1,0 +1,9 @@
+﻿StrajaBackupSQL — VORSCHAU 0.1.7
+
+MariaDB-, MySQL- und PostgreSQL-Werkzeuge sind enthalten und werden automatisch gewählt. Andere Versionen über einen eigenen Ordner in den erweiterten Verbindungsoptionen auswählen.
+
+Der Agent läuft unabhängig vom Fenster und erscheint neben der Uhr (auch unter ^). Rechtsklick öffnet die App, Aktivität oder stoppt nach der Sicherung. Setup kann den Start bei Anmeldung aktivieren. Der PC muss eingeschaltet bleiben; der Agent weckt ihn nicht auf.
+
+Geprüft werden Exitcode, Export-Abschlussmarkierung, erneutes Lesen mit SHA-256 und entpackter GZIP-Inhalt. Das erkennt beschädigte Dateien, garantiert aber keine vollständige Wiederherstellung. Testen Sie diese regelmäßig mit offiziellen Werkzeugen auf einem separaten Server.
+
+Einstellungen liegen in %LOCALAPPDATA%\StrajaSQL. Passwörter nutzen DPAPI und funktionieren nur unter demselben Windows-Konto. SQL/GZIP-Sicherungen sind unverschlüsselt. Deinstallation behält Einstellungen und Sicherungen. Mitgelieferte Werkzeuge sind app-eigen; PATH, Dienste und bestehende SQL-Installationen bleiben unverändert.

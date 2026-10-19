@@ -1,0 +1,9 @@
+﻿StrajaBackupSQL — VERSION PRÉLIMINAIRE 0.1.7
+
+Les outils MariaDB, MySQL et PostgreSQL sont inclus et sélectionnés automatiquement. Pour une autre version, activez un dossier personnalisé dans les options avancées de connexion.
+
+L’agent fonctionne indépendamment de la fenêtre et apparaît près de l’horloge (vérifiez aussi ^). Clic droit pour ouvrir l’application, voir Activité ou arrêter après la sauvegarde. L’installateur permet le démarrage à la connexion. Le PC doit rester allumé ; l’agent ne le réveille pas.
+
+Nous vérifions le code de sortie, le marqueur de fin, la relecture SHA-256 et le contenu GZIP décompressé. Ces contrôles détectent la corruption sans garantir une restauration complète. Testez régulièrement la restauration sur un serveur séparé avec les outils officiels.
+
+Les paramètres sont dans %LOCALAPPDATA%\StrajaSQL. Les mots de passe utilisent DPAPI et ne fonctionnent que sous le même compte Windows. Les sauvegardes SQL/GZIP ne sont pas chiffrées. La désinstallation conserve paramètres et sauvegardes. Les outils inclus sont privés à l’application ; ils ne modifient ni PATH, ni services, ni installations SQL existantes.

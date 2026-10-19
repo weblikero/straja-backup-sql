@@ -1,0 +1,17 @@
+StrajaBackupSQL — PREVIZUALIZARE 0.1.4
+
+Kit complet, offline: aplicația Rust, StrajaBackupSQL Agent și utilitarele oficiale de conectare/export.
+
+  MariaDB 11.4.10: mariadb.exe și mariadb-dump.exe
+  MySQL 8.4.11: mysql.exe și mysqldump.exe
+  PostgreSQL 18.6: psql.exe și pg_dump.exe
+
+Utilitarele și bibliotecile lor sunt instalate numai în folderul StrajaBackupSQL și selectate automat. Nu este necesar să cauți un folder bin. Opțiunile avansate permit alegerea unei alte versiuni compatibile cu serverul.
+
+Nu se instalează servere SQL și nu se modifică serviciile, configurațiile, datele sau PATH-ul instalărilor MariaDB, MySQL ori PostgreSQL existente. Nu se rulează un installer global Visual C++.
+
+Agentul continuă după închiderea ferestrei, apare în zona de notificări de lângă ceas (posibil în meniul ^) și poate porni la autentificare. Click dreapta pe iconiță deschide aplicația, Activitate sau solicită oprirea după backup. PC-ul trebuie să rămână pornit și contul conectat. Această versiune nu instalează un serviciu Windows.
+
+Verificarea este de integritate a fișierelor, fără restaurare automată pe server. Backupurile SQL/GZIP nu sunt criptate. Testează periodic restaurarea pe un server separat.
+
+Dezinstalarea elimină aplicația și utilitarele private incluse. Păstrează planurile, parolele protejate și backupurile. Închide fereastra și oprește agentul înainte de actualizare sau dezinstalare.

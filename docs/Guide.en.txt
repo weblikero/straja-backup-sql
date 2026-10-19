@@ -1,0 +1,30 @@
+﻿StrajaBackupSQL — PREVIEW 0.1.7
+strajabackup.com
+
+Get started in four steps
+
+1. MariaDB, MySQL and PostgreSQL tools are bundled and selected automatically. For another version, enable a custom tools folder in advanced connection options.
+
+2. Add and test the connection. Use a dedicated export account with minimal privileges. System databases are hidden in the explorer.
+
+3. Create a plan: select databases, destination, compression and schedule. Run a manual backup and check the result in Activity.
+
+4. Start the agent. Configure SMTP and enable alerts in each plan. Keep an additional copy on another drive or server.
+
+What we verify
+
+We check the tool exit code, export completion marker, SHA-256 reread and decompressed GZIP content. These checks detect file corruption but do not prove a full restore will succeed. Regularly test restoration on a separate server with official tools.
+
+Consistency and scheduling
+
+MySQL/MariaDB use single-transaction: consistency applies to transactional tables (InnoDB). Avoid schema changes during export. Databases are exported sequentially without a shared snapshot. PostgreSQL uses the pg_dump snapshot. Global PostgreSQL roles are not exported.
+
+When the agent returns, it catches up one overdue run per plan. Failures are not retried immediately; the next schedule or Back up now starts a new attempt. Nonexistent DST times are skipped; repeated times run once. Hourly means 60 minutes after saving or the scheduled run.
+
+New plans use UTC. Choose the IANA time zone for your schedule, for example Europe/Berlin or America/New_York.
+
+Local data and uninstall
+
+Settings are in %LOCALAPPDATA%\StrajaSQL. Passwords use DPAPI and work only under the same Windows account. SQL/GZIP backups are not encrypted. Uninstall keeps settings and backups. Bundled tools are private to this app; they do not change PATH, services or existing SQL installations.
+
+Choose your language. Menus and new notifications update automatically. Existing log messages keep their original language.

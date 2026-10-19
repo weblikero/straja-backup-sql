@@ -1,0 +1,48 @@
+StrajaBackupSQL 0.1.6 — validation record
+
+Release classification: PREVIEW / TEST KIT. Not approved for public release.
+
+CHANGED
+New pages and forms now reset the main content scroll position to the top.
+Previously, opening a new plan after scrolling Settings could open the form in
+the middle. The fix applies to navigation and asynchronous page transitions.
+Installer guide generation now reads the version from Cargo.toml.
+
+PASSED
+- Rust library/UI/core/mail tests and fake-client backup pipeline: 25 checks.
+- Clippy for all targets with warnings treated as errors.
+- Complete catalog: 297 application messages across six languages.
+- Bundled client hashes, PE dependencies and version checks during packaging.
+- Normal and separate-test Inno installer compilation.
+- Windows UI smoke review: English dashboard; German, Spanish, Portuguese,
+  French and Italian settings/sidebar; Italian forms at minimum width.
+- Window reduced to the 1000 x 700 client-size minimum; language selector and
+  navigation remained accessible. This is not a review of every display scale.
+- Saved Italian language persisted when the isolated UI profile was reopened.
+- Scroll regression reproduced in 0.1.5 and visually confirmed fixed in 0.1.6:
+  scroll Settings, open Plans, create a new plan; title/name fields start at top.
+
+INSTALLER EXECUTION: NOT PASSED
+The separate test installer stalled during initialization on this development
+workstation, after creation of its temporary directory and before application
+file copying or uninstall registration. Both silent attempts and an interactive
+attempt failed to reach the wizard. /SP- and /NOSTYLE did not resolve the issue.
+The cause has not been established. Only the identified test processes were
+stopped. No test uninstall registration was created. The six-language installer
+upgrade/uninstall test therefore did not complete; do not report it as passed.
+
+scripts/test-installer.ps1 uses a separate AppId/startup entry, a unique workspace
+directory, silent launches that do not start the GUI/agent, and a 60-second timeout
+that terminates only its own test process tree. It records failures and cleanup.
+
+STILL REQUIRED
+Reproduce or rule out the installer initialization issue on the clean test station.
+Complete normal installation, upgrades from previous versions and uninstall.
+Test real MariaDB/MySQL/PostgreSQL exports and restore into disposable databases.
+Review all screens/languages at supported Windows scaling settings.
+Arrange publisher signing and complete distribution/license review.
+
+No production SQL connection, database write or server restore was used in these
+checks. Existing database server installations and their PATH/services were not
+modified. The test UI used a separate application profile. No website upload was
+performed. Source archives and notices are included in the local test release kit.

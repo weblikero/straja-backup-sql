@@ -1,0 +1,61 @@
+StrajaBackupSQL — clean Windows test station
+
+Use a separate test station and disposable SQL databases. Do not use production
+credentials or restore into a production database. Keep a copy of existing backups.
+
+1. INSTALL AND UPGRADE
+Install the normal setup package. Confirm the default language is English and
+that all six languages are offered. Confirm SQL tools are included without a
+separate download. Existing SQL installations, services and PATH must be unchanged.
+Start the app, select another language, close it and reopen it: the choice persists.
+Upgrade an earlier StrajaBackupSQL installation with test plans and test backups;
+confirm its connections, plans, saved language, time zones and backups are retained.
+
+2. CONNECTIONS AND EXPLORER
+Test MariaDB, MySQL and PostgreSQL with a dedicated account and verified TLS.
+Expand and collapse each connection. Select databases and inspect table/schema/type
+lists. Search and paginate; switch databases while metadata is loading. Check a
+failed connection gives a useful message without exposing credentials.
+
+3. EXPORT AND VERIFICATION
+Run plans with one and multiple databases, including non-ASCII names. Confirm
+files preserve original names (with safe Windows substitutions when necessary).
+Try plain SQL and GZIP. Check live activity, processed sizes, elapsed time and
+measured compression/verification percentages. Verify a completed backup again.
+Copy a backup to a disposable directory, corrupt the copy and verify that the
+corruption is detected. Restore a valid backup manually to a separate test server
+and compare schema and contents. File verification alone is not a restore test.
+
+4. SCHEDULING, RETENTION AND NOTIFICATIONS
+Use short schedules and explicit time zones. Confirm only one run is queued after
+agent downtime. Check count/day retention removes only expired backups owned by
+the plan and always preserves the latest verified copy. Simulate an export failure;
+existing good copies must remain. Configure a test SMTP mailbox, request a test
+email, then verify a failed backup sends an alert. Check a failed SMTP connection
+is recorded without hiding the original backup failure.
+
+5. TRAY AND DISPLAY
+Close the main window while the agent is running. Check the clock area and hidden
+icons menu. Open the app and Activity from the tray. Request agent stop during a
+backup: it must finish before exiting. Check startup at Windows sign-in.
+Review all languages at 100%, 125%, 150% and 200% display scaling where supported,
+including small windows, long connection names, error messages and forms. New pages
+and forms should open at the top. Changing language must not change user data.
+
+6. UNINSTALL
+Stop the agent after its active backup, close the app, and uninstall. Check the
+app's startup entry, executables and private client tools are removed. Settings
+and backups must remain. Existing SQL installations must still work.
+
+RECORD
+App version / installer SHA-256:
+Windows edition, version, architecture and display scaling:
+SQL server versions / selected client versions:
+Language(s):
+Install / upgrade / uninstall results:
+Successful backup and separate restore results:
+Retention / SMTP / tray / schedule results:
+Issues, screenshots and reproduction steps:
+
+The automated isolated installer test uses a separate test AppId and startup
+entry. Passing it on a development PC does not replace this clean-machine test.

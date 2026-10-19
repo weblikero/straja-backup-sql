@@ -1,0 +1,30 @@
+﻿StrajaBackupSQL — VORSCHAU 0.1.7
+strajabackup.com
+
+Start in vier Schritten
+
+1. MariaDB-, MySQL- und PostgreSQL-Werkzeuge sind enthalten und werden automatisch gewählt. Andere Versionen über einen eigenen Ordner in den erweiterten Verbindungsoptionen auswählen.
+
+2. Verbindung hinzufügen und testen. Ein eigenes Exportkonto mit minimalen Rechten verwenden. Systemdatenbanken sind im Explorer ausgeblendet.
+
+3. Plan erstellen: Datenbanken, Ziel, Komprimierung und Zeitplan wählen. Manuelle Sicherung starten und Ergebnis unter Aktivität prüfen.
+
+4. Agent starten. SMTP einrichten und Warnungen je Plan aktivieren. Zusätzliche Kopie auf einem anderen Laufwerk oder Server aufbewahren.
+
+Was geprüft wird
+
+Geprüft werden Exitcode, Export-Abschlussmarkierung, erneutes Lesen mit SHA-256 und entpackter GZIP-Inhalt. Das erkennt beschädigte Dateien, garantiert aber keine vollständige Wiederherstellung. Testen Sie diese regelmäßig mit offiziellen Werkzeugen auf einem separaten Server.
+
+Konsistenz und Zeitplanung
+
+MySQL/MariaDB verwenden single-transaction: Konsistenz gilt für transaktionale Tabellen (InnoDB). Schemaänderungen während des Exports vermeiden. Datenbanken werden nacheinander ohne gemeinsamen Snapshot exportiert. PostgreSQL verwendet den pg_dump-Snapshot. Globale PostgreSQL-Rollen werden nicht exportiert.
+
+Nach Agent-Neustart wird je Plan ein überfälliger Lauf nachgeholt. Fehler werden nicht sofort wiederholt; der nächste Termin oder Jetzt sichern startet einen Versuch. Nicht existente Sommerzeit-Uhrzeiten entfallen; doppelte Uhrzeiten laufen einmal. Stündlich bedeutet 60 Minuten nach Speichern oder geplantem Lauf.
+
+Neue Pläne verwenden UTC. IANA-Zeitzone für den Zeitplan wählen, z. B. Europe/Berlin oder America/New_York.
+
+Lokale Daten und Deinstallation
+
+Einstellungen liegen in %LOCALAPPDATA%\StrajaSQL. Passwörter nutzen DPAPI und funktionieren nur unter demselben Windows-Konto. SQL/GZIP-Sicherungen sind unverschlüsselt. Deinstallation behält Einstellungen und Sicherungen. Mitgelieferte Werkzeuge sind app-eigen; PATH, Dienste und bestehende SQL-Installationen bleiben unverändert.
+
+Sprache wählen. Menüs und neue Meldungen werden automatisch angepasst. Vorhandene Protokollmeldungen behalten ihre Sprache.

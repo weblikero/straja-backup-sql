@@ -1,0 +1,2498 @@
+{
+  "Invalid tools folder.": [
+    "Invalid tools folder.",
+    "Ungültiger Werkzeugordner.",
+    "Carpeta de herramientas no válida.",
+    "Pasta de ferramentas inválida.",
+    "Dossier des outils non valide.",
+    "Cartella degli strumenti non valida."
+  ],
+  "Could not start the SQL tool. Check its bin folder and DLLs.": [
+    "Could not start the SQL tool. Check its bin folder and DLLs.",
+    "SQL-Werkzeug konnte nicht gestartet werden. Prüfen Sie den bin-Ordner und die DLLs.",
+    "No se pudo iniciar la herramienta SQL. Compruebe la carpeta bin y sus DLL.",
+    "Não foi possível iniciar a ferramenta SQL. Verifique a pasta bin e as DLL.",
+    "Impossible de lancer l’outil SQL. Vérifiez le dossier bin et ses DLL.",
+    "Impossibile avviare lo strumento SQL. Controllare la cartella bin e le DLL."
+  ],
+  "Time limit exceeded; export stopped.": [
+    "Time limit exceeded; export stopped.",
+    "Zeitlimit überschritten; Export gestoppt.",
+    "Se superó el tiempo límite; exportación detenida.",
+    "Tempo limite excedido; exportação parada.",
+    "Délai dépassé ; export arrêté.",
+    "Tempo limite superato; esportazione arrestata."
+  ],
+  "[password hidden]": [
+    "[password hidden]",
+    "[Passwort ausgeblendet]",
+    "[contraseña oculta]",
+    "[palavra-passe oculta]",
+    "[mot de passe masqué]",
+    "[password nascosta]"
+  ],
+  "SQL tool: {0} · {1}": [
+    "SQL tool: {0} · {1}",
+    "SQL-Werkzeug: {0} · {1}",
+    "Herramienta SQL: {0} · {1}",
+    "Ferramenta SQL: {0} · {1}",
+    "Outil SQL : {0} · {1}",
+    "Strumento SQL: {0} · {1}"
+  ],
+  "Invalid SQL metadata.": [
+    "Invalid SQL metadata.",
+    "Ungültige SQL-Metadaten.",
+    "Metadatos SQL no válidos.",
+    "Metadados SQL inválidos.",
+    "Métadonnées SQL non valides.",
+    "Metadati SQL non validi."
+  ],
+  "Unexpected table response format.": [
+    "Unexpected table response format.",
+    "Unerwartetes Format der Tabellenantwort.",
+    "Formato inesperado de la respuesta de tablas.",
+    "Formato inesperado da resposta de tabelas.",
+    "Format inattendu de la réponse des tables.",
+    "Formato inatteso della risposta delle tabelle."
+  ],
+  "Partitioned table": [
+    "Partitioned table",
+    "Partitionierte Tabelle",
+    "Tabla particionada",
+    "Tabela particionada",
+    "Table partitionnée",
+    "Tabella partizionata"
+  ],
+  "Materialized view": [
+    "Materialized view",
+    "Materialisierte Sicht",
+    "Vista materializada",
+    "Vista materializada",
+    "Vue matérialisée",
+    "Vista materializzata"
+  ],
+  "Foreign table": [
+    "Foreign table",
+    "Fremdtabelle",
+    "Tabla externa",
+    "Tabela externa",
+    "Table étrangère",
+    "Tabella esterna"
+  ],
+  "Links and reparse points are not supported: {0}": [
+    "Links and reparse points are not supported: {0}",
+    "Links und Analysepunkte werden nicht unterstützt: {0}",
+    "No se admiten enlaces ni puntos de análisis: {0}",
+    "Ligações e pontos de reanálise não são suportados: {0}",
+    "Liens et points d’analyse non pris en charge : {0}",
+    "Collegamenti e punti di analisi non supportati: {0}"
+  ],
+  "Export verification": [
+    "Export verification",
+    "Exportprüfung",
+    "Verificación de exportación",
+    "Verificação da exportação",
+    "Vérification de l’export",
+    "Verifica dell’esportazione"
+  ],
+  "Empty export for {0}.": [
+    "Empty export for {0}.",
+    "Leerer Export für {0}.",
+    "Exportación vacía de {0}.",
+    "Exportação vazia de {0}.",
+    "Export vide pour {0}.",
+    "Esportazione vuota per {0}."
+  ],
+  "GZIP verification": [
+    "GZIP verification",
+    "GZIP-Prüfung",
+    "Verificación GZIP",
+    "Verificação GZIP",
+    "Vérification GZIP",
+    "Verifica GZIP"
+  ],
+  "Archive does not match the export.": [
+    "Archive does not match the export.",
+    "Archiv stimmt nicht mit dem Export überein.",
+    "El archivo comprimido no coincide con la exportación.",
+    "O arquivo comprimido não corresponde à exportação.",
+    "L’archive ne correspond pas à l’export.",
+    "L’archivio non corrisponde all’esportazione."
+  ],
+  "File verification": [
+    "File verification",
+    "Dateiprüfung",
+    "Verificación del archivo",
+    "Verificação do ficheiro",
+    "Vérification du fichier",
+    "Verifica del file"
+  ],
+  "Invalid manifest.": [
+    "Invalid manifest.",
+    "Ungültiges Manifest.",
+    "Manifiesto no válido.",
+    "Manifesto inválido.",
+    "Manifeste non valide.",
+    "Manifesto non valido."
+  ],
+  "Unexpected file name in manifest.": [
+    "Unexpected file name in manifest.",
+    "Unerwarteter Dateiname im Manifest.",
+    "Nombre de archivo inesperado en el manifiesto.",
+    "Nome de ficheiro inesperado no manifesto.",
+    "Nom de fichier inattendu dans le manifeste.",
+    "Nome di file inatteso nel manifesto."
+  ],
+  "Final validation · file": [
+    "Final validation · file",
+    "Abschlussprüfung · Datei",
+    "Validación final · archivo",
+    "Validação final · ficheiro",
+    "Validation finale · fichier",
+    "Convalida finale · file"
+  ],
+  "Integrity check failed: {0}": [
+    "Integrity check failed: {0}",
+    "Integritätsprüfung fehlgeschlagen: {0}",
+    "Error de integridad: {0}",
+    "Falha na verificação de integridade: {0}",
+    "Échec du contrôle d’intégrité : {0}",
+    "Verifica di integrità non riuscita: {0}"
+  ],
+  "Final validation · content": [
+    "Final validation · content",
+    "Abschlussprüfung · Inhalt",
+    "Validación final · contenido",
+    "Validação final · conteúdo",
+    "Validation finale · contenu",
+    "Convalida finale · contenuto"
+  ],
+  "Invalid content: {0}": [
+    "Invalid content: {0}",
+    "Ungültiger Inhalt: {0}",
+    "Contenido no válido: {0}",
+    "Conteúdo inválido: {0}",
+    "Contenu non valide : {0}",
+    "Contenuto non valido: {0}"
+  ],
+  "Export {0} is missing the expected completion marker.": [
+    "Export {0} is missing the expected completion marker.",
+    "Im Export {0} fehlt die erwartete Abschlussmarkierung.",
+    "Falta el marcador de finalización esperado en la exportación {0}.",
+    "Falta o marcador de conclusão esperado na exportação {0}.",
+    "Le marqueur de fin attendu est absent de l’export {0}.",
+    "Nell’esportazione {0} manca il marcatore di completamento previsto."
+  ],
+  "Folder has no parent": [
+    "Folder has no parent",
+    "Ordner hat keinen übergeordneten Ordner",
+    "La carpeta no tiene carpeta principal",
+    "A pasta não tem pasta ascendente",
+    "Le dossier n’a pas de parent",
+    "La cartella non ha una cartella padre"
+  ],
+  "Retention refused a folder outside this plan.": [
+    "Retention refused a folder outside this plan.",
+    "Aufbewahrung hat einen Ordner außerhalb dieses Plans abgelehnt.",
+    "La retención rechazó una carpeta ajena al plan.",
+    "A retenção recusou uma pasta fora deste plano.",
+    "La rétention a refusé un dossier extérieur à ce plan.",
+    "La conservazione ha rifiutato una cartella esterna al piano."
+  ],
+  "Enter the SMTP server and port.": [
+    "Enter the SMTP server and port.",
+    "SMTP-Server und Port eingeben.",
+    "Introduzca el servidor y el puerto SMTP.",
+    "Introduza o servidor e a porta SMTP.",
+    "Renseignez le serveur et le port SMTP.",
+    "Inserire server e porta SMTP."
+  ],
+  "The custom tools folder must use an absolute path.": [
+    "The custom tools folder must use an absolute path.",
+    "Der benutzerdefinierte Werkzeugordner benötigt einen absoluten Pfad.",
+    "La carpeta de herramientas personalizada requiere una ruta absoluta.",
+    "A pasta de ferramentas personalizada requer um caminho absoluto.",
+    "Le dossier des outils personnalisé doit utiliser un chemin absolu.",
+    "La cartella degli strumenti personalizzata richiede un percorso assoluto."
+  ],
+  "Cannot determine the application location.": [
+    "Cannot determine the application location.",
+    "Anwendungsordner nicht ermittelbar.",
+    "No se puede determinar la ubicación de la aplicación.",
+    "Não é possível determinar a localização da aplicação.",
+    "Impossible de déterminer l’emplacement de l’application.",
+    "Impossibile determinare la posizione dell’applicazione."
+  ],
+  "{0}: invalid value.": [
+    "{0}: invalid value.",
+    "{0}: ungültiger Wert.",
+    "{0}: valor no válido.",
+    "{0}: valor inválido.",
+    "{0} : valeur non valide.",
+    "{0}: valore non valido."
+  ],
+  "Port must be between 1 and 65535.": [
+    "Port must be between 1 and 65535.",
+    "Port muss zwischen 1 und 65535 liegen.",
+    "El puerto debe estar entre 1 y 65535.",
+    "A porta deve estar entre 1 e 65535.",
+    "Le port doit être compris entre 1 et 65535.",
+    "La porta deve essere compresa tra 1 e 65535."
+  ],
+  "Missing {0} or {1} in {2}. Reinstall the complete package or select custom tools in advanced options.": [
+    "Missing {0} or {1} in {2}. Reinstall the complete package or select custom tools in advanced options.",
+    "{0} oder {1} fehlt in {2}. Installieren Sie das vollständige Paket erneut oder wählen Sie eigene Werkzeuge in den erweiterten Optionen.",
+    "Falta {0} o {1} en {2}. Reinstale el paquete completo o elija herramientas personalizadas en las opciones avanzadas.",
+    "Falta {0} ou {1} em {2}. Reinstale o pacote completo ou escolha ferramentas personalizadas nas opções avançadas.",
+    "{0} ou {1} manque dans {2}. Réinstallez le paquet complet ou choisissez des outils personnalisés dans les options avancées.",
+    "Manca {0} o {1} in {2}. Reinstallare il pacchetto completo o scegliere strumenti personalizzati nelle opzioni avanzate."
+  ],
+  "CA certificate does not exist.": [
+    "CA certificate does not exist.",
+    "CA-Zertifikat existiert nicht.",
+    "El certificado CA no existe.",
+    "O certificado CA não existe.",
+    "Le certificat d’AC n’existe pas.",
+    "Il certificato CA non esiste."
+  ],
+  "Every N minutes": [
+    "Every N minutes",
+    "Alle N Minuten",
+    "Cada N minutos",
+    "A cada N minutos",
+    "Toutes les N minutes",
+    "Ogni N minuti"
+  ],
+  "Weekly": [
+    "Weekly",
+    "Wöchentlich",
+    "Semanal",
+    "Semanal",
+    "Hebdomadaire",
+    "Settimanale"
+  ],
+  "Once": [
+    "Once",
+    "Einmalig",
+    "Una vez",
+    "Uma vez",
+    "Une seule fois",
+    "Una volta"
+  ],
+  "Invalid schedule. Check the time, interval and date.": [
+    "Invalid schedule. Check the time, interval and date.",
+    "Ungültiger Zeitplan. Uhrzeit, Intervall und Datum prüfen.",
+    "Programación no válida. Compruebe hora, intervalo y fecha.",
+    "Agendamento inválido. Verifique hora, intervalo e data.",
+    "Planification non valide. Vérifiez l’heure, l’intervalle et la date.",
+    "Pianificazione non valida. Controllare ora, intervallo e data."
+  ],
+  "Every {0} minutes": [
+    "Every {0} minutes",
+    "Alle {0} Minuten",
+    "Cada {0} minutos",
+    "A cada {0} minutos",
+    "Toutes les {0} minutes",
+    "Ogni {0} minuti"
+  ],
+  "Every hour": [
+    "Every hour",
+    "Jede Stunde",
+    "Cada hora",
+    "A cada hora",
+    "Toutes les heures",
+    "Ogni ora"
+  ],
+  "GZIP · compressed": [
+    "GZIP · compressed",
+    "GZIP · komprimiert",
+    "GZIP · comprimido",
+    "GZIP · comprimido",
+    "GZIP · compressé",
+    "GZIP · compresso"
+  ],
+  "No compression": [
+    "No compression",
+    "Keine Komprimierung",
+    "Sin compresión",
+    "Sem compressão",
+    "Sans compression",
+    "Nessuna compressione"
+  ],
+  "Enter a plan name (up to 120 characters).": [
+    "Enter a plan name (up to 120 characters).",
+    "Plannamen eingeben (maximal 120 Zeichen).",
+    "Introduzca un nombre de plan (máximo 120 caracteres).",
+    "Introduza um nome para o plano (até 120 caracteres).",
+    "Saisissez un nom de plan (120 caractères maximum).",
+    "Inserire un nome per il piano (massimo 120 caratteri)."
+  ],
+  "Select between 1 and 500 databases.": [
+    "Select between 1 and 500 databases.",
+    "Zwischen 1 und 500 Datenbanken auswählen.",
+    "Seleccione entre 1 y 500 bases de datos.",
+    "Selecione entre 1 e 500 bases de dados.",
+    "Sélectionnez entre 1 et 500 bases de données.",
+    "Selezionare da 1 a 500 database."
+  ],
+  "Choose an existing backup folder with an absolute path.": [
+    "Choose an existing backup folder with an absolute path.",
+    "Vorhandenen Sicherungsordner mit absolutem Pfad wählen.",
+    "Elija una carpeta de copias existente con una ruta absoluta.",
+    "Escolha uma pasta de cópias existente com caminho absoluto.",
+    "Choisissez un dossier de sauvegarde existant avec un chemin absolu.",
+    "Scegliere una cartella di backup esistente con percorso assoluto."
+  ],
+  "Retention must be positive; leave blank for unlimited.": [
+    "Retention must be positive; leave blank for unlimited.",
+    "Aufbewahrung muss positiv sein; leer lassen für unbegrenzt.",
+    "La retención debe ser positiva; deje vacío para no limitarla.",
+    "A retenção deve ser positiva; deixe vazio para não limitar.",
+    "La rétention doit être positive ; laissez vide pour illimité.",
+    "La conservazione deve essere positiva; lasciare vuoto per nessun limite."
+  ],
+  "Export time limit must be between 1 and 1440 minutes.": [
+    "Export time limit must be between 1 and 1440 minutes.",
+    "Exportzeitlimit muss zwischen 1 und 1440 Minuten liegen.",
+    "El límite de exportación debe estar entre 1 y 1440 minutos.",
+    "O limite da exportação deve estar entre 1 e 1440 minutos.",
+    "Le délai d’export doit être compris entre 1 et 1440 minutes.",
+    "Il limite di esportazione deve essere compreso tra 1 e 1440 minuti."
+  ],
+  "Invalid database name (options and connection strings are not allowed).": [
+    "Invalid database name (options and connection strings are not allowed).",
+    "Ungültiger Datenbankname (Optionen und Verbindungszeichenfolgen sind nicht erlaubt).",
+    "Nombre de base de datos no válido (no se permiten opciones ni cadenas de conexión).",
+    "Nome de base de dados inválido (não são permitidas opções ou cadeias de ligação).",
+    "Nom de base de données non valide (options et chaînes de connexion interdites).",
+    "Nome di database non valido (opzioni e stringhe di connessione non consentite)."
+  ],
+  "Windows DPAPI protection: {0}": [
+    "Windows DPAPI protection: {0}",
+    "Windows-DPAPI-Schutz: {0}",
+    "Protección Windows DPAPI: {0}",
+    "Proteção Windows DPAPI: {0}",
+    "Protection Windows DPAPI : {0}",
+    "Protezione Windows DPAPI: {0}"
+  ],
+  "Cannot create the application mutex.": [
+    "Cannot create the application mutex.",
+    "Anwendungsmutex kann nicht erstellt werden.",
+    "No se puede crear el mutex de la aplicación.",
+    "Não é possível criar o mutex da aplicação.",
+    "Impossible de créer le mutex de l’application.",
+    "Impossibile creare il mutex dell’applicazione."
+  ],
+  "LOCALAPPDATA is missing": [
+    "LOCALAPPDATA is missing",
+    "LOCALAPPDATA fehlt",
+    "Falta LOCALAPPDATA",
+    "LOCALAPPDATA em falta",
+    "LOCALAPPDATA est absent",
+    "LOCALAPPDATA mancante"
+  ],
+  "This plan has a running or queued backup.": [
+    "This plan has a running or queued backup.",
+    "Dieser Plan hat eine laufende oder wartende Sicherung.",
+    "Este plan tiene una copia en curso o en cola.",
+    "Este plano tem uma cópia em curso ou na fila.",
+    "Ce plan a une sauvegarde en cours ou en attente.",
+    "Questo piano ha un backup in corso o in coda."
+  ],
+  "A plan uses this connection. Remove the plan first.": [
+    "A plan uses this connection. Remove the plan first.",
+    "Ein Plan verwendet diese Verbindung. Entfernen Sie zuerst den Plan.",
+    "Un plan utiliza esta conexión. Elimine primero el plan.",
+    "Um plano utiliza esta ligação. Remova primeiro o plano.",
+    "Un plan utilise cette connexion. Supprimez d’abord le plan.",
+    "Un piano utilizza questa connessione. Rimuovere prima il piano."
+  ],
+  "Wait for the current run to finish.": [
+    "Wait for the current run to finish.",
+    "Warten Sie, bis der aktuelle Lauf beendet ist.",
+    "Espere a que termine la ejecución actual.",
+    "Aguarde a conclusão da execução atual.",
+    "Attendez la fin de l’exécution en cours.",
+    "Attendere il termine dell’esecuzione corrente."
+  ],
+  "This plan is already queued or running.": [
+    "This plan is already queued or running.",
+    "Dieser Plan wartet bereits oder wird ausgeführt.",
+    "Este plan ya está en cola o en ejecución.",
+    "Este plano já está na fila ou em execução.",
+    "Ce plan est déjà en attente ou en cours.",
+    "Questo piano è già in coda o in esecuzione."
+  ],
+  "StrajaBackupSQL · Stopping after current backup": [
+    "StrajaBackupSQL · Stopping after current backup",
+    "StrajaBackupSQL · Stopp nach aktueller Sicherung",
+    "StrajaBackupSQL · Se detendrá tras la copia actual",
+    "StrajaBackupSQL · Paragem após a cópia atual",
+    "StrajaBackupSQL · Arrêt après la sauvegarde en cours",
+    "StrajaBackupSQL · Arresto dopo il backup corrente"
+  ],
+  "Running": [
+    "Running",
+    "In Arbeit",
+    "En curso",
+    "Em curso",
+    "En cours",
+    "In corso"
+  ],
+  "StrajaBackupSQL · Running: {0}": [
+    "StrajaBackupSQL · Running: {0}",
+    "StrajaBackupSQL · In Arbeit: {0}",
+    "StrajaBackupSQL · En curso: {0}",
+    "StrajaBackupSQL · Em curso: {0}",
+    "StrajaBackupSQL · En cours : {0}",
+    "StrajaBackupSQL · In corso: {0}"
+  ],
+  "Interrupted": [
+    "Interrupted",
+    "Unterbrochen",
+    "Interrumpido",
+    "Interrompido",
+    "Interrompu",
+    "Interrotto"
+  ],
+  "StrajaBackupSQL · Agent running · Last backup needs attention": [
+    "StrajaBackupSQL · Agent running · Last backup needs attention",
+    "StrajaBackupSQL · Agent aktiv · Letzte Sicherung prüfen",
+    "StrajaBackupSQL · Agente activo · Revise la última copia",
+    "StrajaBackupSQL · Agente ativo · Reveja a última cópia",
+    "StrajaBackupSQL · Agent actif · Dernière sauvegarde à vérifier",
+    "StrajaBackupSQL · Agente attivo · Controllare l’ultimo backup"
+  ],
+  "StrajaBackupSQL · Agent running": [
+    "StrajaBackupSQL · Agent running",
+    "StrajaBackupSQL · Agent aktiv",
+    "StrajaBackupSQL · Agente activo",
+    "StrajaBackupSQL · Agente ativo",
+    "StrajaBackupSQL · Agent actif",
+    "StrajaBackupSQL · Agente attivo"
+  ],
+  "Could not open the StrajaBackupSQL window.": [
+    "Could not open the StrajaBackupSQL window.",
+    "StrajaBackupSQL-Fenster konnte nicht geöffnet werden.",
+    "No se pudo abrir la ventana de StrajaBackupSQL.",
+    "Não foi possível abrir a janela do StrajaBackupSQL.",
+    "Impossible d’ouvrir la fenêtre StrajaBackupSQL.",
+    "Impossibile aprire la finestra StrajaBackupSQL."
+  ],
+  "StrajaBackupSQL · Agent running · Check settings": [
+    "StrajaBackupSQL · Agent running · Check settings",
+    "StrajaBackupSQL · Agent aktiv · Einstellungen prüfen",
+    "StrajaBackupSQL · Agente activo · Revise los ajustes",
+    "StrajaBackupSQL · Agente ativo · Verifique as definições",
+    "StrajaBackupSQL · Agent actif · Vérifiez les paramètres",
+    "StrajaBackupSQL · Agente attivo · Controllare le impostazioni"
+  ],
+  "Open StrajaBackupSQL": [
+    "Open StrajaBackupSQL",
+    "StrajaBackupSQL öffnen",
+    "Abrir StrajaBackupSQL",
+    "Abrir StrajaBackupSQL",
+    "Ouvrir StrajaBackupSQL",
+    "Apri StrajaBackupSQL"
+  ],
+  "Backup activity": [
+    "Backup activity",
+    "Sicherungsaktivität",
+    "Actividad de copias",
+    "Atividade das cópias",
+    "Activité des sauvegardes",
+    "Attività dei backup"
+  ],
+  "Stop requested…": [
+    "Stop requested…",
+    "Stopp angefordert…",
+    "Parada solicitada…",
+    "Paragem solicitada…",
+    "Arrêt demandé…",
+    "Arresto richiesto…"
+  ],
+  "Stop agent after current backup": [
+    "Stop agent after current backup",
+    "Agent nach aktueller Sicherung stoppen",
+    "Detener agente tras la copia actual",
+    "Parar agente após a cópia atual",
+    "Arrêter l’agent après la sauvegarde en cours",
+    "Arresta agente dopo il backup corrente"
+  ],
+  "The tray icon thread has closed.": [
+    "The tray icon thread has closed.",
+    "Der Thread des Infobereichssymbols wurde beendet.",
+    "El hilo del icono de notificación se ha cerrado.",
+    "A thread do ícone de notificação terminou.",
+    "Le thread de l’icône de notification s’est arrêté.",
+    "Il thread dell’icona di notifica è terminato."
+  ],
+  "Cannot create the tray icon class.": [
+    "Cannot create the tray icon class.",
+    "Klasse des Infobereichssymbols kann nicht erstellt werden.",
+    "No se puede crear la clase del icono de notificación.",
+    "Não é possível criar a classe do ícone de notificação.",
+    "Impossible de créer la classe de l’icône de notification.",
+    "Impossibile creare la classe dell’icona di notifica."
+  ],
+  "The StrajaBackupSQL icon is missing from the agent.": [
+    "The StrajaBackupSQL icon is missing from the agent.",
+    "StrajaBackupSQL-Symbol fehlt im Agenten.",
+    "Falta el icono de StrajaBackupSQL en el agente.",
+    "O ícone do StrajaBackupSQL está em falta no agente.",
+    "L’icône StrajaBackupSQL est absente de l’agent.",
+    "L’icona StrajaBackupSQL manca nell’agente."
+  ],
+  "Cannot create the hidden tray icon window.": [
+    "Cannot create the hidden tray icon window.",
+    "Verstecktes Fenster des Infobereichssymbols kann nicht erstellt werden.",
+    "No se puede crear la ventana oculta del icono de notificación.",
+    "Não é possível criar a janela oculta do ícone de notificação.",
+    "Impossible de créer la fenêtre masquée de l’icône de notification.",
+    "Impossibile creare la finestra nascosta dell’icona di notifica."
+  ],
+  "Choose a custom tools folder or use the bundled tools.": [
+    "Choose a custom tools folder or use the bundled tools.",
+    "Eigenen Werkzeugordner wählen oder mitgelieferte Werkzeuge verwenden.",
+    "Elija una carpeta personalizada o utilice las herramientas incluidas.",
+    "Escolha uma pasta personalizada ou use as ferramentas incluídas.",
+    "Choisissez un dossier personnalisé ou utilisez les outils inclus.",
+    "Scegliere una cartella personalizzata o usare gli strumenti inclusi."
+  ],
+  "Time must use HH:MM format": [
+    "Time must use HH:MM format",
+    "Uhrzeit muss im Format HH:MM sein",
+    "La hora debe tener formato HH:MM",
+    "A hora deve usar o formato HH:MM",
+    "L’heure doit respecter le format HH:MM",
+    "L’ora deve usare il formato HH:MM"
+  ],
+  "Weekday: 1 (Monday) – 7 (Sunday).": [
+    "Weekday: 1 (Monday) – 7 (Sunday).",
+    "Wochentag: 1 (Montag) – 7 (Sonntag).",
+    "Día de la semana: 1 (lunes) – 7 (domingo).",
+    "Dia da semana: 1 (segunda) – 7 (domingo).",
+    "Jour de la semaine : 1 (lundi) – 7 (dimanche).",
+    "Giorno della settimana: 1 (lunedì) – 7 (domenica)."
+  ],
+  "Choose a valid future date and time in the selected time zone.": [
+    "Choose a valid future date and time in the selected time zone.",
+    "Gültiges zukünftiges Datum und Uhrzeit in der gewählten Zeitzone wählen.",
+    "Elija una fecha y hora futuras válidas en la zona horaria seleccionada.",
+    "Escolha uma data e hora futuras válidas no fuso horário selecionado.",
+    "Choisissez une date et une heure futures valides dans le fuseau sélectionné.",
+    "Scegliere data e ora future valide nel fuso orario selezionato."
+  ],
+  "Choose a connection.": [
+    "Choose a connection.",
+    "Verbindung auswählen.",
+    "Elija una conexión.",
+    "Escolha uma ligação.",
+    "Choisissez une connexion.",
+    "Scegliere una connessione."
+  ],
+  "Connection saved. Password protected with Windows DPAPI.": [
+    "Connection saved. Password protected with Windows DPAPI.",
+    "Verbindung gespeichert. Passwort mit Windows DPAPI geschützt.",
+    "Conexión guardada. Contraseña protegida con Windows DPAPI.",
+    "Ligação guardada. Palavra-passe protegida com Windows DPAPI.",
+    "Connexion enregistrée. Mot de passe protégé par Windows DPAPI.",
+    "Connessione salvata. Password protetta con Windows DPAPI."
+  ],
+  "Plan saved. Start the agent for automatic backups.": [
+    "Plan saved. Start the agent for automatic backups.",
+    "Plan gespeichert. Agent für automatische Sicherungen starten.",
+    "Plan guardado. Inicie el agente para las copias automáticas.",
+    "Plano guardado. Inicie o agente para cópias automáticas.",
+    "Plan enregistré. Démarrez l’agent pour les sauvegardes automatiques.",
+    "Piano salvato. Avviare l’agente per i backup automatici."
+  ],
+  "Testing connection and reading databases…": [
+    "Testing connection and reading databases…",
+    "Verbindung wird getestet, Datenbanken werden gelesen…",
+    "Probando conexión y leyendo bases de datos…",
+    "A testar a ligação e a ler bases de dados…",
+    "Test de connexion et lecture des bases de données…",
+    "Test della connessione e lettura dei database…"
+  ],
+  "Testing connection…": [
+    "Testing connection…",
+    "Verbindung wird getestet…",
+    "Probando conexión…",
+    "A testar a ligação…",
+    "Test de la connexion…",
+    "Test della connessione…"
+  ],
+  "Connected. Databases available: {0}.": [
+    "Connected. Databases available: {0}.",
+    "Verbunden. Verfügbare Datenbanken: {0}.",
+    "Conectado. Bases de datos disponibles: {0}.",
+    "Ligado. Bases de dados disponíveis: {0}.",
+    "Connecté. Bases de données disponibles : {0}.",
+    "Connesso. Database disponibili: {0}."
+  ],
+  "Backup queued. Follow the result in Activity.": [
+    "Backup queued. Follow the result in Activity.",
+    "Sicherung eingereiht. Ergebnis unter Aktivität verfolgen.",
+    "Copia en cola. Consulte el resultado en Actividad.",
+    "Cópia na fila. Consulte o resultado em Atividade.",
+    "Sauvegarde en attente. Suivez le résultat dans Activité.",
+    "Backup in coda. Seguire il risultato in Attività."
+  ],
+  "Schedule updated.": [
+    "Schedule updated.",
+    "Zeitplan aktualisiert.",
+    "Programación actualizada.",
+    "Agendamento atualizado.",
+    "Planification mise à jour.",
+    "Pianificazione aggiornata."
+  ],
+  "Configuration removed. Backups and source databases kept.": [
+    "Configuration removed. Backups and source databases kept.",
+    "Konfiguration entfernt. Sicherungen und Quelldatenbanken bleiben erhalten.",
+    "Configuración eliminada. Se conservaron las copias y las bases de datos de origen.",
+    "Configuração removida. Cópias e bases de dados de origem preservadas.",
+    "Configuration supprimée. Sauvegardes et bases de données sources conservées.",
+    "Configurazione rimossa. Backup e database di origine conservati."
+  ],
+  "Agent starting. It will keep running after the window closes.": [
+    "Agent starting. It will keep running after the window closes.",
+    "Agent startet. Er läuft nach dem Schließen des Fensters weiter.",
+    "Iniciando agente. Seguirá activo al cerrar la ventana.",
+    "A iniciar o agente. Continuará ativo após fechar a janela.",
+    "Démarrage de l’agent. Il reste actif après la fermeture de la fenêtre.",
+    "Avvio dell’agente. Resterà attivo dopo la chiusura della finestra."
+  ],
+  "The agent will stop after the current operation finishes.": [
+    "The agent will stop after the current operation finishes.",
+    "Der Agent stoppt nach Abschluss des aktuellen Vorgangs.",
+    "El agente se detendrá al terminar la operación actual.",
+    "O agente parará após concluir a operação atual.",
+    "L’agent s’arrêtera à la fin de l’opération en cours.",
+    "L’agente si arresterà al termine dell’operazione corrente."
+  ],
+  "SMTP settings saved. Enable alerts in the desired plans.": [
+    "SMTP settings saved. Enable alerts in the desired plans.",
+    "SMTP-Einstellungen gespeichert. Warnungen in den gewünschten Plänen aktivieren.",
+    "Ajustes SMTP guardados. Active las alertas en los planes deseados.",
+    "Definições SMTP guardadas. Ative alertas nos planos desejados.",
+    "Paramètres SMTP enregistrés. Activez les alertes dans les plans souhaités.",
+    "Impostazioni SMTP salvate. Attivare gli avvisi nei piani desiderati."
+  ],
+  "StrajaBackupSQL · test email": [
+    "StrajaBackupSQL · test email",
+    "StrajaBackupSQL · Test-E-Mail",
+    "StrajaBackupSQL · correo de prueba",
+    "StrajaBackupSQL · email de teste",
+    "StrajaBackupSQL · email de test",
+    "StrajaBackupSQL · email di prova"
+  ],
+  "Email notifications are configured correctly.": [
+    "Email notifications are configured correctly.",
+    "E-Mail-Benachrichtigungen sind korrekt eingerichtet.",
+    "Las notificaciones por correo están configuradas correctamente.",
+    "As notificações por email estão configuradas corretamente.",
+    "Les notifications par email sont correctement configurées.",
+    "Le notifiche email sono configurate correttamente."
+  ],
+  "Test email sent.": [
+    "Test email sent.",
+    "Test-E-Mail gesendet.",
+    "Correo de prueba enviado.",
+    "Email de teste enviado.",
+    "Email de test envoyé.",
+    "Email di prova inviata."
+  ],
+  "Files fully verified: {0}. SHA-256 and decompressed content match.": [
+    "Files fully verified: {0}. SHA-256 and decompressed content match.",
+    "Vollständig geprüfte Dateien: {0}. SHA-256 und entpackter Inhalt stimmen überein.",
+    "Archivos verificados íntegramente: {0}. SHA-256 y contenido descomprimido coinciden.",
+    "Ficheiros verificados integralmente: {0}. SHA-256 e conteúdo descomprimido correspondem.",
+    "Fichiers entièrement vérifiés : {0}. SHA-256 et contenu décompressé concordent.",
+    "File verificati integralmente: {0}. SHA-256 e contenuto decompresso corrispondono."
+  ],
+  "01   Overview": [
+    "01   Overview",
+    "01   Übersicht",
+    "01   Resumen",
+    "01   Visão geral",
+    "01   Vue d’ensemble",
+    "01   Panoramica"
+  ],
+  "02   Connections": [
+    "02   Connections",
+    "02   Verbindungen",
+    "02   Conexiones",
+    "02   Ligações",
+    "02   Connexions",
+    "02   Connessioni"
+  ],
+  "03   Backup plans": [
+    "03   Backup plans",
+    "03   Sicherungspläne",
+    "03   Planes de copia",
+    "03   Planos de cópia",
+    "03   Plans de sauvegarde",
+    "03   Piani di backup"
+  ],
+  "04   Activity": [
+    "04   Activity",
+    "04   Aktivität",
+    "04   Actividad",
+    "04   Atividade",
+    "04   Activité",
+    "04   Attività"
+  ],
+  "DATABASE EXPLORER": [
+    "DATABASE EXPLORER",
+    "DATENBANK-EXPLORER",
+    "EXPLORADOR DE BASES DE DATOS",
+    "EXPLORADOR DE BASES DE DADOS",
+    "EXPLORATEUR DE BASES",
+    "ESPLORA DATABASE"
+  ],
+  "Settings & notifications": [
+    "Settings & notifications",
+    "Einstellungen & Meldungen",
+    "Ajustes y notificaciones",
+    "Definições e notificações",
+    "Paramètres et notifications",
+    "Impostazioni e notifiche"
+  ],
+  "User guide": [
+    "User guide",
+    "Benutzerhandbuch",
+    "Guía de usuario",
+    "Guia do utilizador",
+    "Guide d’utilisation",
+    "Guida utente"
+  ],
+  "Protection, without the worry.": [
+    "Protection, without the worry.",
+    "Schutz ohne Sorgen.",
+    "Protección sin preocupaciones.",
+    "Proteção sem preocupações.",
+    "La protection, sans souci.",
+    "Protezione senza pensieri."
+  ],
+  "One place for all your database backups.": [
+    "One place for all your database backups.",
+    "Alle Datenbanksicherungen an einem Ort.",
+    "Todas sus copias de bases de datos en un solo lugar.",
+    "Todas as cópias das suas bases de dados num só lugar.",
+    "Toutes vos sauvegardes de bases de données au même endroit.",
+    "Tutti i backup dei database in un unico posto."
+  ],
+  "Your connections": [
+    "Your connections",
+    "Ihre Verbindungen",
+    "Sus conexiones",
+    "As suas ligações",
+    "Vos connexions",
+    "Le tue connessioni"
+  ],
+  "MariaDB, MySQL and PostgreSQL. Organized in one place.": [
+    "MariaDB, MySQL and PostgreSQL. Organized in one place.",
+    "MariaDB, MySQL und PostgreSQL. An einem Ort organisiert.",
+    "MariaDB, MySQL y PostgreSQL. Organizados en un solo lugar.",
+    "MariaDB, MySQL e PostgreSQL. Organizados num só lugar.",
+    "MariaDB, MySQL et PostgreSQL. Organisés au même endroit.",
+    "MariaDB, MySQL e PostgreSQL. Organizzati in un unico posto."
+  ],
+  "Backup plans": [
+    "Backup plans",
+    "Sicherungspläne",
+    "Planes de copia",
+    "Planos de cópia",
+    "Plans de sauvegarde",
+    "Piani di backup"
+  ],
+  "Choose what to back up, when, and how long to keep it.": [
+    "Choose what to back up, when, and how long to keep it.",
+    "Bestimmen Sie Inhalt, Zeitpunkt und Aufbewahrungsdauer.",
+    "Elija qué copiar, cuándo y cuánto tiempo conservarlo.",
+    "Escolha o que copiar, quando e durante quanto tempo guardar.",
+    "Choisissez quoi sauvegarder, quand et pour combien de temps.",
+    "Scegli cosa salvare, quando e per quanto tempo conservarlo."
+  ],
+  "Database tables": [
+    "Database tables",
+    "Datenbanktabellen",
+    "Tablas de la base de datos",
+    "Tabelas da base de dados",
+    "Tables de la base de données",
+    "Tabelle del database"
+  ],
+  "Select a database in the explorer to see its structure.": [
+    "Select a database in the explorer to see its structure.",
+    "Datenbank im Explorer auswählen, um ihre Struktur anzuzeigen.",
+    "Seleccione una base de datos en el explorador para ver su estructura.",
+    "Selecione uma base de dados no explorador para ver a estrutura.",
+    "Sélectionnez une base dans l’explorateur pour voir sa structure.",
+    "Seleziona un database nell’esploratore per visualizzarne la struttura."
+  ],
+  "Results, checks and errors in chronological order.": [
+    "Results, checks and errors in chronological order.",
+    "Ergebnisse, Prüfungen und Fehler in zeitlicher Reihenfolge.",
+    "Resultados, verificaciones y errores en orden cronológico.",
+    "Resultados, verificações e erros por ordem cronológica.",
+    "Résultats, vérifications et erreurs par ordre chronologique.",
+    "Risultati, verifiche ed errori in ordine cronologico."
+  ],
+  "Scheduling agent and email alerts.": [
+    "Scheduling agent and email alerts.",
+    "Zeitplan-Agent und E-Mail-Warnungen.",
+    "Agente de programación y alertas por correo.",
+    "Agente de agendamento e alertas por email.",
+    "Agent de planification et alertes par email.",
+    "Agente di pianificazione e avvisi email."
+  ],
+  "From your first connection to a verified backup.": [
+    "From your first connection to a verified backup.",
+    "Von der ersten Verbindung zur geprüften Sicherung.",
+    "De la primera conexión a una copia verificada.",
+    "Da primeira ligação a uma cópia verificada.",
+    "De la première connexion à une sauvegarde vérifiée.",
+    "Dalla prima connessione a un backup verificato."
+  ],
+  "Connection setup": [
+    "Connection setup",
+    "Verbindung einrichten",
+    "Configurar conexión",
+    "Configurar ligação",
+    "Configuration de la connexion",
+    "Configura connessione"
+  ],
+  "Your credentials stay on this computer.": [
+    "Your credentials stay on this computer.",
+    "Ihre Zugangsdaten bleiben auf diesem Computer.",
+    "Sus credenciales permanecen en este equipo.",
+    "As suas credenciais ficam neste computador.",
+    "Vos identifiants restent sur cet ordinateur.",
+    "Le credenziali restano su questo computer."
+  ],
+  "Plan setup": [
+    "Plan setup",
+    "Plan einrichten",
+    "Configurar plan",
+    "Configurar plano",
+    "Configuration du plan",
+    "Configura piano"
+  ],
+  "A clear plan. Automatic backups. Control over retention.": [
+    "A clear plan. Automatic backups. Control over retention.",
+    "Ein klarer Plan. Automatische Sicherungen. Kontrolle über die Aufbewahrung.",
+    "Un plan claro. Copias automáticas. Control de la retención.",
+    "Um plano claro. Cópias automáticas. Controlo da retenção.",
+    "Un plan clair. Des sauvegardes automatiques. Une rétention maîtrisée.",
+    "Un piano chiaro. Backup automatici. Controllo della conservazione."
+  ],
+  "●  Agent online": [
+    "●  Agent online",
+    "●  Agent aktiv",
+    "●  Agente activo",
+    "●  Agente ativo",
+    "●  Agent actif",
+    "●  Agente attivo"
+  ],
+  "○  Agent stopped": [
+    "○  Agent stopped",
+    "○  Agent gestoppt",
+    "○  Agente detenido",
+    "○  Agente parado",
+    "○  Agent arrêté",
+    "○  Agente arrestato"
+  ],
+  "Remove this plan and its schedule?": [
+    "Remove this plan and its schedule?",
+    "Diesen Plan und seinen Zeitplan entfernen?",
+    "¿Eliminar este plan y su programación?",
+    "Remover este plano e o agendamento?",
+    "Supprimer ce plan et sa planification ?",
+    "Rimuovere questo piano e la sua pianificazione?"
+  ],
+  "Remove this connection and its saved password?": [
+    "Remove this connection and its saved password?",
+    "Diese Verbindung und ihr gespeichertes Passwort entfernen?",
+    "¿Eliminar esta conexión y su contraseña guardada?",
+    "Remover esta ligação e a palavra-passe guardada?",
+    "Supprimer cette connexion et son mot de passe enregistré ?",
+    "Rimuovere questa connessione e la password salvata?"
+  ],
+  "Existing backups and databases on the server are kept.": [
+    "Existing backups and databases on the server are kept.",
+    "Vorhandene Sicherungen und Datenbanken auf dem Server bleiben erhalten.",
+    "Se conservan las copias existentes y las bases de datos del servidor.",
+    "As cópias existentes e as bases de dados no servidor são preservadas.",
+    "Les sauvegardes existantes et les bases sur le serveur sont conservées.",
+    "I backup esistenti e i database sul server vengono conservati."
+  ],
+  "Remove configuration": [
+    "Remove configuration",
+    "Konfiguration entfernen",
+    "Eliminar configuración",
+    "Remover configuração",
+    "Supprimer la configuration",
+    "Rimuovi configurazione"
+  ],
+  "Cancel": [
+    "Cancel",
+    "Abbrechen",
+    "Cancelar",
+    "Cancelar",
+    "Annuler",
+    "Annulla"
+  ],
+  "Add your first connection to see databases.": [
+    "Add your first connection to see databases.",
+    "Erste Verbindung hinzufügen, um Datenbanken anzuzeigen.",
+    "Añada su primera conexión para ver las bases de datos.",
+    "Adicione a primeira ligação para ver as bases de dados.",
+    "Ajoutez votre première connexion pour voir les bases.",
+    "Aggiungi la prima connessione per vedere i database."
+  ],
+  "     No databases available": [
+    "     No databases available",
+    "     Keine Datenbanken verfügbar",
+    "     No hay bases de datos disponibles",
+    "     Sem bases de dados disponíveis",
+    "     Aucune base disponible",
+    "     Nessun database disponibile"
+  ],
+  "Reading databases…": [
+    "Reading databases…",
+    "Datenbanken werden gelesen…",
+    "Leyendo bases de datos…",
+    "A ler bases de dados…",
+    "Lecture des bases de données…",
+    "Lettura dei database…"
+  ],
+  "↻  Refresh databases": [
+    "↻  Refresh databases",
+    "↻  Datenbanken aktualisieren",
+    "↻  Actualizar bases de datos",
+    "↻  Atualizar bases de dados",
+    "↻  Actualiser les bases",
+    "↻  Aggiorna database"
+  ],
+  "Choose a database": [
+    "Choose a database",
+    "Datenbank auswählen",
+    "Elija una base de datos",
+    "Escolha uma base de dados",
+    "Choisissez une base de données",
+    "Scegli un database"
+  ],
+  "Select a database in Database Explorer.": [
+    "Select a database in Database Explorer.",
+    "Datenbank im Datenbank-Explorer auswählen.",
+    "Seleccione una base en el explorador de bases de datos.",
+    "Selecione uma base no explorador de bases de dados.",
+    "Sélectionnez une base dans l’explorateur de bases.",
+    "Seleziona un database in Esplora database."
+  ],
+  "Refresh": [
+    "Refresh",
+    "Aktualisieren",
+    "Actualizar",
+    "Atualizar",
+    "Actualiser",
+    "Aggiorna"
+  ],
+  "Reading tables…": [
+    "Reading tables…",
+    "Tabellen werden gelesen…",
+    "Leyendo tablas…",
+    "A ler tabelas…",
+    "Lecture des tables…",
+    "Lettura delle tabelle…"
+  ],
+  "Search table or schema": [
+    "Search table or schema",
+    "Tabelle oder Schema suchen",
+    "Buscar tabla o esquema",
+    "Procurar tabela ou esquema",
+    "Rechercher une table ou un schéma",
+    "Cerca tabella o schema"
+  ],
+  "Table name…": [
+    "Table name…",
+    "Tabellenname…",
+    "Nombre de tabla…",
+    "Nome da tabela…",
+    "Nom de table…",
+    "Nome della tabella…"
+  ],
+  "Objects: {0} · Matching filter: {1}": [
+    "Objects: {0} · Matching filter: {1}",
+    "Objekte: {0} · Filtertreffer: {1}",
+    "Objetos: {0} · Coinciden con el filtro: {1}",
+    "Objetos: {0} · Correspondem ao filtro: {1}",
+    "Objets : {0} · Correspondant au filtre : {1}",
+    "Oggetti: {0} · Corrispondenti al filtro: {1}"
+  ],
+  "No tables or views are visible for this selection and account.": [
+    "No tables or views are visible for this selection and account.",
+    "Für diese Auswahl und dieses Konto sind keine Tabellen oder Sichten sichtbar.",
+    "No hay tablas ni vistas visibles para esta selección y cuenta.",
+    "Não há tabelas ou vistas visíveis para esta seleção e conta.",
+    "Aucune table ni vue visible pour cette sélection et ce compte.",
+    "Nessuna tabella o vista visibile per questa selezione e questo account."
+  ],
+  "SCHEMA": [
+    "SCHEMA",
+    "SCHEMA",
+    "ESQUEMA",
+    "ESQUEMA",
+    "SCHÉMA",
+    "SCHEMA"
+  ],
+  "Page {0} / {1}": [
+    "Page {0} / {1}",
+    "Seite {0} / {1}",
+    "Página {0} / {1}",
+    "Página {0} / {1}",
+    "Page {0} / {1}",
+    "Pagina {0} / {1}"
+  ],
+  "Next": [
+    "Next",
+    "Weiter",
+    "Siguiente",
+    "Seguinte",
+    "Suivant",
+    "Avanti"
+  ],
+  "Succeeded": [
+    "Succeeded",
+    "Erfolgreich",
+    "Correcto",
+    "Concluído",
+    "Réussi",
+    "Riuscito"
+  ],
+  "configured servers": [
+    "configured servers",
+    "konfigurierte Server",
+    "servidores configurados",
+    "servidores configurados",
+    "serveurs configurés",
+    "server configurati"
+  ],
+  "ACTIVE PLANS": [
+    "ACTIVE PLANS",
+    "AKTIVE PLÄNE",
+    "PLANES ACTIVOS",
+    "PLANOS ATIVOS",
+    "PLANS ACTIFS",
+    "PIANI ATTIVI"
+  ],
+  "schedules ready": [
+    "schedules ready",
+    "Zeitpläne bereit",
+    "programaciones listas",
+    "agendamentos prontos",
+    "planifications prêtes",
+    "pianificazioni pronte"
+  ],
+  "SUCCESSFUL BACKUPS": [
+    "SUCCESSFUL BACKUPS",
+    "ERFOLGREICHE SICHERUNGEN",
+    "COPIAS CORRECTAS",
+    "CÓPIAS CONCLUÍDAS",
+    "SAUVEGARDES RÉUSSIES",
+    "BACKUP RIUSCITI"
+  ],
+  "in the last 200 runs": [
+    "in the last 200 runs",
+    "in den letzten 200 Läufen",
+    "en las últimas 200 ejecuciones",
+    "nas últimas 200 execuções",
+    "sur les 200 dernières exécutions",
+    "nelle ultime 200 esecuzioni"
+  ],
+  "NEEDS ATTENTION": [
+    "NEEDS ATTENTION",
+    "PRÜFUNG ERFORDERLICH",
+    "REQUIERE ATENCIÓN",
+    "REQUER ATENÇÃO",
+    "À VÉRIFIER",
+    "RICHIEDE ATTENZIONE"
+  ],
+  "errors in recent history": [
+    "errors in recent history",
+    "Fehler im letzten Verlauf",
+    "errores en el historial reciente",
+    "erros no histórico recente",
+    "erreurs dans l’historique récent",
+    "errori nella cronologia recente"
+  ],
+  "YOUR DATA.\nALWAYS BACKED UP.": [
+    "YOUR DATA.\nALWAYS BACKED UP.",
+    "IHRE DATEN.\nIMMER GESICHERT.",
+    "SUS DATOS.\nSIEMPRE CON COPIA.",
+    "OS SEUS DADOS.\nSEMPRE COM CÓPIA.",
+    "VOS DONNÉES.\nTOUJOURS SAUVEGARDÉES.",
+    "I TUOI DATI.\nSEMPRE AL SICURO."
+  ],
+  "Connect your server, choose databases and create\na plan to handle the rest.": [
+    "Connect your server, choose databases and create\na plan to handle the rest.",
+    "Server verbinden, Datenbanken wählen und einen\nPlan erstellen, der den Rest übernimmt.",
+    "Conecte el servidor, elija las bases y cree\nun plan que se encargue del resto.",
+    "Ligue o servidor, escolha as bases e crie\num plano que trate do resto.",
+    "Connectez le serveur, choisissez les bases et créez\nun plan qui s’occupe du reste.",
+    "Collega il server, scegli i database e crea\nun piano che si occupi del resto."
+  ],
+  "+  Create a plan": [
+    "+  Create a plan",
+    "+  Plan erstellen",
+    "+  Crear plan",
+    "+  Criar plano",
+    "+  Créer un plan",
+    "+  Crea piano"
+  ],
+  "Add connection": [
+    "Add connection",
+    "Verbindung hinzufügen",
+    "Añadir conexión",
+    "Adicionar ligação",
+    "Ajouter une connexion",
+    "Aggiungi connessione"
+  ],
+  "EXPORT  →  VERIFY\n          →  ARCHIVE": [
+    "EXPORT  →  VERIFY\n          →  ARCHIVE",
+    "EXPORT  →  PRÜFUNG\n          →  ARCHIV",
+    "EXPORTAR  →  VERIFICAR\n          →  ARCHIVAR",
+    "EXPORTAR  →  VERIFICAR\n          →  ARQUIVAR",
+    "EXPORTER  →  VÉRIFIER\n          →  ARCHIVER",
+    "ESPORTA  →  VERIFICA\n          →  ARCHIVIA"
+  ],
+  "Coming up": [
+    "Coming up",
+    "Als Nächstes",
+    "Próximas ejecuciones",
+    "Próximas execuções",
+    "À venir",
+    "Prossime esecuzioni"
+  ],
+  "No scheduled runs. Create your first plan to get started.": [
+    "No scheduled runs. Create your first plan to get started.",
+    "Keine geplanten Läufe. Erstellen Sie Ihren ersten Plan.",
+    "No hay ejecuciones programadas. Cree su primer plan para empezar.",
+    "Sem execuções agendadas. Crie o primeiro plano para começar.",
+    "Aucune exécution planifiée. Créez votre premier plan pour commencer.",
+    "Nessuna esecuzione pianificata. Crea il primo piano per iniziare."
+  ],
+  "Read-only SQL export": [
+    "Read-only SQL export",
+    "SQL-Lesezugriff und Export",
+    "Lectura y exportación SQL",
+    "Leitura e exportação SQL",
+    "Lecture et export SQL",
+    "Lettura ed esportazione SQL"
+  ],
+  "SHA-256 integrity": [
+    "SHA-256 integrity",
+    "SHA-256-Integrität",
+    "Integridad SHA-256",
+    "Integridade SHA-256",
+    "Intégrité SHA-256",
+    "Integrità SHA-256"
+  ],
+  "DPAPI-protected passwords": [
+    "DPAPI-protected passwords",
+    "DPAPI-geschützte Passwörter",
+    "Contraseñas protegidas con DPAPI",
+    "Palavras-passe protegidas por DPAPI",
+    "Mots de passe protégés par DPAPI",
+    "Password protette con DPAPI"
+  ],
+  "Connections: {0}": [
+    "Connections: {0}",
+    "Verbindungen: {0}",
+    "Conexiones: {0}",
+    "Ligações: {0}",
+    "Connexions : {0}",
+    "Connessioni: {0}"
+  ],
+  "+  New connection": [
+    "+  New connection",
+    "+  Neue Verbindung",
+    "+  Nueva conexión",
+    "+  Nova ligação",
+    "+  Nouvelle connexion",
+    "+  Nuova connessione"
+  ],
+  "Start with your first server": [
+    "Start with your first server",
+    "Beginnen Sie mit Ihrem ersten Server",
+    "Empiece con su primer servidor",
+    "Comece pelo primeiro servidor",
+    "Commencez par votre premier serveur",
+    "Inizia dal primo server"
+  ],
+  "Add the server address and a dedicated backup account.": [
+    "Add the server address and a dedicated backup account.",
+    "Serveradresse und ein eigenes Sicherungskonto hinzufügen.",
+    "Añada la dirección del servidor y una cuenta dedicada a las copias.",
+    "Adicione o endereço do servidor e uma conta dedicada às cópias.",
+    "Ajoutez l’adresse du serveur et un compte dédié aux sauvegardes.",
+    "Aggiungi l’indirizzo del server e un account dedicato ai backup."
+  ],
+  "TLS verified": [
+    "TLS verified",
+    "TLS geprüft",
+    "TLS verificado",
+    "TLS verificado",
+    "TLS vérifié",
+    "TLS verificato"
+  ],
+  "No TLS": [
+    "No TLS",
+    "Ohne TLS",
+    "Sin TLS",
+    "Sem TLS",
+    "Sans TLS",
+    "Senza TLS"
+  ],
+  "Test / Explore": [
+    "Test / Explore",
+    "Testen / Erkunden",
+    "Probar / Explorar",
+    "Testar / Explorar",
+    "Tester / Explorer",
+    "Prova / Esplora"
+  ],
+  "Edit": [
+    "Edit",
+    "Bearbeiten",
+    "Editar",
+    "Editar",
+    "Modifier",
+    "Modifica"
+  ],
+  "Remove…": [
+    "Remove…",
+    "Entfernen…",
+    "Eliminar…",
+    "Remover…",
+    "Supprimer…",
+    "Rimuovi…"
+  ],
+  "Export, compression and retention per plan": [
+    "Export, compression and retention per plan",
+    "Export, Komprimierung und Aufbewahrung je Plan",
+    "Exportación, compresión y retención por plan",
+    "Exportação, compressão e retenção por plano",
+    "Export, compression et rétention par plan",
+    "Esportazione, compressione e conservazione per piano"
+  ],
+  "+  New plan": [
+    "+  New plan",
+    "+  Neuer Plan",
+    "+  Nuevo plan",
+    "+  Novo plano",
+    "+  Nouveau plan",
+    "+  Nuovo piano"
+  ],
+  "Your first backup starts with a plan": [
+    "Your first backup starts with a plan",
+    "Ihre erste Sicherung beginnt mit einem Plan",
+    "Su primera copia empieza con un plan",
+    "A primeira cópia começa com um plano",
+    "Votre première sauvegarde commence par un plan",
+    "Il primo backup inizia con un piano"
+  ],
+  "Select the connection, databases and folder for your backups.": [
+    "Select the connection, databases and folder for your backups.",
+    "Verbindung, Datenbanken und Sicherungsordner auswählen.",
+    "Seleccione la conexión, las bases de datos y la carpeta de copias.",
+    "Selecione a ligação, as bases de dados e a pasta das cópias.",
+    "Sélectionnez la connexion, les bases et le dossier de sauvegarde.",
+    "Seleziona connessione, database e cartella dei backup."
+  ],
+  "Missing connection": [
+    "Missing connection",
+    "Verbindung fehlt",
+    "Falta la conexión",
+    "Ligação em falta",
+    "Connexion manquante",
+    "Connessione mancante"
+  ],
+  "{0}  ·  Retention: {1} copies / {2} days  ·  Email: {3}": [
+    "{0}  ·  Retention: {1} copies / {2} days  ·  Email: {3}",
+    "{0}  ·  Aufbewahrung: {1} Kopien / {2} Tage  ·  E-Mail: {3}",
+    "{0}  ·  Retención: {1} copias / {2} días  ·  Correo: {3}",
+    "{0}  ·  Retenção: {1} cópias / {2} dias  ·  Email: {3}",
+    "{0}  ·  Rétention : {1} copies / {2} jours  ·  Email : {3}",
+    "{0}  ·  Conservazione: {1} copie / {2} giorni  ·  Email: {3}"
+  ],
+  "Back up now": [
+    "Back up now",
+    "Jetzt sichern",
+    "Crear copia ahora",
+    "Criar cópia agora",
+    "Sauvegarder maintenant",
+    "Esegui backup ora"
+  ],
+  "Pause": [
+    "Pause",
+    "Pausieren",
+    "Pausar",
+    "Suspender",
+    "Suspendre",
+    "Sospendi"
+  ],
+  "Enable": [
+    "Enable",
+    "Aktivieren",
+    "Activar",
+    "Ativar",
+    "Activer",
+    "Attiva"
+  ],
+  "Your history will appear here": [
+    "Your history will appear here",
+    "Hier erscheint Ihr Verlauf",
+    "Su historial aparecerá aquí",
+    "O histórico aparecerá aqui",
+    "Votre historique apparaîtra ici",
+    "La cronologia apparirà qui"
+  ],
+  "After the first run, you will see the export and verification results.": [
+    "After the first run, you will see the export and verification results.",
+    "Nach dem ersten Lauf sehen Sie Export- und Prüfergebnisse.",
+    "Tras la primera ejecución verá los resultados de exportación y verificación.",
+    "Após a primeira execução verá os resultados da exportação e verificação.",
+    "Après la première exécution, vous verrez les résultats de l’export et de la vérification.",
+    "Dopo la prima esecuzione vedrai i risultati di esportazione e verifica."
+  ],
+  "Elapsed: {0} min {1} s": [
+    "Elapsed: {0} min {1} s",
+    "Vergangen: {0} Min. {1} Sek.",
+    "Transcurrido: {0} min {1} s",
+    "Decorrido: {0} min {1} s",
+    "Écoulé : {0} min {1} s",
+    "Trascorso: {0} min {1} s"
+  ],
+  "{0} · {1} · database {2} of {3}": [
+    "{0} · {1} · database {2} of {3}",
+    "{0} · {1} · Datenbank {2} von {3}",
+    "{0} · {1} · base de datos {2} de {3}",
+    "{0} · {1} · base de dados {2} de {3}",
+    "{0} · {1} · base {2} sur {3}",
+    "{0} · {1} · database {2} di {3}"
+  ],
+  "{0}% of current stage · {1} / {2}": [
+    "{0}% of current stage · {1} / {2}",
+    "{0}% des aktuellen Schritts · {1} / {2}",
+    "{0}% de la fase actual · {1} / {2}",
+    "{0}% da etapa atual · {1} / {2}",
+    "{0}% de l’étape en cours · {1} / {2}",
+    "{0}% della fase corrente · {1} / {2}"
+  ],
+  "In progress · {0} processed": [
+    "In progress · {0} processed",
+    "In Arbeit · {0} verarbeitet",
+    "En curso · {0} procesados",
+    "Em curso · {0} processados",
+    "En cours · {0} traités",
+    "In corso · {0} elaborati"
+  ],
+  "The SQL tool does not report a total export size. The processed size updates during the run.": [
+    "The SQL tool does not report a total export size. The processed size updates during the run.",
+    "Das SQL-Werkzeug meldet keine Gesamtgröße. Die verarbeitete Größe wird laufend aktualisiert.",
+    "La herramienta SQL no indica el tamaño total. El volumen procesado se actualiza durante la ejecución.",
+    "A ferramenta SQL não indica o tamanho total. O volume processado é atualizado durante a execução.",
+    "L’outil SQL ne fournit pas de taille totale. Le volume traité est actualisé pendant l’exécution.",
+    "Lo strumento SQL non indica la dimensione totale. Il volume elaborato si aggiorna durante l’esecuzione."
+  ],
+  "Last updated {0} s ago": [
+    "Last updated {0} s ago",
+    "Zuletzt vor {0} Sek. aktualisiert",
+    "Actualizado hace {0} s",
+    "Atualizado há {0} s",
+    "Actualisé il y a {0} s",
+    "Aggiornato {0} s fa"
+  ],
+  "Preparing export…": [
+    "Preparing export…",
+    "Export wird vorbereitet…",
+    "Preparando exportación…",
+    "A preparar exportação…",
+    "Préparation de l’export…",
+    "Preparazione dell’esportazione…"
+  ],
+  "The agent is not responding; progress may be interrupted.": [
+    "The agent is not responding; progress may be interrupted.",
+    "Der Agent antwortet nicht; der Vorgang könnte unterbrochen sein.",
+    "El agente no responde; el proceso puede haberse interrumpido.",
+    "O agente não responde; o progresso pode estar interrompido.",
+    "L’agent ne répond plus ; la progression peut être interrompue.",
+    "L’agente non risponde; l’operazione potrebbe essere interrotta."
+  ],
+  "100% · Backup completed and verified": [
+    "100% · Backup completed and verified",
+    "100% · Sicherung abgeschlossen und geprüft",
+    "100% · Copia completada y verificada",
+    "100% · Cópia concluída e verificada",
+    "100% · Sauvegarde terminée et vérifiée",
+    "100% · Backup completato e verificato"
+  ],
+  "Open backup": [
+    "Open backup",
+    "Sicherung öffnen",
+    "Abrir copia",
+    "Abrir cópia",
+    "Ouvrir la sauvegarde",
+    "Apri backup"
+  ],
+  "Verify again": [
+    "Verify again",
+    "Erneut prüfen",
+    "Verificar de nuevo",
+    "Verificar novamente",
+    "Vérifier à nouveau",
+    "Verifica di nuovo"
+  ],
+  "{0} {1} · bundled tools": [
+    "{0} {1} · bundled tools",
+    "{0} {1} · mitgelieferte Werkzeuge",
+    "{0} {1} · herramientas incluidas",
+    "{0} {1} · ferramentas incluídas",
+    "{0} {1} · outils inclus",
+    "{0} {1} · strumenti inclusi"
+  ],
+  "The custom folder below is active. Clear this option to use bundled tools.": [
+    "The custom folder below is active. Clear this option to use bundled tools.",
+    "Der eigene Ordner unten ist aktiv. Option deaktivieren, um mitgelieferte Werkzeuge zu nutzen.",
+    "Está activa la carpeta personalizada. Desmarque esta opción para usar las herramientas incluidas.",
+    "A pasta personalizada está ativa. Desmarque a opção para usar as ferramentas incluídas.",
+    "Le dossier personnalisé ci-dessous est actif. Décochez cette option pour utiliser les outils inclus.",
+    "La cartella personalizzata è attiva. Deseleziona l’opzione per usare gli strumenti inclusi."
+  ],
+  "Selected automatically from StrajaBackupSQL. Existing SQL installations remain independent.": [
+    "Selected automatically from StrajaBackupSQL. Existing SQL installations remain independent.",
+    "Automatisch aus StrajaBackupSQL gewählt. Bestehende SQL-Installationen bleiben unabhängig.",
+    "Selección automática desde StrajaBackupSQL. Las instalaciones SQL existentes siguen independientes.",
+    "Seleção automática do StrajaBackupSQL. As instalações SQL existentes mantêm-se independentes.",
+    "Sélection automatique depuis StrajaBackupSQL. Les installations SQL existantes restent indépendantes.",
+    "Selezione automatica da StrajaBackupSQL. Le installazioni SQL esistenti restano indipendenti."
+  ],
+  "Advanced: use a different tools folder": [
+    "Advanced: use a different tools folder",
+    "Erweitert: anderen Werkzeugordner verwenden",
+    "Avanzado: usar otra carpeta de herramientas",
+    "Avançado: usar outra pasta de ferramentas",
+    "Avancé : utiliser un autre dossier d’outils",
+    "Avanzate: usa un’altra cartella degli strumenti"
+  ],
+  "Custom bin folder": [
+    "Custom bin folder",
+    "Eigener bin-Ordner",
+    "Carpeta bin personalizada",
+    "Pasta bin personalizada",
+    "Dossier bin personnalisé",
+    "Cartella bin personalizzata"
+  ],
+  "Required: {0} + {1} and their libraries. Choose a version compatible with the server.": [
+    "Required: {0} + {1} and their libraries. Choose a version compatible with the server.",
+    "Benötigt: {0} + {1} und ihre Bibliotheken. Eine zum Server passende Version wählen.",
+    "Se necesitan: {0} + {1} y sus bibliotecas. Elija una versión compatible con el servidor.",
+    "Necessários: {0} + {1} e as bibliotecas. Escolha uma versão compatível com o servidor.",
+    "Requis : {0} + {1} et leurs bibliothèques. Choisissez une version compatible avec le serveur.",
+    "Richiesti: {0} + {1} e le relative librerie. Scegli una versione compatibile con il server."
+  ],
+  "01   Connection details": [
+    "01   Connection details",
+    "01   Verbindungsdaten",
+    "01   Datos de conexión",
+    "01   Dados da ligação",
+    "01   Détails de connexion",
+    "01   Dati della connessione"
+  ],
+  "Connection name": [
+    "Connection name",
+    "Verbindungsname",
+    "Nombre de conexión",
+    "Nome da ligação",
+    "Nom de connexion",
+    "Nome della connessione"
+  ],
+  "Production · shop": [
+    "Production · shop",
+    "Produktion · Shop",
+    "Producción · tienda",
+    "Produção · loja",
+    "Production · boutique",
+    "Produzione · negozio"
+  ],
+  "SQL engine": [
+    "SQL engine",
+    "SQL-Datenbanksystem",
+    "Motor SQL",
+    "Motor SQL",
+    "Moteur SQL",
+    "Motore SQL"
+  ],
+  "Server / IP address": [
+    "Server / IP address",
+    "Server / IP-Adresse",
+    "Servidor / dirección IP",
+    "Servidor / endereço IP",
+    "Serveur / adresse IP",
+    "Server / indirizzo IP"
+  ],
+  "Password · blank keeps the saved password": [
+    "Password · blank keeps the saved password",
+    "Passwort · leer behält das gespeicherte Passwort",
+    "Contraseña · vacío conserva la guardada",
+    "Palavra-passe · vazio mantém a guardada",
+    "Mot de passe · vide conserve celui enregistré",
+    "Password · vuoto mantiene quella salvata"
+  ],
+  "02   Tools and security": [
+    "02   Tools and security",
+    "02   Werkzeuge und Sicherheit",
+    "02   Herramientas y seguridad",
+    "02   Ferramentas e segurança",
+    "02   Outils et sécurité",
+    "02   Strumenti e sicurezza"
+  ],
+  "TLS with certificate and server identity verification": [
+    "TLS with certificate and server identity verification",
+    "TLS mit Zertifikats- und Serveridentitätsprüfung",
+    "TLS con verificación del certificado y la identidad del servidor",
+    "TLS com verificação do certificado e da identidade do servidor",
+    "TLS avec vérification du certificat et de l’identité du serveur",
+    "TLS con verifica del certificato e dell’identità del server"
+  ],
+  "CA certificate (optional if already trusted)": [
+    "CA certificate (optional if already trusted)",
+    "CA-Zertifikat (optional, wenn bereits vertrauenswürdig)",
+    "Certificado CA (opcional si ya es de confianza)",
+    "Certificado CA (opcional se já for fidedigno)",
+    "Certificat d’AC (facultatif si déjà approuvé)",
+    "Certificato CA (facoltativo se già attendibile)"
+  ],
+  "Use an account with read and export permissions. This app has no SQL editor, server restore or database deletion commands.": [
+    "Use an account with read and export permissions. This app has no SQL editor, server restore or database deletion commands.",
+    "Verwenden Sie ein Konto mit Lese- und Exportrechten. Die App bietet keinen SQL-Editor, keine Serverwiederherstellung und keine Datenbanklöschung.",
+    "Use una cuenta con permisos de lectura y exportación. La aplicación no incluye editor SQL, restauración en servidor ni borrado de bases.",
+    "Use uma conta com permissões de leitura e exportação. A aplicação não inclui editor SQL, restauro no servidor ou eliminação de bases.",
+    "Utilisez un compte avec des droits de lecture et d’export. L’application ne propose ni éditeur SQL, ni restauration serveur, ni suppression de bases.",
+    "Usa un account con permessi di lettura ed esportazione. L’app non offre editor SQL, ripristino sul server o eliminazione di database."
+  ],
+  "Save connection": [
+    "Save connection",
+    "Verbindung speichern",
+    "Guardar conexión",
+    "Guardar ligação",
+    "Enregistrer la connexion",
+    "Salva connessione"
+  ],
+  "Testing…": [
+    "Testing…",
+    "Test läuft…",
+    "Probando…",
+    "A testar…",
+    "Test en cours…",
+    "Test in corso…"
+  ],
+  "Test connection": [
+    "Test connection",
+    "Verbindung testen",
+    "Probar conexión",
+    "Testar ligação",
+    "Tester la connexion",
+    "Prova connessione"
+  ],
+  "Back": [
+    "Back",
+    "Zurück",
+    "Atrás",
+    "Voltar",
+    "Retour",
+    "Indietro"
+  ],
+  "Frequency": [
+    "Frequency",
+    "Häufigkeit",
+    "Frecuencia",
+    "Frequência",
+    "Fréquence",
+    "Frequenza"
+  ],
+  "Time (HH:MM)": [
+    "Time (HH:MM)",
+    "Uhrzeit (HH:MM)",
+    "Hora (HH:MM)",
+    "Hora (HH:MM)",
+    "Heure (HH:MM)",
+    "Ora (HH:MM)"
+  ],
+  "Interval in minutes": [
+    "Interval in minutes",
+    "Intervall in Minuten",
+    "Intervalo en minutos",
+    "Intervalo em minutos",
+    "Intervalle en minutes",
+    "Intervallo in minuti"
+  ],
+  "Day · 1=Monday, 7=Sunday": [
+    "Day · 1=Monday, 7=Sunday",
+    "Tag · 1=Montag, 7=Sonntag",
+    "Día · 1=lunes, 7=domingo",
+    "Dia · 1=segunda, 7=domingo",
+    "Jour · 1=lundi, 7=dimanche",
+    "Giorno · 1=lunedì, 7=domenica"
+  ],
+  "Day of month · 29–31 adjust to the last day": [
+    "Day of month · 29–31 adjust to the last day",
+    "Monatstag · 29–31 werden auf den letzten Tag begrenzt",
+    "Día del mes · 29–31 se ajustan al último día",
+    "Dia do mês · 29–31 ajustam-se ao último dia",
+    "Jour du mois · 29–31 s’ajustent au dernier jour",
+    "Giorno del mese · 29–31 si adattano all’ultimo giorno"
+  ],
+  "Month (1–12)": [
+    "Month (1–12)",
+    "Monat (1–12)",
+    "Mes (1–12)",
+    "Mês (1–12)",
+    "Mois (1–12)",
+    "Mese (1–12)"
+  ],
+  "Day (1–31)": [
+    "Day (1–31)",
+    "Tag (1–31)",
+    "Día (1–31)",
+    "Dia (1–31)",
+    "Jour (1–31)",
+    "Giorno (1–31)"
+  ],
+  "Date (YYYY-MM-DD)": [
+    "Date (YYYY-MM-DD)",
+    "Datum (JJJJ-MM-TT)",
+    "Fecha (AAAA-MM-DD)",
+    "Data (AAAA-MM-DD)",
+    "Date (AAAA-MM-JJ)",
+    "Data (AAAA-MM-GG)"
+  ],
+  "IANA time zone": [
+    "IANA time zone",
+    "IANA-Zeitzone",
+    "Zona horaria IANA",
+    "Fuso horário IANA",
+    "Fuseau horaire IANA",
+    "Fuso orario IANA"
+  ],
+  "01   What to protect": [
+    "01   What to protect",
+    "01   Was wird gesichert",
+    "01   Qué proteger",
+    "01   O que proteger",
+    "01   Que protéger",
+    "01   Cosa proteggere"
+  ],
+  "Plan name": [
+    "Plan name",
+    "Planname",
+    "Nombre del plan",
+    "Nome do plano",
+    "Nom du plan",
+    "Nome del piano"
+  ],
+  "Daily backup · production": [
+    "Daily backup · production",
+    "Tägliche Sicherung · Produktion",
+    "Copia diaria · producción",
+    "Cópia diária · produção",
+    "Sauvegarde quotidienne · production",
+    "Backup giornaliero · produzione"
+  ],
+  "Choose connection": [
+    "Choose connection",
+    "Verbindung auswählen",
+    "Elija conexión",
+    "Escolha a ligação",
+    "Choisir une connexion",
+    "Scegli connessione"
+  ],
+  "Read databases": [
+    "Read databases",
+    "Datenbanken lesen",
+    "Leer bases de datos",
+    "Ler bases de dados",
+    "Lire les bases",
+    "Leggi database"
+  ],
+  "Or add exact names separated by ;": [
+    "Or add exact names separated by ;",
+    "Oder genaue Namen mit ; trennen",
+    "O añada nombres exactos separados por ;",
+    "Ou adicione nomes exatos separados por ;",
+    "Ou ajoutez les noms exacts séparés par ;",
+    "Oppure aggiungi nomi esatti separati da ;"
+  ],
+  "shop; billing": [
+    "shop; billing",
+    "shop; abrechnung",
+    "tienda; facturacion",
+    "loja; faturacao",
+    "boutique; facturation",
+    "negozio; fatturazione"
+  ],
+  "02   Where and when": [
+    "02   Where and when",
+    "02   Wo und wann",
+    "02   Dónde y cuándo",
+    "02   Onde e quando",
+    "02   Où et quand",
+    "02   Dove e quando"
+  ],
+  "Destination folder (local or UNC)": [
+    "Destination folder (local or UNC)",
+    "Zielordner (lokal oder UNC)",
+    "Carpeta de destino (local o UNC)",
+    "Pasta de destino (local ou UNC)",
+    "Dossier de destination (local ou UNC)",
+    "Cartella di destinazione (locale o UNC)"
+  ],
+  "03   Compression and retention": [
+    "03   Compression and retention",
+    "03   Komprimierung und Aufbewahrung",
+    "03   Compresión y retención",
+    "03   Compressão e retenção",
+    "03   Compression et rétention",
+    "03   Compressione e conservazione"
+  ],
+  "Keep at most N copies · blank = all": [
+    "Keep at most N copies · blank = all",
+    "Maximal N Kopien behalten · leer = alle",
+    "Conservar hasta N copias · vacío = todas",
+    "Manter até N cópias · vazio = todas",
+    "Conserver au plus N copies · vide = toutes",
+    "Conserva al massimo N copie · vuoto = tutte"
+  ],
+  "Keep at most N days · blank = all": [
+    "Keep at most N days · blank = all",
+    "Maximal N Tage behalten · leer = alle",
+    "Conservar hasta N días · vacío = todos",
+    "Manter até N dias · vazio = todos",
+    "Conserver au plus N jours · vide = tous",
+    "Conserva al massimo N giorni · vuoto = tutti"
+  ],
+  "Retention runs only after a verified backup. The newest copy is always kept. If both limits are set, copies exceeding either limit expire.": [
+    "Retention runs only after a verified backup. The newest copy is always kept. If both limits are set, copies exceeding either limit expire.",
+    "Aufbewahrung wird nur nach einer geprüften Sicherung angewendet. Die neueste Kopie bleibt immer erhalten. Bei zwei Grenzen genügt das Überschreiten einer Grenze zum Ablauf.",
+    "La retención se aplica tras una copia verificada. Siempre se conserva la más reciente. Si establece ambos límites, caducan las copias que superen cualquiera de ellos.",
+    "A retenção aplica-se após uma cópia verificada. A mais recente é sempre mantida. Com ambos os limites definidos, expiram as cópias que excedam qualquer um deles.",
+    "La rétention s’applique après une sauvegarde vérifiée. La copie la plus récente est toujours conservée. Si les deux limites sont définies, dépasser l’une suffit pour expirer.",
+    "La conservazione si applica dopo un backup verificato. La copia più recente viene sempre mantenuta. Con entrambi i limiti impostati, scadono le copie che ne superano uno qualsiasi."
+  ],
+  "Maximum export duration, in minutes": [
+    "Maximum export duration, in minutes",
+    "Maximale Exportdauer in Minuten",
+    "Duración máxima de exportación, en minutos",
+    "Duração máxima da exportação, em minutos",
+    "Durée maximale d’export, en minutes",
+    "Durata massima dell’esportazione, in minuti"
+  ],
+  "Email on backup failure (configure SMTP in Settings)": [
+    "Email on backup failure (configure SMTP in Settings)",
+    "E-Mail bei Sicherungsfehler (SMTP in Einstellungen)",
+    "Correo si falla la copia (configure SMTP en Ajustes)",
+    "Email se a cópia falhar (configure SMTP em Definições)",
+    "Email en cas d’échec (configurez SMTP dans Paramètres)",
+    "Email se il backup fallisce (configura SMTP in Impostazioni)"
+  ],
+  "Save plan": [
+    "Save plan",
+    "Plan speichern",
+    "Guardar plan",
+    "Guardar plano",
+    "Enregistrer le plan",
+    "Salva piano"
+  ],
+  "The agent runs independently of the window and appears beside the clock (also check ^). Right-click its icon to open the app, view Activity or stop after backup. Setup can enable startup at sign-in. The PC must stay on; the agent does not wake it from sleep.": [
+    "The agent runs independently of the window and appears beside the clock (also check ^). Right-click its icon to open the app, view Activity or stop after backup. Setup can enable startup at sign-in. The PC must stay on; the agent does not wake it from sleep.",
+    "Der Agent läuft unabhängig vom Fenster und erscheint neben der Uhr (auch unter ^). Rechtsklick öffnet die App, Aktivität oder stoppt nach der Sicherung. Setup kann den Start bei Anmeldung aktivieren. Der PC muss eingeschaltet bleiben; der Agent weckt ihn nicht auf.",
+    "El agente funciona separado de la ventana y aparece junto al reloj (revise también ^). Clic derecho para abrir la aplicación, ver Actividad o parar tras la copia. El instalador permite iniciarlo al entrar en Windows. El equipo debe estar encendido; el agente no lo despierta.",
+    "O agente funciona independentemente da janela e aparece junto ao relógio (verifique ^). Clique direito para abrir a aplicação, ver Atividade ou parar após a cópia. O instalador permite o arranque ao iniciar sessão. O PC deve estar ligado; o agente não o desperta.",
+    "L’agent fonctionne indépendamment de la fenêtre et apparaît près de l’horloge (vérifiez aussi ^). Clic droit pour ouvrir l’application, voir Activité ou arrêter après la sauvegarde. L’installateur permet le démarrage à la connexion. Le PC doit rester allumé ; l’agent ne le réveille pas.",
+    "L’agente funziona indipendentemente dalla finestra e appare accanto all’orologio (controlla anche ^). Clic destro per aprire l’app, vedere Attività o arrestare dopo il backup. Il programma di installazione può avviarlo all’accesso. Il PC deve restare acceso; l’agente non lo riattiva dalla sospensione."
+  ],
+  "Start agent": [
+    "Start agent",
+    "Agent starten",
+    "Iniciar agente",
+    "Iniciar agente",
+    "Démarrer l’agent",
+    "Avvia agente"
+  ],
+  "Stop after current run": [
+    "Stop after current run",
+    "Nach aktuellem Lauf stoppen",
+    "Detener tras la ejecución actual",
+    "Parar após a execução atual",
+    "Arrêter après l’exécution en cours",
+    "Arresta dopo l’esecuzione corrente"
+  ],
+  "Email alerts": [
+    "Email alerts",
+    "E-Mail-Warnungen",
+    "Alertas por correo",
+    "Alertas por email",
+    "Alertes par email",
+    "Avvisi email"
+  ],
+  "Sent only for plans with notifications enabled. SMTP connections require TLS.": [
+    "Sent only for plans with notifications enabled. SMTP connections require TLS.",
+    "Nur für Pläne mit aktivierten Meldungen. SMTP-Verbindungen erfordern TLS.",
+    "Solo para planes con notificaciones activadas. SMTP requiere TLS.",
+    "Apenas para planos com notificações ativas. SMTP requer TLS.",
+    "Uniquement pour les plans avec notifications activées. SMTP exige TLS.",
+    "Solo per piani con notifiche attive. SMTP richiede TLS."
+  ],
+  "SMTP server": [
+    "SMTP server",
+    "SMTP-Server",
+    "Servidor SMTP",
+    "Servidor SMTP",
+    "Serveur SMTP",
+    "Server SMTP"
+  ],
+  "SMTP username": [
+    "SMTP username",
+    "SMTP-Benutzername",
+    "Usuario SMTP",
+    "Utilizador SMTP",
+    "Identifiant SMTP",
+    "Utente SMTP"
+  ],
+  "SMTP password / app password": [
+    "SMTP password / app password",
+    "SMTP-Passwort / App-Passwort",
+    "Contraseña SMTP / de aplicación",
+    "Palavra-passe SMTP / de aplicação",
+    "Mot de passe SMTP / d’application",
+    "Password SMTP / dell’app"
+  ],
+  "Implicit TLS (usually 465); unchecked = STARTTLS (usually 587)": [
+    "Implicit TLS (usually 465); unchecked = STARTTLS (usually 587)",
+    "Implizites TLS (meist 465); deaktiviert = STARTTLS (meist 587)",
+    "TLS implícito (normalmente 465); desmarcado = STARTTLS (normalmente 587)",
+    "TLS implícito (normalmente 465); desmarcado = STARTTLS (normalmente 587)",
+    "TLS implicite (souvent 465) ; décoché = STARTTLS (souvent 587)",
+    "TLS implicito (di solito 465); deselezionato = STARTTLS (di solito 587)"
+  ],
+  "Save SMTP": [
+    "Save SMTP",
+    "SMTP speichern",
+    "Guardar SMTP",
+    "Guardar SMTP",
+    "Enregistrer SMTP",
+    "Salva SMTP"
+  ],
+  "Send test using saved settings": [
+    "Send test using saved settings",
+    "Test mit gespeicherten Einstellungen senden",
+    "Enviar prueba con ajustes guardados",
+    "Enviar teste com definições guardadas",
+    "Tester avec les paramètres enregistrés",
+    "Invia prova con impostazioni salvate"
+  ],
+  "Get started in four steps": [
+    "Get started in four steps",
+    "Start in vier Schritten",
+    "Empiece en cuatro pasos",
+    "Comece em quatro passos",
+    "Démarrez en quatre étapes",
+    "Inizia in quattro passi"
+  ],
+  "1. MariaDB, MySQL and PostgreSQL tools are bundled and selected automatically. For another version, enable a custom tools folder in advanced connection options.": [
+    "1. MariaDB, MySQL and PostgreSQL tools are bundled and selected automatically. For another version, enable a custom tools folder in advanced connection options.",
+    "1. MariaDB-, MySQL- und PostgreSQL-Werkzeuge sind enthalten und werden automatisch gewählt. Andere Versionen über einen eigenen Ordner in den erweiterten Verbindungsoptionen auswählen.",
+    "1. Las herramientas MariaDB, MySQL y PostgreSQL están incluidas y se seleccionan automáticamente. Para otra versión, active una carpeta personalizada en las opciones avanzadas de conexión.",
+    "1. As ferramentas MariaDB, MySQL e PostgreSQL estão incluídas e são selecionadas automaticamente. Para outra versão, ative uma pasta personalizada nas opções avançadas da ligação.",
+    "1. Les outils MariaDB, MySQL et PostgreSQL sont inclus et sélectionnés automatiquement. Pour une autre version, activez un dossier personnalisé dans les options avancées de connexion.",
+    "1. Gli strumenti MariaDB, MySQL e PostgreSQL sono inclusi e selezionati automaticamente. Per un’altra versione, attiva una cartella personalizzata nelle opzioni avanzate della connessione."
+  ],
+  "2. Add and test the connection. Use a dedicated export account with minimal privileges. System databases are hidden in the explorer.": [
+    "2. Add and test the connection. Use a dedicated export account with minimal privileges. System databases are hidden in the explorer.",
+    "2. Verbindung hinzufügen und testen. Ein eigenes Exportkonto mit minimalen Rechten verwenden. Systemdatenbanken sind im Explorer ausgeblendet.",
+    "2. Añada y pruebe la conexión. Use una cuenta de exportación dedicada con privilegios mínimos. Las bases del sistema se ocultan en el explorador.",
+    "2. Adicione e teste a ligação. Use uma conta de exportação dedicada com privilégios mínimos. As bases de sistema estão ocultas no explorador.",
+    "2. Ajoutez et testez la connexion. Utilisez un compte d’export dédié avec des privilèges minimaux. Les bases système sont masquées dans l’explorateur.",
+    "2. Aggiungi e prova la connessione. Usa un account dedicato all’esportazione con privilegi minimi. I database di sistema sono nascosti nell’esploratore."
+  ],
+  "3. Create a plan: select databases, destination, compression and schedule. Run a manual backup and check the result in Activity.": [
+    "3. Create a plan: select databases, destination, compression and schedule. Run a manual backup and check the result in Activity.",
+    "3. Plan erstellen: Datenbanken, Ziel, Komprimierung und Zeitplan wählen. Manuelle Sicherung starten und Ergebnis unter Aktivität prüfen.",
+    "3. Cree un plan: elija bases, destino, compresión y programación. Ejecute una copia manual y revise el resultado en Actividad.",
+    "3. Crie um plano: escolha bases, destino, compressão e agendamento. Execute uma cópia manual e verifique o resultado em Atividade.",
+    "3. Créez un plan : bases, destination, compression et planification. Lancez une sauvegarde manuelle et vérifiez le résultat dans Activité.",
+    "3. Crea un piano: scegli database, destinazione, compressione e pianificazione. Esegui un backup manuale e controlla il risultato in Attività."
+  ],
+  "4. Start the agent. Configure SMTP and enable alerts in each plan. Keep an additional copy on another drive or server.": [
+    "4. Start the agent. Configure SMTP and enable alerts in each plan. Keep an additional copy on another drive or server.",
+    "4. Agent starten. SMTP einrichten und Warnungen je Plan aktivieren. Zusätzliche Kopie auf einem anderen Laufwerk oder Server aufbewahren.",
+    "4. Inicie el agente. Configure SMTP y active alertas en cada plan. Conserve otra copia en un disco o servidor distinto.",
+    "4. Inicie o agente. Configure SMTP e ative alertas em cada plano. Guarde outra cópia noutro disco ou servidor.",
+    "4. Démarrez l’agent. Configurez SMTP et activez les alertes dans chaque plan. Conservez une copie supplémentaire sur un autre disque ou serveur.",
+    "4. Avvia l’agente. Configura SMTP e attiva gli avvisi in ogni piano. Conserva una copia aggiuntiva su un altro disco o server."
+  ],
+  "What we verify": [
+    "What we verify",
+    "Was geprüft wird",
+    "Qué verificamos",
+    "O que verificamos",
+    "Ce que nous vérifions",
+    "Cosa verifichiamo"
+  ],
+  "We check the tool exit code, export completion marker, SHA-256 reread and decompressed GZIP content. These checks detect file corruption but do not prove a full restore will succeed. Regularly test restoration on a separate server with official tools.": [
+    "We check the tool exit code, export completion marker, SHA-256 reread and decompressed GZIP content. These checks detect file corruption but do not prove a full restore will succeed. Regularly test restoration on a separate server with official tools.",
+    "Geprüft werden Exitcode, Export-Abschlussmarkierung, erneutes Lesen mit SHA-256 und entpackter GZIP-Inhalt. Das erkennt beschädigte Dateien, garantiert aber keine vollständige Wiederherstellung. Testen Sie diese regelmäßig mit offiziellen Werkzeugen auf einem separaten Server.",
+    "Se comprueban el código de salida, el marcador final, la relectura SHA-256 y el contenido GZIP descomprimido. Detectan corrupción, pero no garantizan una restauración completa. Pruebe periódicamente la restauración en un servidor separado con herramientas oficiales.",
+    "Verificam-se o código de saída, o marcador final, a releitura SHA-256 e o conteúdo GZIP descomprimido. Detetam corrupção, mas não garantem um restauro completo. Teste regularmente o restauro num servidor separado com ferramentas oficiais.",
+    "Nous vérifions le code de sortie, le marqueur de fin, la relecture SHA-256 et le contenu GZIP décompressé. Ces contrôles détectent la corruption sans garantir une restauration complète. Testez régulièrement la restauration sur un serveur séparé avec les outils officiels.",
+    "Verifichiamo codice di uscita, marcatore finale, rilettura SHA-256 e contenuto GZIP decompresso. Questi controlli rilevano file corrotti ma non garantiscono il ripristino completo. Prova periodicamente il ripristino su un server separato con strumenti ufficiali."
+  ],
+  "Consistency and scheduling": [
+    "Consistency and scheduling",
+    "Konsistenz und Zeitplanung",
+    "Consistencia y programación",
+    "Consistência e agendamento",
+    "Cohérence et planification",
+    "Coerenza e pianificazione"
+  ],
+  "MySQL/MariaDB use single-transaction: consistency applies to transactional tables (InnoDB). Avoid schema changes during export. Databases are exported sequentially without a shared snapshot. PostgreSQL uses the pg_dump snapshot. Global PostgreSQL roles are not exported.": [
+    "MySQL/MariaDB use single-transaction: consistency applies to transactional tables (InnoDB). Avoid schema changes during export. Databases are exported sequentially without a shared snapshot. PostgreSQL uses the pg_dump snapshot. Global PostgreSQL roles are not exported.",
+    "MySQL/MariaDB verwenden single-transaction: Konsistenz gilt für transaktionale Tabellen (InnoDB). Schemaänderungen während des Exports vermeiden. Datenbanken werden nacheinander ohne gemeinsamen Snapshot exportiert. PostgreSQL verwendet den pg_dump-Snapshot. Globale PostgreSQL-Rollen werden nicht exportiert.",
+    "MySQL/MariaDB usan single-transaction: la consistencia se aplica a tablas transaccionales (InnoDB). Evite cambios de esquema durante la exportación. Las bases se exportan por turnos sin instantánea común. PostgreSQL usa la instantánea de pg_dump. No se exportan roles globales de PostgreSQL.",
+    "MySQL/MariaDB usam single-transaction: a consistência aplica-se a tabelas transacionais (InnoDB). Evite alterações de esquema durante a exportação. As bases são exportadas em sequência sem snapshot comum. PostgreSQL usa o snapshot do pg_dump. Os papéis globais PostgreSQL não são exportados.",
+    "MySQL/MariaDB utilisent single-transaction : la cohérence concerne les tables transactionnelles (InnoDB). Évitez les changements de schéma pendant l’export. Les bases sont exportées successivement sans instantané commun. PostgreSQL utilise l’instantané pg_dump. Les rôles globaux PostgreSQL ne sont pas exportés.",
+    "MySQL/MariaDB usano single-transaction: la coerenza riguarda le tabelle transazionali (InnoDB). Evita modifiche allo schema durante l’esportazione. I database sono esportati in sequenza senza snapshot comune. PostgreSQL usa lo snapshot pg_dump. I ruoli globali PostgreSQL non vengono esportati."
+  ],
+  "When the agent returns, it catches up one overdue run per plan. Failures are not retried immediately; the next schedule or Back up now starts a new attempt. Nonexistent DST times are skipped; repeated times run once. Hourly means 60 minutes after saving or the scheduled run.": [
+    "When the agent returns, it catches up one overdue run per plan. Failures are not retried immediately; the next schedule or Back up now starts a new attempt. Nonexistent DST times are skipped; repeated times run once. Hourly means 60 minutes after saving or the scheduled run.",
+    "Nach Agent-Neustart wird je Plan ein überfälliger Lauf nachgeholt. Fehler werden nicht sofort wiederholt; der nächste Termin oder Jetzt sichern startet einen Versuch. Nicht existente Sommerzeit-Uhrzeiten entfallen; doppelte Uhrzeiten laufen einmal. Stündlich bedeutet 60 Minuten nach Speichern oder geplantem Lauf.",
+    "Al volver el agente se recupera una ejecución vencida por plan. Los fallos no se reintentan al instante; la siguiente programación o Crear copia ahora inicia otro intento. Se omiten horas inexistentes por cambio horario; las repetidas se ejecutan una vez. Cada hora significa 60 minutos desde el guardado o ejecución programada.",
+    "Ao regressar, o agente recupera uma execução vencida por plano. Falhas não são repetidas imediatamente; o próximo agendamento ou Criar cópia agora inicia outra tentativa. Horas inexistentes na mudança de hora são omitidas; horas repetidas executam uma vez. Horário significa 60 minutos após guardar ou a execução agendada.",
+    "Au retour de l’agent, une exécution en retard est rattrapée par plan. Les échecs ne sont pas relancés immédiatement ; la prochaine échéance ou Sauvegarder maintenant lance un essai. Les heures inexistantes au changement d’heure sont ignorées ; les heures répétées ne s’exécutent qu’une fois. Toutes les heures signifie 60 minutes après l’enregistrement ou l’exécution planifiée.",
+    "Al ritorno dell’agente viene recuperata un’esecuzione scaduta per piano. Gli errori non vengono riprovati subito; la prossima pianificazione o Esegui backup ora avvia un tentativo. Le ore inesistenti al cambio d’ora vengono saltate; quelle ripetute eseguono una volta. Ogni ora significa 60 minuti dal salvataggio o dall’esecuzione pianificata."
+  ],
+  "Local data and uninstall": [
+    "Local data and uninstall",
+    "Lokale Daten und Deinstallation",
+    "Datos locales y desinstalación",
+    "Dados locais e desinstalação",
+    "Données locales et désinstallation",
+    "Dati locali e disinstallazione"
+  ],
+  "Settings are in %LOCALAPPDATA%\\StrajaSQL. Passwords use DPAPI and work only under the same Windows account. SQL/GZIP backups are not encrypted. Uninstall keeps settings and backups. Bundled tools are private to this app; they do not change PATH, services or existing SQL installations.": [
+    "Settings are in %LOCALAPPDATA%\\StrajaSQL. Passwords use DPAPI and work only under the same Windows account. SQL/GZIP backups are not encrypted. Uninstall keeps settings and backups. Bundled tools are private to this app; they do not change PATH, services or existing SQL installations.",
+    "Einstellungen liegen in %LOCALAPPDATA%\\StrajaSQL. Passwörter nutzen DPAPI und funktionieren nur unter demselben Windows-Konto. SQL/GZIP-Sicherungen sind unverschlüsselt. Deinstallation behält Einstellungen und Sicherungen. Mitgelieferte Werkzeuge sind app-eigen; PATH, Dienste und bestehende SQL-Installationen bleiben unverändert.",
+    "Los ajustes están en %LOCALAPPDATA%\\StrajaSQL. Las contraseñas usan DPAPI y solo funcionan con la misma cuenta de Windows. Las copias SQL/GZIP no están cifradas. La desinstalación conserva ajustes y copias. Las herramientas incluidas son privadas de la aplicación; no cambian PATH, servicios ni instalaciones SQL existentes.",
+    "As definições estão em %LOCALAPPDATA%\\StrajaSQL. As palavras-passe usam DPAPI e funcionam apenas na mesma conta Windows. As cópias SQL/GZIP não são encriptadas. A desinstalação mantém definições e cópias. As ferramentas incluídas são privadas da aplicação; não alteram PATH, serviços ou instalações SQL existentes.",
+    "Les paramètres sont dans %LOCALAPPDATA%\\StrajaSQL. Les mots de passe utilisent DPAPI et ne fonctionnent que sous le même compte Windows. Les sauvegardes SQL/GZIP ne sont pas chiffrées. La désinstallation conserve paramètres et sauvegardes. Les outils inclus sont privés à l’application ; ils ne modifient ni PATH, ni services, ni installations SQL existantes.",
+    "Le impostazioni sono in %LOCALAPPDATA%\\StrajaSQL. Le password usano DPAPI e funzionano solo con lo stesso account Windows. I backup SQL/GZIP non sono crittografati. La disinstallazione conserva impostazioni e backup. Gli strumenti inclusi sono privati dell’app; non modificano PATH, servizi o installazioni SQL esistenti."
+  ],
+  "Choose a location…": [
+    "Choose a location…",
+    "Speicherort wählen…",
+    "Elija una ubicación…",
+    "Escolha uma localização…",
+    "Choisissez un emplacement…",
+    "Scegli una posizione…"
+  ],
+  "Retention": [
+    "Retention",
+    "Aufbewahrung",
+    "Retención",
+    "Retenção",
+    "Rétention",
+    "Conservazione"
+  ],
+  "Databases exported: {0}. SHA-256 and reread verified. Expired copies removed: {1}. Verification does not include a restore on a test server.": [
+    "Databases exported: {0}. SHA-256 and reread verified. Expired copies removed: {1}. Verification does not include a restore on a test server.",
+    "Exportierte Datenbanken: {0}. SHA-256 und erneutes Lesen geprüft. Entfernte abgelaufene Kopien: {1}. Prüfung umfasst keine Wiederherstellung auf einem Testserver.",
+    "Bases exportadas: {0}. SHA-256 y relectura verificados. Copias caducadas eliminadas: {1}. No se incluye restauración en un servidor de prueba.",
+    "Bases exportadas: {0}. SHA-256 e releitura verificados. Cópias expiradas removidas: {1}. Não inclui restauro num servidor de teste.",
+    "Bases exportées : {0}. SHA-256 et relecture vérifiés. Copies expirées supprimées : {1}. La vérification n’inclut pas de restauration sur un serveur de test.",
+    "Database esportati: {0}. SHA-256 e rilettura verificati. Copie scadute rimosse: {1}. La verifica non include il ripristino su un server di prova."
+  ],
+  "Backup verified; retention needs attention: {0}": [
+    "Backup verified; retention needs attention: {0}",
+    "Sicherung geprüft; Aufbewahrung prüfen: {0}",
+    "Copia verificada; revise la retención: {0}",
+    "Cópia verificada; reveja a retenção: {0}",
+    "Sauvegarde vérifiée ; rétention à vérifier : {0}",
+    "Backup verificato; controllare la conservazione: {0}"
+  ],
+  "StrajaBackupSQL · backup failed: {0}": [
+    "StrajaBackupSQL · backup failed: {0}",
+    "StrajaBackupSQL · Sicherung fehlgeschlagen: {0}",
+    "StrajaBackupSQL · error de copia: {0}",
+    "StrajaBackupSQL · cópia falhou: {0}",
+    "StrajaBackupSQL · échec de sauvegarde : {0}",
+    "StrajaBackupSQL · backup non riuscito: {0}"
+  ],
+  "Plan: {0}\nTime (UTC): {1}\nError: {2}\n\nThe app has not modified the source databases.": [
+    "Plan: {0}\nTime (UTC): {1}\nError: {2}\n\nThe app has not modified the source databases.",
+    "Plan: {0}\nZeit (UTC): {1}\nFehler: {2}\n\nDie App hat die Quelldatenbanken nicht verändert.",
+    "Plan: {0}\nHora (UTC): {1}\nError: {2}\n\nLa aplicación no ha modificado las bases de origen.",
+    "Plano: {0}\nHora (UTC): {1}\nErro: {2}\n\nA aplicação não alterou as bases de origem.",
+    "Plan : {0}\nHeure (UTC) : {1}\nErreur : {2}\n\nL’application n’a pas modifié les bases sources.",
+    "Piano: {0}\nOra (UTC): {1}\nErrore: {2}\n\nL’app non ha modificato i database di origine."
+  ],
+  "Alert email sent.": [
+    "Alert email sent.",
+    "Warn-E-Mail gesendet.",
+    "Correo de alerta enviado.",
+    "Email de alerta enviado.",
+    "Email d’alerte envoyé.",
+    "Email di avviso inviata."
+  ],
+  "Alert email was NOT sent: {0}": [
+    "Alert email was NOT sent: {0}",
+    "Warn-E-Mail wurde NICHT gesendet: {0}",
+    "NO se envió el correo de alerta: {0}",
+    "O email de alerta NÃO foi enviado: {0}",
+    "L’email d’alerte n’a PAS été envoyé : {0}",
+    "L’email di avviso NON è stata inviata: {0}"
+  ],
+  "Internal agent error": [
+    "Internal agent error",
+    "Interner Agentenfehler",
+    "Error interno del agente",
+    "Erro interno do agente",
+    "Erreur interne de l’agent",
+    "Errore interno dell’agente"
+  ],
+  "Name": [
+    "Name",
+    "Name",
+    "Nombre",
+    "Nome",
+    "Nom",
+    "Nome"
+  ],
+  "Server": [
+    "Server",
+    "Server",
+    "Servidor",
+    "Servidor",
+    "Serveur",
+    "Server"
+  ],
+  "Username": [
+    "Username",
+    "Benutzername",
+    "Usuario",
+    "Utilizador",
+    "Identifiant",
+    "Utente"
+  ],
+  "Manual": [
+    "Manual",
+    "Manuell",
+    "Manual",
+    "Manual",
+    "Manuel",
+    "Manuale"
+  ],
+  "Hourly": [
+    "Hourly",
+    "Stündlich",
+    "Cada hora",
+    "A cada hora",
+    "Toutes les heures",
+    "Ogni ora"
+  ],
+  "Daily": [
+    "Daily",
+    "Täglich",
+    "Diario",
+    "Diário",
+    "Quotidien",
+    "Giornaliero"
+  ],
+  "Monthly": [
+    "Monthly",
+    "Monatlich",
+    "Mensual",
+    "Mensal",
+    "Mensuel",
+    "Mensile"
+  ],
+  "Yearly": [
+    "Yearly",
+    "Jährlich",
+    "Anual",
+    "Anual",
+    "Annuel",
+    "Annuale"
+  ],
+  "Table": [
+    "Table",
+    "Tabelle",
+    "Tabla",
+    "Tabela",
+    "Table",
+    "Tabella"
+  ],
+  "View": [
+    "View",
+    "Sicht",
+    "Vista",
+    "Vista",
+    "Vue",
+    "Vista"
+  ],
+  "Compression": [
+    "Compression",
+    "Komprimierung",
+    "Compresión",
+    "Compressão",
+    "Compression",
+    "Compressione"
+  ],
+  "Export": [
+    "Export",
+    "Export",
+    "Exportación",
+    "Exportação",
+    "Export",
+    "Esportazione"
+  ],
+  "NAME": [
+    "NAME",
+    "NAME",
+    "NOMBRE",
+    "NOME",
+    "NOM",
+    "NOME"
+  ],
+  "TYPE": [
+    "TYPE",
+    "TYP",
+    "TIPO",
+    "TIPO",
+    "TYPE",
+    "TIPO"
+  ],
+  "Previous": [
+    "Previous",
+    "Zurück",
+    "Anterior",
+    "Anterior",
+    "Précédent",
+    "Precedente"
+  ],
+  "CONNECTIONS": [
+    "CONNECTIONS",
+    "VERBINDUNGEN",
+    "CONEXIONES",
+    "LIGAÇÕES",
+    "CONNEXIONS",
+    "CONNESSIONI"
+  ],
+  "Active": [
+    "Active",
+    "Aktiv",
+    "Activo",
+    "Ativo",
+    "Actif",
+    "Attivo"
+  ],
+  "Paused": [
+    "Paused",
+    "Pausiert",
+    "Pausado",
+    "Suspenso",
+    "Suspendu",
+    "Sospeso"
+  ],
+  "all": [
+    "all",
+    "alle",
+    "todas",
+    "todas",
+    "toutes",
+    "tutte"
+  ],
+  "unlimited": [
+    "unlimited",
+    "unbegrenzt",
+    "sin límite",
+    "sem limite",
+    "illimité",
+    "illimitato"
+  ],
+  "on": [
+    "on",
+    "ein",
+    "activo",
+    "ativo",
+    "activé",
+    "attivo"
+  ],
+  "off": [
+    "off",
+    "aus",
+    "inactivo",
+    "inativo",
+    "désactivé",
+    "disattivato"
+  ],
+  "Unlimited": [
+    "Unlimited",
+    "Unbegrenzt",
+    "Sin límite",
+    "Sem limite",
+    "Illimité",
+    "Illimitato"
+  ],
+  "Connection": [
+    "Connection",
+    "Verbindung",
+    "Conexión",
+    "Ligação",
+    "Connexion",
+    "Connessione"
+  ],
+  "Port": [
+    "Port",
+    "Port",
+    "Puerto",
+    "Porta",
+    "Port",
+    "Porta"
+  ],
+  "Sender": [
+    "Sender",
+    "Absender",
+    "Remitente",
+    "Remetente",
+    "Expéditeur",
+    "Mittente"
+  ],
+  "Recipient": [
+    "Recipient",
+    "Empfänger",
+    "Destinatario",
+    "Destinatário",
+    "Destinataire",
+    "Destinatario"
+  ],
+  "Browse…": [
+    "Browse…",
+    "Durchsuchen…",
+    "Examinar…",
+    "Procurar…",
+    "Parcourir…",
+    "Sfoglia…"
+  ],
+  "Activity": [
+    "Activity",
+    "Aktivität",
+    "Actividad",
+    "Atividade",
+    "Activité",
+    "Attività"
+  ],
+  "Failed": [
+    "Failed",
+    "Fehlgeschlagen",
+    "Error",
+    "Falhou",
+    "Échec",
+    "Non riuscito"
+  ],
+  "Queued": [
+    "Queued",
+    "In Warteschlange",
+    "En cola",
+    "Na fila",
+    "En attente",
+    "In coda"
+  ],
+  "Waiting for agent": [
+    "Waiting for agent",
+    "Wartet auf Agent",
+    "Esperando al agente",
+    "A aguardar o agente",
+    "En attente de l’agent",
+    "In attesa dell’agente"
+  ],
+  "Export and verification": [
+    "Export and verification",
+    "Export und Prüfung",
+    "Exportación y verificación",
+    "Exportação e verificação",
+    "Export et vérification",
+    "Esportazione e verifica"
+  ],
+  "Agent stopped before completion. The partial backup is not validated.": [
+    "Agent stopped before completion. The partial backup is not validated.",
+    "Agent vor Abschluss gestoppt. Die Teilsicherung ist nicht validiert.",
+    "El agente se detuvo antes de terminar. La copia parcial no está validada.",
+    "O agente parou antes de concluir. A cópia parcial não está validada.",
+    "L’agent s’est arrêté avant la fin. La sauvegarde partielle n’est pas validée.",
+    "L’agente si è arrestato prima del completamento. Il backup parziale non è convalidato."
+  ],
+  "Language": [
+    "Language",
+    "Sprache",
+    "Idioma",
+    "Idioma",
+    "Langue",
+    "Lingua"
+  ],
+  "Choose your language. Menus and new notifications update automatically. Existing log messages keep their original language.": [
+    "Choose your language. Menus and new notifications update automatically. Existing log messages keep their original language.",
+    "Sprache wählen. Menüs und neue Meldungen werden automatisch angepasst. Vorhandene Protokollmeldungen behalten ihre Sprache.",
+    "Elija su idioma. Los menús y las nuevas notificaciones se actualizan automáticamente. Los registros existentes conservan su idioma.",
+    "Escolha o idioma. Os menus e novas notificações são atualizados automaticamente. Os registos existentes mantêm o idioma original.",
+    "Choisissez votre langue. Les menus et nouvelles notifications s’adaptent automatiquement. Les anciens journaux conservent leur langue.",
+    "Scegli la lingua. Menu e nuove notifiche si aggiornano automaticamente. I messaggi già registrati mantengono la lingua originale."
+  ],
+  "Language saved.": [
+    "Language saved.",
+    "Sprache gespeichert.",
+    "Idioma guardado.",
+    "Idioma guardado.",
+    "Langue enregistrée.",
+    "Lingua salvata."
+  ],
+  "New plans use UTC. Choose the IANA time zone for your schedule, for example Europe/Berlin or America/New_York.": [
+    "New plans use UTC. Choose the IANA time zone for your schedule, for example Europe/Berlin or America/New_York.",
+    "Neue Pläne verwenden UTC. IANA-Zeitzone für den Zeitplan wählen, z. B. Europe/Berlin oder America/New_York.",
+    "Los planes nuevos usan UTC. Elija la zona horaria IANA, por ejemplo Europe/Madrid o America/New_York.",
+    "Novos planos usam UTC. Escolha o fuso IANA, por exemplo Europe/Lisbon ou America/Sao_Paulo.",
+    "Les nouveaux plans utilisent UTC. Choisissez le fuseau IANA, par exemple Europe/Paris ou America/New_York.",
+    "I nuovi piani usano UTC. Scegli il fuso IANA, ad esempio Europe/Rome o America/New_York."
+  ],
+  "Software updates": [
+    "Software updates",
+    "Software-Updates",
+    "Actualizaciones de software",
+    "Atualizações de software",
+    "Mises à jour du logiciel",
+    "Aggiornamenti software"
+  ],
+  "Installed version: {0}": [
+    "Installed version: {0}",
+    "Installierte Version: {0}",
+    "Versión instalada: {0}",
+    "Versão instalada: {0}",
+    "Version installée : {0}",
+    "Versione installata: {0}"
+  ],
+  "Check automatically every 24 hours while the app is open": [
+    "Check automatically every 24 hours while the app is open",
+    "Bei geöffneter App automatisch alle 24 Stunden prüfen",
+    "Comprobar automáticamente cada 24 horas mientras la aplicación esté abierta",
+    "Verificar automaticamente a cada 24 horas enquanto a aplicação estiver aberta",
+    "Vérifier automatiquement toutes les 24 heures lorsque l’application est ouverte",
+    "Controlla automaticamente ogni 24 ore mentre l’app è aperta"
+  ],
+  "Updates are provided by strajabackup.com for StrajaBackupSQL.": [
+    "Updates are provided by strajabackup.com for StrajaBackupSQL.",
+    "Updates für StrajaBackupSQL werden über strajabackup.com bereitgestellt.",
+    "Las actualizaciones de StrajaBackupSQL se ofrecen en strajabackup.com.",
+    "As atualizações do StrajaBackupSQL são disponibilizadas em strajabackup.com.",
+    "Les mises à jour de StrajaBackupSQL sont proposées sur strajabackup.com.",
+    "Gli aggiornamenti di StrajaBackupSQL sono disponibili su strajabackup.com."
+  ],
+  "Checking for updates…": [
+    "Checking for updates…",
+    "Suche nach Updates…",
+    "Buscando actualizaciones…",
+    "A verificar atualizações…",
+    "Recherche de mises à jour…",
+    "Ricerca aggiornamenti…"
+  ],
+  "You have the latest version available on this channel.": [
+    "You have the latest version available on this channel.",
+    "Sie haben die neueste Version dieses Kanals.",
+    "Tiene la última versión disponible en este canal.",
+    "Tem a versão mais recente disponível neste canal.",
+    "Vous disposez de la dernière version disponible sur ce canal.",
+    "Hai la versione più recente disponibile su questo canale."
+  ],
+  "The update feed has not been published yet.": [
+    "The update feed has not been published yet.",
+    "Es wurden noch keine Update-Informationen veröffentlicht.",
+    "Aún no se ha publicado información de actualizaciones.",
+    "Ainda não foram publicadas informações de atualização.",
+    "Les informations de mise à jour ne sont pas encore publiées.",
+    "Le informazioni sugli aggiornamenti non sono ancora state pubblicate."
+  ],
+  "Could not check for updates. Please try again later.": [
+    "Could not check for updates. Please try again later.",
+    "Updates konnten nicht geprüft werden. Bitte versuchen Sie es später erneut.",
+    "No se pudieron buscar actualizaciones. Inténtelo de nuevo más tarde.",
+    "Não foi possível verificar atualizações. Tente novamente mais tarde.",
+    "Impossible de vérifier les mises à jour. Veuillez réessayer plus tard.",
+    "Impossibile verificare gli aggiornamenti. Riprova più tardi."
+  ],
+  "Last attempt (UTC): {0}": [
+    "Last attempt (UTC): {0}",
+    "Letzter Versuch (UTC): {0}",
+    "Último intento (UTC): {0}",
+    "Última tentativa (UTC): {0}",
+    "Dernière tentative (UTC) : {0}",
+    "Ultimo tentativo (UTC): {0}"
+  ],
+  "Check for updates": [
+    "Check for updates",
+    "Nach Updates suchen",
+    "Buscar actualizaciones",
+    "Verificar atualizações",
+    "Rechercher des mises à jour",
+    "Controlla aggiornamenti"
+  ],
+  "StrajaBackupSQL {0} is available.": [
+    "StrajaBackupSQL {0} is available.",
+    "StrajaBackupSQL {0} ist verfügbar.",
+    "StrajaBackupSQL {0} está disponible.",
+    "StrajaBackupSQL {0} está disponível.",
+    "StrajaBackupSQL {0} est disponible.",
+    "StrajaBackupSQL {0} è disponibile."
+  ],
+  "Open the release page to download the installer. Finish running backups, stop the agent and close the app before installing. Your settings and backups are kept.": [
+    "Open the release page to download the installer. Finish running backups, stop the agent and close the app before installing. Your settings and backups are kept.",
+    "Öffnen Sie die Versionsseite, um das Installationsprogramm herunterzuladen. Warten Sie laufende Backups ab, stoppen Sie den Agenten und schließen Sie die App vor der Installation. Ihre Einstellungen und Backups bleiben erhalten.",
+    "Abra la página de la versión para descargar el instalador. Espere a que terminen los backups, detenga el agente y cierre la aplicación antes de instalar. Se conservan sus ajustes y backups.",
+    "Abra a página da versão para transferir o instalador. Aguarde o fim dos backups, pare o agente e feche a aplicação antes de instalar. As definições e os backups são mantidos.",
+    "Ouvrez la page de la version pour télécharger le programme d’installation. Attendez la fin des sauvegardes, arrêtez l’agent et fermez l’application avant l’installation. Vos paramètres et sauvegardes sont conservés.",
+    "Apri la pagina della versione per scaricare il programma di installazione. Attendi il completamento dei backup, arresta l’agente e chiudi l’app prima di installare. Le impostazioni e i backup vengono conservati."
+  ],
+  "Open release page": [
+    "Open release page",
+    "Versionsseite öffnen",
+    "Abrir página de la versión",
+    "Abrir página da versão",
+    "Ouvrir la page de la version",
+    "Apri pagina della versione"
+  ],
+  "Skip this version": [
+    "Skip this version",
+    "Diese Version überspringen",
+    "Omitir esta versión",
+    "Ignorar esta versão",
+    "Ignorer cette version",
+    "Salta questa versione"
+  ],
+  "Could not open the browser.": [
+    "Could not open the browser.",
+    "Der Browser konnte nicht geöffnet werden.",
+    "No se pudo abrir el navegador.",
+    "Não foi possível abrir o navegador.",
+    "Impossible d’ouvrir le navigateur.",
+    "Impossibile aprire il browser."
+  ]
+}

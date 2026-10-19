@@ -1,0 +1,9 @@
+﻿StrajaBackupSQL — PRÉ-VISUALIZAÇÃO 0.1.7
+
+As ferramentas MariaDB, MySQL e PostgreSQL estão incluídas e são selecionadas automaticamente. Para outra versão, ative uma pasta personalizada nas opções avançadas da ligação.
+
+O agente funciona independentemente da janela e aparece junto ao relógio (verifique ^). Clique direito para abrir a aplicação, ver Atividade ou parar após a cópia. O instalador permite o arranque ao iniciar sessão. O PC deve estar ligado; o agente não o desperta.
+
+Verificam-se o código de saída, o marcador final, a releitura SHA-256 e o conteúdo GZIP descomprimido. Detetam corrupção, mas não garantem um restauro completo. Teste regularmente o restauro num servidor separado com ferramentas oficiais.
+
+As definições estão em %LOCALAPPDATA%\StrajaSQL. As palavras-passe usam DPAPI e funcionam apenas na mesma conta Windows. As cópias SQL/GZIP não são encriptadas. A desinstalação mantém definições e cópias. As ferramentas incluídas são privadas da aplicação; não alteram PATH, serviços ou instalações SQL existentes.

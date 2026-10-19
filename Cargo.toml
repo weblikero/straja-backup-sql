@@ -1,0 +1,47 @@
+[package]
+name = "straja-sql"
+version = "0.1.7"
+edition = "2024"
+description = "Windows SQL backup manager"
+
+[[bin]]
+name = "StrajaBackupSQL"
+path = "src/main.rs"
+
+[[bin]]
+name = "StrajaBackupSQL-Agent"
+path = "src/bin/agent.rs"
+
+[dependencies]
+anyhow = "1"
+chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = { version = "0.10", features = ["serde"] }
+iced = { version = "0.14", default-features = false, features = ["tiny-skia", "tokio", "advanced", "svg"] }
+rfd = "0.15"
+rusqlite = { version = "0.38", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+flate2 = "1"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+semver = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "time"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+zeroize = "1"
+lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "rustls-tls", "ring", "webpki-roots"] }
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Security_Cryptography", "Win32_System_Threading", "Win32_System_LibraryLoader", "Win32_Graphics_Gdi", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[[test]]
+name = "backup_pipeline"
+path = "tests/backup_pipeline.rs"
+harness = false
+
+[build-dependencies]
+winresource = "0.1"
+
+[profile.release]
+lto = "thin"
+strip = true

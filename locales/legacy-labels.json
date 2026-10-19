@@ -1,0 +1,23 @@
+{
+  "Agentul s-a oprit înainte de finalizare. Copia parțială nu este validată.": "Agent stopped before completion. The partial backup is not validated.",
+  "Așteaptă agentul": "Waiting for agent",
+  "Comprimare": "Compression",
+  "Eroare": "Failed",
+  "Export": "Export",
+  "Export și verificare": "Export and verification",
+  "Retenție": "Retention",
+  "Reușit": "Succeeded",
+  "Tabel": "Table",
+  "Tabel extern": "Foreign table",
+  "Tabel partiționat": "Partitioned table",
+  "Validare finală · conținut": "Final validation · content",
+  "Validare finală · fișier": "Final validation · file",
+  "Vedere": "View",
+  "Vedere materializată": "Materialized view",
+  "Verificare GZIP": "GZIP verification",
+  "Verificare export": "Export verification",
+  "Verificare fișier": "File verification",
+  "În așteptare": "Queued",
+  "În lucru": "Running",
+  "Întrerupt": "Interrupted"
+}

@@ -1,0 +1,9 @@
+﻿StrajaBackupSQL — PREVIEW 0.1.7
+
+MariaDB, MySQL and PostgreSQL tools are bundled and selected automatically. For another version, enable a custom tools folder in advanced connection options.
+
+The agent runs independently of the window and appears beside the clock (also check ^). Right-click its icon to open the app, view Activity or stop after backup. Setup can enable startup at sign-in. The PC must stay on; the agent does not wake it from sleep.
+
+We check the tool exit code, export completion marker, SHA-256 reread and decompressed GZIP content. These checks detect file corruption but do not prove a full restore will succeed. Regularly test restoration on a separate server with official tools.
+
+Settings are in %LOCALAPPDATA%\StrajaSQL. Passwords use DPAPI and work only under the same Windows account. SQL/GZIP backups are not encrypted. Uninstall keeps settings and backups. Bundled tools are private to this app; they do not change PATH, services or existing SQL installations.

@@ -1,0 +1,30 @@
+﻿StrajaBackupSQL — ANTEPRIMA 0.1.7
+strajabackup.com
+
+Inizia in quattro passi
+
+1. Gli strumenti MariaDB, MySQL e PostgreSQL sono inclusi e selezionati automaticamente. Per un’altra versione, attiva una cartella personalizzata nelle opzioni avanzate della connessione.
+
+2. Aggiungi e prova la connessione. Usa un account dedicato all’esportazione con privilegi minimi. I database di sistema sono nascosti nell’esploratore.
+
+3. Crea un piano: scegli database, destinazione, compressione e pianificazione. Esegui un backup manuale e controlla il risultato in Attività.
+
+4. Avvia l’agente. Configura SMTP e attiva gli avvisi in ogni piano. Conserva una copia aggiuntiva su un altro disco o server.
+
+Cosa verifichiamo
+
+Verifichiamo codice di uscita, marcatore finale, rilettura SHA-256 e contenuto GZIP decompresso. Questi controlli rilevano file corrotti ma non garantiscono il ripristino completo. Prova periodicamente il ripristino su un server separato con strumenti ufficiali.
+
+Coerenza e pianificazione
+
+MySQL/MariaDB usano single-transaction: la coerenza riguarda le tabelle transazionali (InnoDB). Evita modifiche allo schema durante l’esportazione. I database sono esportati in sequenza senza snapshot comune. PostgreSQL usa lo snapshot pg_dump. I ruoli globali PostgreSQL non vengono esportati.
+
+Al ritorno dell’agente viene recuperata un’esecuzione scaduta per piano. Gli errori non vengono riprovati subito; la prossima pianificazione o Esegui backup ora avvia un tentativo. Le ore inesistenti al cambio d’ora vengono saltate; quelle ripetute eseguono una volta. Ogni ora significa 60 minuti dal salvataggio o dall’esecuzione pianificata.
+
+I nuovi piani usano UTC. Scegli il fuso IANA, ad esempio Europe/Rome o America/New_York.
+
+Dati locali e disinstallazione
+
+Le impostazioni sono in %LOCALAPPDATA%\StrajaSQL. Le password usano DPAPI e funzionano solo con lo stesso account Windows. I backup SQL/GZIP non sono crittografati. La disinstallazione conserva impostazioni e backup. Gli strumenti inclusi sono privati dell’app; non modificano PATH, servizi o installazioni SQL esistenti.
+
+Scegli la lingua. Menu e nuove notifiche si aggiornano automaticamente. I messaggi già registrati mantengono la lingua originale.

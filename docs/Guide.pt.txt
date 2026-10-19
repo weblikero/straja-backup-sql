@@ -1,0 +1,30 @@
+﻿StrajaBackupSQL — PRÉ-VISUALIZAÇÃO 0.1.7
+strajabackup.com
+
+Comece em quatro passos
+
+1. As ferramentas MariaDB, MySQL e PostgreSQL estão incluídas e são selecionadas automaticamente. Para outra versão, ative uma pasta personalizada nas opções avançadas da ligação.
+
+2. Adicione e teste a ligação. Use uma conta de exportação dedicada com privilégios mínimos. As bases de sistema estão ocultas no explorador.
+
+3. Crie um plano: escolha bases, destino, compressão e agendamento. Execute uma cópia manual e verifique o resultado em Atividade.
+
+4. Inicie o agente. Configure SMTP e ative alertas em cada plano. Guarde outra cópia noutro disco ou servidor.
+
+O que verificamos
+
+Verificam-se o código de saída, o marcador final, a releitura SHA-256 e o conteúdo GZIP descomprimido. Detetam corrupção, mas não garantem um restauro completo. Teste regularmente o restauro num servidor separado com ferramentas oficiais.
+
+Consistência e agendamento
+
+MySQL/MariaDB usam single-transaction: a consistência aplica-se a tabelas transacionais (InnoDB). Evite alterações de esquema durante a exportação. As bases são exportadas em sequência sem snapshot comum. PostgreSQL usa o snapshot do pg_dump. Os papéis globais PostgreSQL não são exportados.
+
+Ao regressar, o agente recupera uma execução vencida por plano. Falhas não são repetidas imediatamente; o próximo agendamento ou Criar cópia agora inicia outra tentativa. Horas inexistentes na mudança de hora são omitidas; horas repetidas executam uma vez. Horário significa 60 minutos após guardar ou a execução agendada.
+
+Novos planos usam UTC. Escolha o fuso IANA, por exemplo Europe/Lisbon ou America/Sao_Paulo.
+
+Dados locais e desinstalação
+
+As definições estão em %LOCALAPPDATA%\StrajaSQL. As palavras-passe usam DPAPI e funcionam apenas na mesma conta Windows. As cópias SQL/GZIP não são encriptadas. A desinstalação mantém definições e cópias. As ferramentas incluídas são privadas da aplicação; não alteram PATH, serviços ou instalações SQL existentes.
+
+Escolha o idioma. Os menus e novas notificações são atualizados automaticamente. Os registos existentes mantêm o idioma original.

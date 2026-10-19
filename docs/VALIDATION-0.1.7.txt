@@ -1,0 +1,34 @@
+StrajaBackupSQL 0.1.7 preview - validation, 19 October 2026
+
+Passed locally:
+- 31 checks: library/update tests (9), GUI state tests (4), core tests (16),
+  TLS-required SMTP fixture (1), fake-client backup pipeline (1).
+- Update tests cover semantic version precedence, no downgrades/build-only offers,
+  product/platform/channel separation, URL restrictions, invalid/oversized JSON,
+  HTTP success/404/503/redirect handling via a localhost fixture, stable GitHub
+  releases with the correct installer, persisted timing and skipped versions,
+  opt-out/manual override and failure isolation from backup state.
+- Cargo clippy --locked --all-targets -- -D warnings passed.
+- Catalog validation: 312 messages with six complete translations and matching slots.
+
+- Release binaries and normal Inno Setup installer compiled successfully.
+- Bundled private SQL client hashes and DLL dependencies verified by packaging.
+- The English update banner was visually inspected using an isolated, empty profile
+  and a synthetic cached release (99.0.0, test only). No installer was opened.
+- Settings/dismissal/manual-check states are covered by automated GUI state tests;
+  further interactive clicks were not completed because the desktop was in use.
+- Source publication excludes local profiles, credentials, archives and generated
+  installers. Binary RGBA assets are explicitly protected from Git text conversion.
+
+Limits:
+- No real SQL database was connected, modified or deleted during this update.
+- No SQL server or service was installed, started or reconfigured.
+- Native tray lifecycle was tested in an earlier version; not rerun for this change.
+- Real SQL round-trip tests remain ignored and require the separate test station.
+- Previous installer execution on this workstation stalled before file copying or
+  registration. Cause unresolved. Installation/upgrade/uninstall are not validated.
+- The installer is unsigned. Clean-station testing, signing and distribution review
+  remain prerequisites for a production release.
+- Update discovery opens the official release page only; it neither downloads nor
+  verifies nor executes an installer. There is no silent installation.
+- No stable website feed or production GitHub release is published by these checks.

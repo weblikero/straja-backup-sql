@@ -1,0 +1,13 @@
+* text=auto
+*.rs text eol=lf
+*.toml text eol=lf
+*.lock text eol=lf
+*.json text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.rgba binary
+*.png binary
+*.ico binary
+# Preserve upstream license/translation text verbatim, including whitespace.
+THIRD-PARTY-NOTICES.txt -whitespace
+installer/Romanian.isl -whitespace

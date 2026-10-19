@@ -1,0 +1,9 @@
+﻿StrajaBackupSQL — ANTEPRIMA 0.1.7
+
+Gli strumenti MariaDB, MySQL e PostgreSQL sono inclusi e selezionati automaticamente. Per un’altra versione, attiva una cartella personalizzata nelle opzioni avanzate della connessione.
+
+L’agente funziona indipendentemente dalla finestra e appare accanto all’orologio (controlla anche ^). Clic destro per aprire l’app, vedere Attività o arrestare dopo il backup. Il programma di installazione può avviarlo all’accesso. Il PC deve restare acceso; l’agente non lo riattiva dalla sospensione.
+
+Verifichiamo codice di uscita, marcatore finale, rilettura SHA-256 e contenuto GZIP decompresso. Questi controlli rilevano file corrotti ma non garantiscono il ripristino completo. Prova periodicamente il ripristino su un server separato con strumenti ufficiali.
+
+Le impostazioni sono in %LOCALAPPDATA%\StrajaSQL. Le password usano DPAPI e funzionano solo con lo stesso account Windows. I backup SQL/GZIP non sono crittografati. La disinstallazione conserva impostazioni e backup. Gli strumenti inclusi sono privati dell’app; non modificano PATH, servizi o installazioni SQL esistenti.

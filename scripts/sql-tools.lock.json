@@ -1,0 +1,67 @@
+{
+  "mariadb": {
+    "version": "11.4.10",
+    "url": "https://archive.mariadb.org/mariadb-11.4.10/winx64-packages/mariadb-11.4.10-winx64.zip",
+    "sha256": "fb7c76f0804321ee373daa49145f2056d2d88f321b614130adeb05a1644ea003",
+    "prefix": "mariadb-11.4.10-winx64/",
+    "executables": [
+      "mariadb.exe",
+      "mariadb-dump.exe"
+    ],
+    "plugins": [
+      "auth_gssapi_client.dll",
+      "authentication_windows_client.dll",
+      "caching_sha2_password.dll",
+      "client_ed25519.dll",
+      "dialog.dll",
+      "mysql_clear_password.dll",
+      "sha256_password.dll"
+    ],
+    "licenses": [
+      "COPYING",
+      "CREDITS",
+      "THIRDPARTY",
+      "README.md"
+    ],
+    "source_url": "https://archive.mariadb.org/mariadb-11.4.10/source/mariadb-11.4.10.tar.gz",
+    "source_sha256": "14783ddc5edd966ff05aa0efd5ed6d3d369ed5b9e4080a448f00f87a9f0a4a6b"
+  },
+  "mysql": {
+    "version": "8.4.11",
+    "url": "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.11-winx64.zip",
+    "sha256": "a492371d687d2bab088b0062581144a0044b8964baefdf4faa579292b423d25c",
+    "prefix": "mysql-8.4.11-winx64/",
+    "executables": [
+      "mysql.exe",
+      "mysqldump.exe"
+    ],
+    "plugins": [
+      "authentication_kerberos_client.dll",
+      "authentication_ldap_sasl_client.dll",
+      "authentication_oci_client.dll",
+      "authentication_webauthn_client.dll"
+    ],
+    "licenses": [
+      "LICENSE",
+      "README"
+    ],
+    "source_url": "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.11.tar.gz",
+    "source_sha256": "eb3051164d625dd346a8203f76e0d5d5d9aec51dbe9d51788e39ec6b3f1394c2"
+  },
+  "postgresql": {
+    "version": "18.6",
+    "url": "https://get.enterprisedb.com/postgresql/postgresql-18.6-5-windows-x64-binaries.zip",
+    "sha256": "e2246ba91d22345bc3d017586c09ede52d9df180b1eeb480f050445f1cad84e2",
+    "prefix": "pgsql/",
+    "executables": [
+      "psql.exe",
+      "pg_dump.exe"
+    ],
+    "plugins": [],
+    "licenses": [
+      "server_license.txt",
+      "commandlinetools_3rd_party_licenses.txt"
+    ],
+    "source_url": "https://ftp.postgresql.org/pub/source/v18.6/postgresql-18.6.tar.bz2"
+  }
+}
