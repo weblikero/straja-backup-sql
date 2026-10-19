@@ -67,11 +67,24 @@ if ($existing.Count -eq 1 -and $existing[0].target_commitish -ne $manifest.Sourc
 if ($existing.Count -eq 0) {
     Invoke-Gh @('release','create',$tag,'--repo',$repo,'--target',$manifest.SourceCommit,'--title',"StrajaBackupSQL $version",'--notes-file',$notes,'--draft') | Out-Host
 }
+# Draft tags may not exist yet; the REST endpoint by tag can return 404 until publication.
+$drafts = Invoke-Gh @('api', "repos/$repo/releases?per_page=100") | Out-String | ConvertFrom-Json
+$draft = @($drafts | Where-Object { $_.tag_name -eq $tag })
+if ($draft.Count -ne 1 -or !$draft[0].draft -or $draft[0].target_commitish -ne $manifest.SourceCommit) { throw 'Cannot identify the expected draft release.' }
+$releaseId = $draft[0].id
 # Upload while hidden. Resume only drafts; never replace files in a public release.
 foreach ($asset in $assets) {
+    $item = Get-Item -LiteralPath $asset
+    $digest = 'sha256:' + (Get-FileHash -LiteralPath $asset -Algorithm SHA256).Hash.ToLowerInvariant()
+    $previous = @($draft[0].assets | Where-Object { $_.name -eq $item.Name })
+    if ($previous.Count -eq 1 -and $previous[0].state -eq 'uploaded' -and $previous[0].size -eq $item.Length -and $previous[0].digest -eq $digest) {
+        Write-Host "Already verified: $($item.Name)"
+        continue
+    }
+    Write-Host "Uploading: $($item.Name)"
     Invoke-Gh @('release','upload',$tag,$asset,'--repo',$repo,'--clobber') | Out-Host
 }
-$remote = Invoke-Gh @('api', "repos/$repo/releases/tags/$tag") | Out-String | ConvertFrom-Json
+$remote = Invoke-Gh @('api', "repos/$repo/releases/$releaseId") | Out-String | ConvertFrom-Json
 if (!$remote.draft) { throw 'Release is no longer a draft; stopped.' }
 foreach ($asset in $assets) {
     $local = Get-Item -LiteralPath $asset

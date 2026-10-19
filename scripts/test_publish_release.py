@@ -26,7 +26,7 @@ if ($args[0] -eq 'api') {
     return
 }
 if ($args[1] -eq 'create') {
-    $state.release = [pscustomobject]@{tag_name='v1.2.3';draft=$true;target_commitish=('a'*40);assets=@()}
+    $state.release = [pscustomobject]@{id=123;tag_name='v1.2.3';draft=$true;target_commitish=('a'*40);assets=@()}
 }
 if ($args[1] -eq 'upload') {
     if ($state.failUpload) { $global:LASTEXITCODE = 1; return }
@@ -85,14 +85,16 @@ class PublishTests(unittest.TestCase):
         self.run_script('-Channel','stable','-Publish')
         calls=self.calls()
         self.assertIn('--draft',calls)
-        self.assertLess(calls.index('releases/tags/'),calls.index('release|edit'))
+        self.assertLess(calls.index('releases/123'),calls.index('release|edit'))
         self.assertIn('--prerelease=false|--latest|--draft=false',calls)
         self.assertFalse(self.state()['release']['draft'])
 
     def test_preview_and_draft_do_not_offer_stable_updates(self):
         self.run_script()
         self.assertTrue(self.state()['release']['draft'])
+        uploads=self.calls().count('release|upload')
         self.run_script('-Publish')
+        self.assertEqual(self.calls().count('release|upload'),uploads)
         self.assertIn('--prerelease|--latest=false|--draft=false',self.calls())
 
     def test_public_version_cannot_be_overwritten(self):
