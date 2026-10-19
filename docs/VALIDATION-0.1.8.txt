@@ -1,0 +1,32 @@
+StrajaBackupSQL 0.1.8 preview - validation, 19 October 2026
+
+Passed locally:
+- 35 checks: library tests (11), GUI state tests (4), core tests (17), TLS-required
+  SMTP fixture (1), fake-client backup pipeline (1), native Windows agent test (1).
+- New checks cover scoped thread-priority restoration, a bounded runtime with timers
+  and blocking work, indexed history with missing/malformed progress and tray lookup
+  of a running job outside the recent-history window. The fake SQL clients verify
+  they actually run at below-normal Windows process priority.
+- Native tray registration, single agent, graceful stop, queue recovery and live
+  language changes passed using an isolated profile, without SQL/SMTP network traffic.
+- Clippy --locked --all-targets -- -D warnings passed.
+- Catalog: 313 messages, all six languages and placeholder parity validated.
+- Synthetic before/after resource measurements: see PERFORMANCE.en.txt and its data.
+
+- Release executables and normal Inno Setup installer compiled successfully.
+- Packaging verified private SQL client hashes, dependencies and version commands.
+- Release GUI started with the bounded executor in an isolated empty profile and
+  automatic updates disabled. Over a five-second idle interval after startup:
+  41,291,776 working-set bytes, 24,338,432 private bytes, seven process threads,
+  zero additional CPU time at the process counter's measurement resolution.
+  This is a short idle sample, not a maximum-memory or zero-CPU guarantee.
+  Only this test process was closed; no agent/server was started for the GUI probe.
+
+Limits:
+- No real SQL database/server/service was contacted or changed.
+- Real SQL restore tests remain ignored and require the separate test station.
+- This change has GUI construction/state coverage; no new interactive visual pass.
+- The earlier installer execution on this workstation stalled before file copying
+  or registration. Installation/upgrade/uninstall remain unvalidated here.
+- This is an unsigned preview, not a published stable update. Clean-station testing,
+  publisher signing and distribution review remain prerequisites for production.

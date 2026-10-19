@@ -29,6 +29,7 @@ const LINE: Color = Color::from_rgb8(225, 232, 239);
 
 pub fn run() -> iced::Result {
     iced::application(App::new, App::update, App::view)
+        .executor::<straja_sql::resources::UiExecutor>()
         .title("StrajaBackupSQL · Database Backup Studio")
         .theme(|_: &App| {
             Theme::custom(
@@ -44,14 +45,28 @@ pub fn run() -> iced::Result {
             )
         })
         .subscription(|app: &App| {
-            let refresh = iced::time::every(Duration::from_secs(2)).map(|_| Msg::Tick);
-            if app.page == Page::History && app.state.runs.iter().any(|r| r.status == "În lucru") {
+            let active = app
+                .state
+                .runs
+                .iter()
+                .any(|r| matches!(r.status.as_str(), "În lucru" | "În așteptare"));
+            let refresh = iced::time::every(Duration::from_secs(if active { 2 } else { 5 }))
+                .map(|_| Msg::Tick);
+            let focus = iced::window::events().map(|(_, event)| Msg::WindowEvent(event));
+            if app.focused
+                && app.page == Page::History
+                && app.state.runs.iter().any(|run| {
+                    run.status == "În lucru"
+                        && run.progress.as_ref().is_none_or(|p| p.percent().is_none())
+                })
+            {
                 iced::Subscription::batch([
                     refresh,
-                    iced::time::every(Duration::from_millis(100)).map(|_| Msg::Animate),
+                    focus,
+                    iced::time::every(Duration::from_millis(250)).map(|_| Msg::Animate),
                 ])
             } else {
-                refresh
+                iced::Subscription::batch([refresh, focus])
             }
         })
         .window(iced::window::Settings {
@@ -94,6 +109,7 @@ impl std::fmt::Display for Choice {
 enum Msg {
     Tick,
     Animate,
+    WindowEvent(iced::window::Event),
     Language(Language),
     Page(Page),
     NewConnection,
@@ -368,6 +384,8 @@ impl PlanForm {
 }
 struct App {
     root: PathBuf,
+    monitor: Option<Store>,
+    focused: bool,
     update_preferences: updates::Preferences,
     update_status: UpdateStatus,
     state: Snapshot,
@@ -395,7 +413,11 @@ impl App {
     fn new() -> (Self, Task<Msg>) {
         let root = store::data_dir().unwrap_or_default();
         i18n::reload(&root);
-        let loaded = Store::open(&root).and_then(|s| s.snapshot());
+        let monitor = Self::open_monitor(&root).ok();
+        let loaded = monitor
+            .as_ref()
+            .ok_or_else(|| anyhow::anyhow!("{}", tr("Could not open local settings.")))
+            .and_then(|s| s.snapshot());
         let notice = loaded
             .as_ref()
             .err()
@@ -405,6 +427,8 @@ impl App {
         let mail = state.mail.clone();
         (
             Self {
+                monitor,
+                focused: true,
                 update_preferences: updates::Preferences::load(&root),
                 update_status: UpdateStatus::Idle,
                 root,
@@ -436,8 +460,21 @@ impl App {
             Task::done(Msg::CheckUpdates(false)),
         )
     }
+    fn open_monitor(root: &std::path::Path) -> anyhow::Result<Store> {
+        let store = Store::open(root)?;
+        store.db.busy_timeout(Duration::from_millis(100))?;
+        Ok(store)
+    }
     fn refresh(&mut self) {
-        match Store::open(&self.root).and_then(|s| s.snapshot()) {
+        if self.monitor.is_none() {
+            self.monitor = Self::open_monitor(&self.root).ok();
+        }
+        let loaded = self
+            .monitor
+            .as_ref()
+            .ok_or_else(|| anyhow::anyhow!("{}", tr("Could not open local settings.")))
+            .and_then(|s| s.snapshot());
+        match loaded {
             Ok(s) => self.state = s,
             Err(e) => self.result(Err(e)),
         }
@@ -457,7 +494,7 @@ impl App {
     fn alive(&self) -> bool {
         self.state
             .heartbeat
-            .is_some_and(|t| (Utc::now() - t).num_seconds() < 15)
+            .is_some_and(|t| (Utc::now() - t).num_seconds() < 30)
     }
     fn update(&mut self, msg: Msg) -> Task<Msg> {
         let previous_page = self.page;
@@ -547,11 +584,22 @@ impl App {
                     i18n::save(&self.root, language).map(|_| tr("Language saved.").to_owned()),
                 );
             }
+            Msg::WindowEvent(iced::window::Event::Focused) => {
+                self.focused = true;
+            }
+            Msg::WindowEvent(iced::window::Event::Unfocused) => {
+                self.focused = false;
+            }
+            Msg::WindowEvent(_) => {}
             Msg::Animate => {}
             Msg::Tick => {
                 self.refresh();
-                if let Ok(Some(activity)) =
-                    Store::open(&self.root).and_then(|s| s.take_window_request())
+                if let Ok(Some(activity)) = self
+                    .monitor
+                    .as_ref()
+                    .map(|s| s.take_window_request())
+                    .transpose()
+                    .map(Option::flatten)
                 {
                     if activity {
                         self.page = Page::History;
@@ -931,7 +979,7 @@ impl App {
                 self.busy = true;
                 return Task::perform(
                     async move {
-                        tokio::task::spawn_blocking(move||engine::verify(&folder).map(|m|i18n::format("Files fully verified: {0}. SHA-256 and decompressed content match.", &[(m.files.len()).to_string()])).map_err(|e|format!("{e:#}"))).await.unwrap_or_else(|e|Err(e.to_string()))
+                        tokio::task::spawn_blocking(move|| { let _background = straja_sql::resources::BackgroundWork::enter(); engine::verify(&folder).map(|m|i18n::format("Files fully verified: {0}. SHA-256 and decompressed content match.", &[(m.files.len()).to_string()])).map_err(|e|format!("{e:#}")) }).await.unwrap_or_else(|e|Err(e.to_string()))
                     },
                     Msg::Done,
                 );
@@ -1987,6 +2035,8 @@ mod explorer_tests {
     fn app() -> App {
         App {
             root: PathBuf::new(),
+            monitor: None,
+            focused: true,
             update_preferences: updates::Preferences::default(),
             update_status: UpdateStatus::Idle,
             state: Snapshot::default(),

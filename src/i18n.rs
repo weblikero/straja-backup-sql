@@ -78,6 +78,14 @@ pub fn load(root: &Path) -> Language {
 pub fn reload(root: &Path) {
     set(load(root));
 }
+/// Poll a saved preference using an already open connection. Initial defaults are loaded once.
+pub fn reload_from(store: &crate::store::Store) {
+    if let Ok(code) = store.get::<String>("settings", "language")
+        && let Some(language) = Language::parse(&code)
+    {
+        set(language);
+    }
+}
 pub fn save(root: &Path, language: Language) -> anyhow::Result<()> {
     crate::store::Store::open(root)?.put("settings", "language", &language.code())?;
     set(language);

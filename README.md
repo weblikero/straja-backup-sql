@@ -1,6 +1,6 @@
 # StrajaBackupSQL — Database Backup Studio
 
-Windows x64 database backup application written in Rust, with an Iced desktop interface. Supports MariaDB, MySQL and PostgreSQL. Version **0.1.7 is a preview**, intended for testing on a separate Windows station before public distribution at **strajabackup.com**.
+Windows x64 database backup application written in Rust, with an Iced desktop interface. Supports MariaDB, MySQL and PostgreSQL. Version **0.1.8 is a preview**, intended for testing on a separate Windows station before public distribution at **strajabackup.com**.
 
 ## Languages
 
@@ -12,7 +12,7 @@ Connection names, database identifiers, file names, existing plans and passwords
 
 ## Install and start
 
-Run `StrajaBackupSQL-0.1.7-windows-x64-setup.exe`, or use the complete portable folder `dist/StrajaBackupSQL`. Setup includes uninstall support, an optional desktop shortcut and optional agent startup at Windows sign-in. Installation is per user, without administrator privileges.
+Run `StrajaBackupSQL-0.1.8-windows-x64-setup.exe`, or use the complete portable folder `dist/StrajaBackupSQL`. Setup includes uninstall support, an optional desktop shortcut and optional agent startup at Windows sign-in. Installation is per user, without administrator privileges.
 
 1. Add a connection: name, engine, server, port, username and password. SQL client utilities are bundled and selected automatically. Advanced options allow a compatible custom client folder. Existing custom paths remain unchanged on upgrade.
 2. Keep certificate and server identity verification enabled for TLS. Supply a CA certificate when needed. There is no automatic fallback to unverified TLS.
@@ -59,6 +59,14 @@ Activity displays phase, database, processed size and elapsed time. Dump tools d
 
 Retention limits count and/or age; blank means unlimited. Exceeding either limit expires a copy. The newest copy is always kept. Retention runs only after a verified complete plan and revalidates candidates. It deletes only ordinary files listed in owned manifests and empty directories, refusing links, reparse points, unexpected files and folders outside the plan. Corrupt, unknown and partial backups are preserved for inspection and may require manual cleanup. Retention rereads data and can take time on large backups.
 
+## Resource use
+
+The GUI uses two asynchronous runtime workers and at most two blocking workers, instead of scaling its runtime pool with every CPU core. Native rendering and Windows may use additional threads. Monitoring reuses SQLite connections, joins progress into one indexed history query and refreshes every five seconds when idle, two seconds during queued/running backups. Export animation is limited to four frames per second while Activity has focus; measured progress does not need extra animation ticks.
+
+The agent still schedules one backup at a time. Its heartbeat writes every ten seconds, and progress writes approximately once per second plus stage boundaries. The tray reads at most one relevant run, updates only when its tooltip changes and checks registration periodically. Backup and manual-verification workers request Windows background I/O/CPU scheduling; only app-owned SQL clients receive below-normal CPU priority. Global priorities, SQL servers, services, PATH and other applications are not changed.
+
+GZIP uses the faster compression level. Files can be larger; SHA-256, decompression reread, completion markers and final validation remain intact. File processing still uses bounded buffers rather than loading entire dumps into RAM. Under contention, background work can take longer; these measures are not a strict CPU/RAM cap or a guarantee of zero impact. See `docs/PERFORMANCE.en.txt`.
+
 ## Scheduling and tray agent
 
 Schedules support manual, minutes, hourly, daily, weekly, monthly, yearly and once. Monthly days 29–31 adjust to the last available day. Nonexistent daylight-saving times are skipped; repeated times run once. Hourly is 60 minutes after saving or a scheduled run, not necessarily the top of the hour.
@@ -95,6 +103,6 @@ Tests cover translations, Unicode/placeholders, language persistence, constructi
 
 ## Release status
 
-Version 0.1.7 adds product-scoped update discovery, in-app notifications and update settings in all six languages. See `docs/VALIDATION-0.1.7.txt` for current coverage. The previous isolated installer execution test stalled before file copying/registration on the development workstation; its cause remains unresolved. Installation and uninstall are not validated. `docs/TESTING.en.txt` describes the separate-station checks.
+Version 0.1.8 reduces monitoring queries, bounds GUI worker pools and gives backup processing lower scheduling priority. It uses fast GZIP compression while preserving every integrity check. See `docs/VALIDATION-0.1.8.txt` and `docs/PERFORMANCE.en.txt` for coverage and synthetic measurements. The previous isolated installer execution test stalled before file copying/registration on the development workstation; its cause remains unresolved. Installation and uninstall still need validation on the separate test station.
 
 This preview is unsigned. Clean-machine installation/upgrade/uninstall, real-server restore tests and visual review of all six languages at supported display scales remain to be completed on the test station. Before public publication, arrange publisher signing and resolve distribution licensing. The local Inno compiler reports a noncommercial license; review the appropriate compiler and dependency licenses for your release. Building does not upload or deploy the website.

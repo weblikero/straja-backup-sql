@@ -404,3 +404,38 @@ fn progress_percentage_is_measured_and_unknown_export_has_no_percentage() {
     progress.total_bytes = Some(0);
     assert_eq!(progress.percent(), None);
 }
+#[test]
+fn lightweight_history_and_tray_keep_active_runs_and_tolerate_missing_progress()
+-> anyhow::Result<()> {
+    use straja_sql::store::Store;
+    let temp = tempfile::tempdir()?;
+    let store = Store::open(temp.path())?;
+    let tx = store.db.unchecked_transaction()?;
+    for i in 0..250 {
+        store.db.execute("INSERT INTO runs(id,plan_id,plan_name,status,started,detail) VALUES (?1,?1,'test','Reușit',?1,'')", [format!("{i:04}")])?;
+    }
+    store
+        .db
+        .execute("UPDATE runs SET status='În lucru' WHERE id='0000'", [])?;
+    store.db.execute(
+        "INSERT INTO objects VALUES ('progress','0249','malformed')",
+        [],
+    )?;
+    tx.commit()?;
+    let history = store.runs()?;
+    assert_eq!(history.len(), 200);
+    assert_eq!(history[0].id, "0249");
+    assert!(history[0].progress.is_none());
+    assert!(history.iter().all(|r| r.id != "0000"));
+    assert_eq!(store.tray_runs()?.len(), 1);
+    assert_eq!(store.tray_runs()?[0].id, "0000");
+    store.finish("0000", "Reușit", "done", None)?;
+    assert_eq!(store.tray_runs()?[0].id, "0249");
+    let query_plan: String = store.db.query_row(
+        "EXPLAIN QUERY PLAN SELECT id FROM runs ORDER BY started DESC LIMIT 200",
+        [],
+        |r| r.get(3),
+    )?;
+    assert!(query_plan.contains("runs_by_started"));
+    Ok(())
+}

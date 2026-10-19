@@ -8,6 +8,7 @@ use std::{
     ptr::{null, null_mut},
     sync::mpsc,
     thread,
+    time::{Duration, Instant},
 };
 use windows_sys::Win32::{
     Foundation::{ERROR_CLASS_ALREADY_EXISTS, GetLastError, HWND, LPARAM, LRESULT, POINT, WPARAM},
@@ -89,6 +90,9 @@ pub fn open_window(activity: bool) -> Result<()> {
 
 struct State {
     root: PathBuf,
+    store: Store,
+    last_tip: Cell<Option<[u16; 128]>>,
+    last_probe: Cell<Instant>,
     icon: HICON,
     added: Cell<bool>,
     reported: Cell<Option<bool>>,
@@ -104,20 +108,28 @@ impl State {
         }
     }
     fn refresh(&self, hwnd: HWND) {
-        i18n::reload(&self.root);
-        let status = Store::open(&self.root)
-            .and_then(|s| {
-                Ok(status_text(
-                    &s.runs()?,
-                    s.get("agent", "stop").unwrap_or(false),
-                ))
-            })
-            .unwrap_or_else(|_| tr("StrajaBackupSQL · Agent running · Check settings").into());
+        i18n::reload_from(&self.store);
+        let status = (|| -> Result<String> {
+            Ok(status_text(
+                &self.store.tray_runs()?,
+                self.store.get("agent", "stop").unwrap_or(false),
+            ))
+        })()
+        .unwrap_or_else(|_| tr("StrajaBackupSQL · Agent running · Check settings").into());
+        let tooltip = tip(&status);
+        if self.added.get()
+            && self.last_tip.get() == Some(tooltip)
+            && self.last_probe.get().elapsed() < Duration::from_secs(30)
+        {
+            return;
+        }
+        self.last_tip.set(Some(tooltip));
+        self.last_probe.set(Instant::now());
         let mut data = self.data(hwnd);
         data.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP | NIF_SHOWTIP;
         data.uCallbackMessage = CALLBACK;
         data.hIcon = self.icon;
-        data.szTip = tip(&status);
+        data.szTip = tooltip;
         // SAFETY: HWND and shared HICON live on this message-loop thread; data is initialized.
         unsafe {
             if self.added.get() {
@@ -131,9 +143,9 @@ impl State {
             }
         }
         if self.reported.get() != Some(self.added.get()) {
-            if let Ok(store) = Store::open(&self.root) {
-                let _ = store.put("agent", "tray_registered", &self.added.get());
-            }
+            let _ = self
+                .store
+                .put("agent", "tray_registered", &self.added.get());
             self.reported.set(Some(self.added.get()));
         }
     }
@@ -157,7 +169,7 @@ impl State {
         self.refresh(hwnd);
     }
     fn menu(&self, hwnd: HWND) {
-        i18n::reload(&self.root);
+        i18n::reload_from(&self.store);
         // Immutable State/Cell is intentional: TrackPopupMenu runs a nested message loop.
         unsafe {
             let menu = CreatePopupMenu();
@@ -333,6 +345,9 @@ unsafe fn message_loop(
             );
         }
         let state = Box::new(State {
+            store: Store::open(&root)?,
+            last_tip: Cell::new(None),
+            last_probe: Cell::new(Instant::now()),
             root,
             icon,
             added: Cell::new(false),

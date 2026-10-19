@@ -2494,5 +2494,13 @@
     "Não foi possível abrir o navegador.",
     "Impossible d’ouvrir le navigateur.",
     "Impossibile aprire il browser."
+  ],
+  "Could not open local settings.": [
+    "Could not open local settings.",
+    "Lokale Einstellungen konnten nicht geöffnet werden.",
+    "No se pudieron abrir los ajustes locales.",
+    "Não foi possível abrir as definições locais.",
+    "Impossible d’ouvrir les paramètres locaux.",
+    "Impossibile aprire le impostazioni locali."
   ]
 }

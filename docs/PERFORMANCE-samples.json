@@ -1,0 +1,134 @@
+[
+  {
+    "archive_bytes": 13925777,
+    "cpu_seconds": 1.09375,
+    "elapsed_ms": 1134,
+    "input_bytes": 67108890,
+    "mode": "archive",
+    "version": "0.1.7",
+    "sampled_peak_working_set_bytes": 6983680,
+    "sample": 1,
+    "edition": "before"
+  },
+  {
+    "cpu_seconds": 0.890625,
+    "elapsed_ms": 897,
+    "history_rows": 10000,
+    "mode": "monitoring",
+    "reads": 200,
+    "version": "0.1.7",
+    "sampled_peak_working_set_bytes": 9170944,
+    "sample": 1,
+    "edition": "before"
+  },
+  {
+    "archive_bytes": 13925777,
+    "cpu_seconds": 1.109375,
+    "elapsed_ms": 1121,
+    "input_bytes": 67108890,
+    "mode": "archive",
+    "version": "0.1.7",
+    "sampled_peak_working_set_bytes": 6987776,
+    "sample": 2,
+    "edition": "before"
+  },
+  {
+    "cpu_seconds": 0.875,
+    "elapsed_ms": 877,
+    "history_rows": 10000,
+    "mode": "monitoring",
+    "reads": 200,
+    "version": "0.1.7",
+    "sampled_peak_working_set_bytes": 9170944,
+    "sample": 2,
+    "edition": "before"
+  },
+  {
+    "archive_bytes": 13925777,
+    "cpu_seconds": 1.125,
+    "elapsed_ms": 1121,
+    "input_bytes": 67108890,
+    "mode": "archive",
+    "version": "0.1.7",
+    "sampled_peak_working_set_bytes": 6983680,
+    "sample": 3,
+    "edition": "before"
+  },
+  {
+    "cpu_seconds": 0.875,
+    "elapsed_ms": 874,
+    "history_rows": 10000,
+    "mode": "monitoring",
+    "reads": 200,
+    "version": "0.1.7",
+    "sampled_peak_working_set_bytes": 9175040,
+    "sample": 3,
+    "edition": "before"
+  },
+  {
+    "archive_bytes": 14596574,
+    "cpu_seconds": 0.359375,
+    "elapsed_ms": 355,
+    "input_bytes": 67108890,
+    "mode": "archive",
+    "version": "0.1.8",
+    "sampled_peak_working_set_bytes": 6971392,
+    "sample": 1,
+    "edition": "after"
+  },
+  {
+    "cpu_seconds": 0.046875,
+    "elapsed_ms": 52,
+    "history_rows": 10000,
+    "mode": "monitoring",
+    "reads": 200,
+    "version": "0.1.8",
+    "sampled_peak_working_set_bytes": 8679424,
+    "sample": 1,
+    "edition": "after"
+  },
+  {
+    "archive_bytes": 14596574,
+    "cpu_seconds": 0.34375,
+    "elapsed_ms": 360,
+    "input_bytes": 67108890,
+    "mode": "archive",
+    "version": "0.1.8",
+    "sampled_peak_working_set_bytes": 6971392,
+    "sample": 2,
+    "edition": "after"
+  },
+  {
+    "cpu_seconds": 0.046875,
+    "elapsed_ms": 50,
+    "history_rows": 10000,
+    "mode": "monitoring",
+    "reads": 200,
+    "version": "0.1.8",
+    "sampled_peak_working_set_bytes": 8679424,
+    "sample": 2,
+    "edition": "after"
+  },
+  {
+    "archive_bytes": 14596574,
+    "cpu_seconds": 0.359375,
+    "elapsed_ms": 355,
+    "input_bytes": 67108890,
+    "mode": "archive",
+    "version": "0.1.8",
+    "sampled_peak_working_set_bytes": 7331840,
+    "sample": 3,
+    "edition": "after"
+  },
+  {
+    "cpu_seconds": 0.046875,
+    "elapsed_ms": 50,
+    "history_rows": 10000,
+    "mode": "monitoring",
+    "reads": 200,
+    "version": "0.1.8",
+    "sampled_peak_working_set_bytes": 8679424,
+    "sample": 3,
+    "edition": "after"
+  }
+]

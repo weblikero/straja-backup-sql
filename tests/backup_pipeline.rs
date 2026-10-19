@@ -12,6 +12,13 @@ fn main() -> Result<()> {
     let exe = std::env::current_exe()?;
     let stem = exe.file_stem().unwrap().to_string_lossy();
     if stem == "mysql" || stem == "mysqldump" || stem == "psql" {
+        use windows_sys::Win32::System::Threading::{
+            BELOW_NORMAL_PRIORITY_CLASS, GetCurrentProcess, GetPriorityClass,
+        };
+        ensure!(
+            unsafe { GetPriorityClass(GetCurrentProcess()) } == BELOW_NORMAL_PRIORITY_CLASS,
+            "SQL client fixture must run below normal CPU priority"
+        );
         let args = std::env::args().collect::<Vec<_>>();
         if args.iter().any(|s| s == "--host=fail") {
             eprintln!("fixture failure");

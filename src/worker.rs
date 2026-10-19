@@ -5,10 +5,11 @@ use chrono::Utc;
 use std::{
     fs::File,
     path::{Path, PathBuf},
-    time::Duration,
+    time::{Duration, Instant},
 };
 
 fn execute(root: &Path, id: &str, plan_id: &str) -> Result<()> {
+    let _background = crate::resources::BackgroundWork::enter();
     let store = Store::open(root)?;
     let plan: Plan = store.get("plan", plan_id)?;
     let result = (|| {
@@ -109,9 +110,13 @@ pub fn run(root: PathBuf) -> Result<()> {
         }
     };
     let mut active: Option<std::thread::JoinHandle<()>> = None;
+    let mut last_heartbeat = None::<Instant>;
     loop {
-        i18n::reload(&root);
-        store.put("agent", "heartbeat", &Utc::now())?;
+        i18n::reload_from(&store);
+        if last_heartbeat.is_none_or(|last| last.elapsed() >= Duration::from_secs(10)) {
+            store.put("agent", "heartbeat", &Utc::now())?;
+            last_heartbeat = Some(Instant::now());
+        }
         if active.as_ref().is_some_and(|h| h.is_finished())
             && let Some(h) = active.take()
         {

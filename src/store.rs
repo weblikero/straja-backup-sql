@@ -35,11 +35,16 @@ impl Store {
         std::fs::create_dir_all(root)?;
         let db = Db::open(root.join("straja-sql.sqlite"))?;
         db.busy_timeout(std::time::Duration::from_secs(10))?;
+        // Each GUI/agent reader has its own cache; keep these small even on large histories.
+        db.pragma_update(None, "cache_size", -512)?;
+        db.set_prepared_statement_cache_capacity(8);
         db.execute_batch("PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;
             CREATE TABLE IF NOT EXISTS objects(kind TEXT NOT NULL,id TEXT NOT NULL,json TEXT NOT NULL,PRIMARY KEY(kind,id));
             CREATE TABLE IF NOT EXISTS secrets(id TEXT PRIMARY KEY,value BLOB NOT NULL);
             CREATE TABLE IF NOT EXISTS runs(id TEXT PRIMARY KEY,plan_id TEXT NOT NULL,plan_name TEXT NOT NULL,status TEXT NOT NULL,started TEXT NOT NULL,finished TEXT,detail TEXT NOT NULL,folder TEXT);
-            CREATE UNIQUE INDEX IF NOT EXISTS active_plan ON runs(plan_id) WHERE status IN ('În așteptare','În lucru');")?;
+            CREATE UNIQUE INDEX IF NOT EXISTS active_plan ON runs(plan_id) WHERE status IN ('În așteptare','În lucru');
+            CREATE INDEX IF NOT EXISTS runs_by_started ON runs(started DESC);
+            CREATE INDEX IF NOT EXISTS running_by_started ON runs(started DESC) WHERE status='În lucru';")?;
         Ok(Self { db })
     }
     pub fn put<T: Serialize>(&self, kind: &str, id: &str, value: &T) -> Result<()> {
@@ -173,7 +178,17 @@ impl Store {
         Ok(())
     }
     pub fn runs(&self) -> Result<Vec<Run>> {
-        let mut s = self.db.prepare("SELECT id,plan_id,plan_name,status,started,finished,detail,folder FROM runs ORDER BY started DESC LIMIT 200")?;
+        self.read_runs("ORDER BY r.started DESC LIMIT 200")
+    }
+    /// The tray needs one active run or the latest result, never the full history.
+    pub fn tray_runs(&self) -> Result<Vec<Run>> {
+        self.read_runs("WHERE r.id=COALESCE((SELECT id FROM runs WHERE status='În lucru' ORDER BY started DESC LIMIT 1),(SELECT id FROM runs ORDER BY started DESC LIMIT 1))")
+    }
+    fn read_runs(&self, selection: &str) -> Result<Vec<Run>> {
+        let sql = format!(
+            "SELECT r.id,r.plan_id,r.plan_name,r.status,r.started,r.finished,r.detail,r.folder,p.json FROM runs r LEFT JOIN objects p ON p.kind='progress' AND p.id=r.id {selection}"
+        );
+        let mut s = self.db.prepare_cached(&sql)?;
         Ok(s.query_map([], |r| {
             Ok(Run {
                 id: r.get(0)?,
@@ -184,7 +199,9 @@ impl Store {
                 finished: r.get(5)?,
                 detail: r.get(6)?,
                 folder: r.get::<_, Option<String>>(7)?.map(PathBuf::from),
-                progress: self.get("progress", &r.get::<_, String>(0)?).ok(),
+                progress: r
+                    .get::<_, Option<String>>(8)?
+                    .and_then(|s| serde_json::from_str(&s).ok()),
             })
         })?
         .collect::<Result<Vec<_>, _>>()?)

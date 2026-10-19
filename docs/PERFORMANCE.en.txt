@@ -1,0 +1,70 @@
+StrajaBackupSQL 0.1.8 - Resource use
+
+CHANGES
+- GUI runtime: two async workers and at most two blocking workers. This is a limit
+  on the runtime pools, not on all Windows/rendering threads in the process.
+- GUI/tray reuse their monitoring database connections. SQLite page caches target
+  512 KiB per connection, with at most eight cached prepared statements.
+- History uses an indexed, joined query for at most 200 rows, replacing one query
+  per progress record. The tray reads only the running job or latest result, even
+  when the running job is outside the 200-row history window.
+- GUI refresh: five seconds idle, two seconds with queued/running jobs. Unknown-
+  duration export animation: at most four frames/second while Activity has focus.
+  Measured progress and unfocused windows do not request animation ticks.
+- Tray tooltip changes are sent only when needed, with a registration probe every
+  30 seconds and immediate recovery on the Explorer restart notification.
+- Heartbeat: one write per ten seconds instead of two seconds. Progress: one update
+  per second plus phase boundaries, instead of twice per second. The scheduler still
+  polls every two seconds and runs one backup at a time.
+- Backup/manual verification workers request Windows background CPU/I/O scheduling,
+  restoring their thread priority afterwards. If background mode is unavailable,
+  they try below-normal CPU thread priority. Only app-owned SQL client processes
+  receive below-normal process CPU priority. No server/global priorities are changed.
+- Fast GZIP level replaces the default level. The source file is closed as soon as
+  compression completes. SHA-256 checks, rereads, GZIP verification, completion
+  markers and final validation remain enabled. Streaming buffers stay at 64 KiB.
+
+SYNTHETIC MEASUREMENTS - WINDOWS x64, 19 OCTOBER 2026
+Three release-build samples per version; medians below. The same deterministic
+fixture was used for 0.1.7 and 0.1.8. No SQL server or user backup was accessed.
+Raw numbers are in PERFORMANCE-samples.json. Reproduce a current-version sample:
+  cargo run --release --locked --example resource_probe -- archive
+  cargo run --release --locked --example resource_probe -- monitoring
+
+Test                                     0.1.7         0.1.8
+Archive + integrity, CPU seconds          1.109375      0.359375
+Archive + integrity, elapsed ms           1121          355
+Compressed bytes                         13,925,777    14,596,574
+200 history reads, CPU seconds            0.875         0.046875
+200 history reads, elapsed ms             877           50
+History probe peak working set, MiB       8.746         8.277
+
+Archive input: 67,108,890 bytes of synthetic SQL INSERT statements. CPU/wall timing
+covers archive creation and its integrity checks, after fixture generation. It does
+not include SQL export, the final whole-backup verification or retention.
+History: 10,000 synthetic rows with progress on the latest 200, one open connection.
+Timing covers 200 calls to Store::runs after seeding; it excludes index creation.
+Peak working set is sampled from the entire probe process at 20-ms intervals and
+includes fixture creation; it is not the GUI's or agent's total RAM consumption.
+The archive probe's sampled working set stayed approximately 6.7 MiB in both versions.
+
+In this fixture, archive CPU fell about 68%, history-reading CPU about 95%, and the
+archive grew about 4.8%. Results depend on data, storage, system load and SQL tools.
+The limited worker pools and caches control resource growth; no fixed overall RAM
+reduction or strict CPU percentage is promised. Background work can take longer
+when foreground applications need resources. A database export still consumes server,
+network and disk resources, so zero interference with every application is not guaranteed.
+
+GUI STARTUP / IDLE SMOKE CHECK
+The release GUI also started successfully with an empty isolated profile, automatic
+update checks disabled and no agent or SQL connections. After a three-second warmup,
+a five-second sample recorded 41,291,776 working-set bytes (about 39.4 MiB),
+24,338,432 private bytes (about 23.2 MiB), seven total process threads and no additional
+CPU time at Windows process-counter resolution. This is a short idle observation,
+not a peak RAM limit, a before/after comparison or proof of zero CPU consumption.
+
+Windows scheduling reference:
+https://learn.microsoft.com/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriority
+
+All SQL client utilities remain private to this product. No PATH, Windows service,
+server configuration, system-wide DLL or another application's settings are changed.

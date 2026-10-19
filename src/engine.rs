@@ -28,6 +28,10 @@ pub fn connection_command(c: &Connection, password: &str, dump: bool) -> Result<
     } else {
         c.engine.client()
     }));
+    // Only our SQL client process gets reduced priority; server processes are untouched.
+    cmd.creation_flags(
+        0x08000000 | windows_sys::Win32::System::Threading::BELOW_NORMAL_PRIORITY_CLASS,
+    );
     // App-local DLLs and resources are isolated from the caller's working directory.
     cmd.current_dir(&tools);
     if c.engine == Engine::PostgreSql {
@@ -122,7 +126,7 @@ fn run_progress(
         let mut last = Instant::now();
         progress(0);
         let status = loop {
-            if last.elapsed() >= Duration::from_millis(500) {
+            if last.elapsed() >= Duration::from_secs(1) {
                 progress(fs::metadata(output).map(|m| m.len()).unwrap_or(0));
                 last = Instant::now();
             }
@@ -140,7 +144,7 @@ fn run_progress(
                 let _ = child.wait();
                 bail!("{}", tr("Time limit exceeded; export stopped."));
             }
-            std::thread::sleep(Duration::from_millis(100));
+            std::thread::sleep(Duration::from_millis(250));
         };
         progress(fs::metadata(output).map(|m| m.len()).unwrap_or(0));
         if !status.success() {
@@ -371,7 +375,7 @@ fn hash_reader_progress(mut r: impl Read, progress: &mut dyn FnMut(u64)) -> Resu
         }
         h.update(&b[..n]);
         count += n as u64;
-        if last.elapsed() >= Duration::from_millis(500) {
+        if last.elapsed() >= Duration::from_secs(1) {
             progress(count);
             last = Instant::now();
         }
@@ -421,7 +425,7 @@ fn archive_progress(
         let dest = raw.with_extension("sql.gz");
         let mut gz = GzEncoder::new(
             File::options().write(true).create_new(true).open(&dest)?,
-            flate2::Compression::default(),
+            flate2::Compression::fast(),
         );
         let mut input = File::open(raw)?;
         let mut buffer = [0u8; 65536];
@@ -435,13 +439,14 @@ fn archive_progress(
             }
             gz.write_all(&buffer[..n])?;
             count += n as u64;
-            if last.elapsed() >= Duration::from_millis(500) {
+            if last.elapsed() >= Duration::from_secs(1) {
                 progress("Comprimare", count, size);
                 last = Instant::now();
             }
         }
         progress("Comprimare", count, size);
         gz.finish()?.sync_all()?;
+        drop(input);
         if hash_reader_progress(GzDecoder::new(File::open(&dest)?), &mut |n| {
             progress("Verificare GZIP", n, size)
         })?
@@ -533,7 +538,7 @@ fn verify_progress(
                     break;
                 }
                 hasher.update(&buffer[..n]);
-                if last.elapsed() >= Duration::from_millis(500) {
+                if last.elapsed() >= Duration::from_secs(1) {
                     progress(
                         index,
                         "Validare finală · conținut",
