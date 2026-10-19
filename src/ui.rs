@@ -30,7 +30,11 @@ const LINE: Color = Color::from_rgb8(225, 232, 239);
 pub fn run() -> iced::Result {
     iced::application(App::new, App::update, App::view)
         .executor::<straja_sql::resources::UiExecutor>()
-        .title("StrajaBackupSQL · Database Backup Studio")
+        .title(concat!(
+            "StrajaBackupSQL v",
+            env!("CARGO_PKG_VERSION"),
+            " · Database Backup Studio"
+        ))
         .theme(|_: &App| {
             Theme::custom(
                 "StrajaBackupSQL",

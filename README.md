@@ -1,6 +1,6 @@
 # StrajaBackupSQL — Database Backup Studio
 
-Windows x64 database backup application written in Rust, with an Iced desktop interface. Supports MariaDB, MySQL and PostgreSQL. Version **0.1.8 is a preview**, intended for testing on a separate Windows station before public distribution at **strajabackup.com**.
+Windows x64 database backup application written in Rust, with an Iced desktop interface. Supports MariaDB, MySQL and PostgreSQL. Version **0.1.9 is a preview**, intended for testing on a separate Windows station before public distribution at **strajabackup.com**.
 
 ## Languages
 
@@ -12,7 +12,7 @@ Connection names, database identifiers, file names, existing plans and passwords
 
 ## Install and start
 
-Run `StrajaBackupSQL-0.1.8-windows-x64-setup.exe`, or use the complete portable folder `dist/StrajaBackupSQL`. Setup includes uninstall support, an optional desktop shortcut and optional agent startup at Windows sign-in. Installation is per user, without administrator privileges.
+Run `StrajaBackupSQL-0.1.9-windows-x64-setup.exe`, or use the complete portable folder `dist/StrajaBackupSQL`. Setup includes uninstall support, an optional desktop shortcut and optional agent startup at Windows sign-in. Installation is per user, without administrator privileges.
 
 1. Add a connection: name, engine, server, port, username and password. SQL client utilities are bundled and selected automatically. Advanced options allow a compatible custom client folder. Existing custom paths remain unchanged on upgrade.
 2. Keep certificate and server identity verification enabled for TLS. Supply a CA certificate when needed. There is no automatic fallback to unverified TLS.
@@ -103,6 +103,6 @@ Tests cover translations, Unicode/placeholders, language persistence, constructi
 
 ## Release status
 
-Version 0.1.8 reduces monitoring queries, bounds GUI worker pools and gives backup processing lower scheduling priority. It uses fast GZIP compression while preserving every integrity check. See `docs/VALIDATION-0.1.8.txt` and `docs/PERFORMANCE.en.txt` for coverage and synthetic measurements. The previous isolated installer execution test stalled before file copying/registration on the development workstation; its cause remains unresolved. Installation and uninstall still need validation on the separate test station.
+Version 0.1.9 displays the running build version beside the product name and icon in the Windows title bar. The version comes directly from package metadata. Version 0.1.8 reduces monitoring queries, bounds GUI worker pools and gives backup processing lower scheduling priority. It uses fast GZIP compression while preserving every integrity check. See `docs/VALIDATION-0.1.8.txt` and `docs/PERFORMANCE.en.txt` for coverage and synthetic measurements. The previous isolated installer execution test stalled before file copying/registration on the development workstation; its cause remains unresolved. Installation and uninstall still need validation on the separate test station.
 
 This preview is unsigned. Clean-machine installation/upgrade/uninstall, real-server restore tests and visual review of all six languages at supported display scales remain to be completed on the test station. Before public publication, arrange publisher signing and resolve distribution licensing. The local Inno compiler reports a noncommercial license; review the appropriate compiler and dependency licenses for your release. Building does not upload or deploy the website.

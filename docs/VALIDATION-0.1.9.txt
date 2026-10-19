@@ -1,0 +1,17 @@
+StrajaBackupSQL 0.1.9 preview - title bar change
+
+The native Windows title now includes the running Cargo package version:
+StrajaBackupSQL v0.1.9 · Database Backup Studio
+The existing StrajaBackupSQL window icon remains configured from the embedded RGBA
+asset; the executable also retains its ICO resource.
+
+Verified: Cargo check, formatting, six-language catalog generation, release build,
+bundled-tool validation and installer compilation. The running release GUI's native
+window title was checked against the expected string using an isolated empty profile.
+Automatic update checking was disabled in that profile. Only the test GUI was closed.
+
+No new tests were added for this presentation-only change. Functional/performance
+coverage from 0.1.8 is documented separately; that full suite was not repeated here.
+No SQL server was contacted or changed, and no installer was executed.
+This remains an unsigned preview; clean-station installation/upgrade/uninstall and
+production release readiness remain subject to the earlier validation limitations.
