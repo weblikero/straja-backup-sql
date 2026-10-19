@@ -54,6 +54,7 @@ fn agent_recovers_durable_queue_rejects_duplicate_and_records_email_failure() ->
         connection: uuid::Uuid::new_v4().to_string(),
         databases: vec!["test".into()],
         destination: temp.path().into(),
+        remote: None,
         schedule,
         compression: Compression::Gzip,
         keep_count: None,

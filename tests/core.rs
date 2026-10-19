@@ -16,6 +16,7 @@ fn plan(path: &Path) -> Plan {
         connection: uuid::Uuid::new_v4().to_string(),
         databases: vec!["shop".into()],
         destination: path.into(),
+        remote: None,
         schedule: Schedule::default(),
         compression: Compression::Gzip,
         keep_count: None,

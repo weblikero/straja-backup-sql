@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — ANTEPRIMA 0.1.10
+﻿StrajaBackupSQL — ANTEPRIMA 0.1.11
 strajabackup.com
 
 Inizia in quattro passi

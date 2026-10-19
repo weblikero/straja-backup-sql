@@ -73,7 +73,7 @@ impl Store {
         let plain = Zeroizing::new(security::unprotect(&bytes)?);
         Ok(Zeroizing::new(String::from_utf8(plain.to_vec())?))
     }
-    fn put_secret(&self, id: &str, value: &str) -> Result<()> {
+    pub(crate) fn put_secret(&self, id: &str, value: &str) -> Result<()> {
         self.db.execute(
             "INSERT INTO secrets VALUES (?1,?2) ON CONFLICT(id) DO UPDATE SET value=excluded.value",
             params![id, security::protect(value.as_bytes())?],
@@ -108,6 +108,22 @@ impl Store {
         }
         self.put("plan", &p.id, p)
     }
+    pub fn save_plan_destination(&self, p: &Plan, secret: &str) -> Result<()> {
+        let tx = self.db.unchecked_transaction()?;
+        if let Some(remote) = &p.remote {
+            let key = remote.secret_key();
+            let value = if secret.is_empty() {
+                self.secret(&key)?
+            } else {
+                Zeroizing::new(secret.into())
+            };
+            remote.validate_secret(&value)?;
+            self.put_secret(&key, &value)?;
+        }
+        self.save_plan(p)?;
+        tx.commit()?;
+        Ok(())
+    }
     pub fn busy(&self, id: &str) -> Result<bool> {
         Ok(self.db.query_row("SELECT EXISTS(SELECT 1 FROM runs WHERE plan_id=?1 AND status IN ('În așteptare','În lucru'))", [id], |r| r.get(0))?)
     }
@@ -126,6 +142,17 @@ impl Store {
         }
         if kind == "plan" && self.busy(id)? {
             bail!("{}", tr("Wait for the current run to finish."));
+        }
+        if kind == "plan"
+            && let Ok(plan) = self.get::<Plan>("plan", id)
+            && let Some(remote) = plan.remote
+            && !self
+                .list::<Plan>("plan")?
+                .iter()
+                .any(|p| p.id != id && p.remote.as_ref().is_some_and(|r| r.id == remote.id))
+        {
+            self.db
+                .execute("DELETE FROM secrets WHERE id=?1", [remote.secret_key()])?;
         }
         self.db.execute(
             "DELETE FROM objects WHERE kind=?1 AND id=?2",

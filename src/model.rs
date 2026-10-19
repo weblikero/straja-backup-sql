@@ -284,6 +284,8 @@ pub struct Plan {
     pub connection: String,
     pub databases: Vec<String>,
     pub destination: PathBuf,
+    #[serde(default)]
+    pub remote: Option<crate::destinations::Remote>,
     pub schedule: Schedule,
     pub compression: Compression,
     pub keep_count: Option<u32>,
@@ -297,6 +299,9 @@ impl Plan {
     pub fn validate(&self) -> Result<()> {
         uuid::Uuid::parse_str(&self.id)?;
         uuid::Uuid::parse_str(&self.connection)?;
+        if let Some(remote) = &self.remote {
+            remote.validate()?;
+        }
         if self.name.trim().is_empty() || self.name.len() > 120 {
             bail!("{}", tr("Enter a plan name (up to 120 characters)."));
         }

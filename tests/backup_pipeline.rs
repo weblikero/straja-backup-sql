@@ -1,5 +1,5 @@
 //! Real child-process/file pipeline with a deterministic client fixture; no SQL/network.
-use anyhow::{Result, ensure};
+use anyhow::{Context, Result, ensure};
 use chrono::Utc;
 use std::{
     fs,
@@ -61,6 +61,7 @@ fn main() -> Result<()> {
         connection: c.id.clone(),
         databases: vec!["magazin".into(), "Facturi 2026".into()],
         destination: temp.path().into(),
+        remote: None,
         schedule: Schedule::default(),
         compression: Compression::Gzip,
         keep_count: Some(1),
@@ -180,6 +181,52 @@ fn main() -> Result<()> {
     let runs = agent_store.runs()?;
     ensure!(runs[0].status == "Reușit");
     ensure!(engine::verify(runs[0].folder.as_ref().unwrap()).is_ok());
+    // A remote failure must persist an error and expose the verified local copy.
+    // Loopback closed port only; no external account or SQL server is contacted.
+    let socket = std::net::TcpListener::bind("127.0.0.1:0")?;
+    let port = socket.local_addr()?.port();
+    drop(socket);
+    p.remote = Some(straja_sql::destinations::Remote {
+        provider: straja_sql::destinations::Provider::Ftp,
+        host: "127.0.0.1".into(),
+        port,
+        user: "fixture".into(),
+        tls: false,
+        ..Default::default()
+    });
+    agent_store.save_plan_destination(&p, "fixture-secret")?;
+    agent_store.enqueue(&p)?;
+    let mut agent = ChildGuard(
+        std::process::Command::new(env!("CARGO_BIN_EXE_StrajaBackupSQL-Agent"))
+            .env("LOCALAPPDATA", &profile)
+            .spawn()?,
+    );
+    let started = std::time::Instant::now();
+    loop {
+        let runs = agent_store.runs()?;
+        if runs.first().is_some_and(|r| r.status == "Eroare") {
+            ensure!(
+                engine::verify(
+                    runs[0]
+                        .folder
+                        .as_ref()
+                        .context("Local copy missing after remote failure")?
+                )
+                .is_ok()
+            );
+            break;
+        }
+        ensure!(
+            started.elapsed().as_secs() < 30,
+            "Remote failure was not persisted"
+        );
+        std::thread::sleep(Duration::from_millis(100));
+    }
+    straja_sql::tray::request_stop(&root)?;
+    while agent.0.try_wait()?.is_none() {
+        ensure!(started.elapsed().as_secs() < 35);
+        std::thread::sleep(Duration::from_millis(100));
+    }
     println!(
         "backup_pipeline: progress, persisted state, metadata, named files, retention and failure preservation passed; no SQL servers used."
     );

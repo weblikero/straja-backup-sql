@@ -124,6 +124,7 @@ fn roundtrip(engine_kind: Engine, bin: PathBuf) -> Result<()> {
         connection: c.id.clone(),
         databases: vec!["straja_source".into()],
         destination: temp.path().into(),
+        remote: None,
         schedule: Schedule::default(),
         compression: Compression::Gzip,
         keep_count: Some(1),

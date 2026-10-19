@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — PRÉ-VISUALIZAÇÃO 0.1.10
+﻿StrajaBackupSQL — PRÉ-VISUALIZAÇÃO 0.1.11
 strajabackup.com
 
 Comece em quatro passos

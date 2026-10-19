@@ -7,6 +7,10 @@ $toolArgs = @((Join-Path $PSScriptRoot 'bundle_tools.py'), '--sources')
 if ($DownloadTools) { $toolArgs += '--download' }
 & $Python @toolArgs
 if ($LASTEXITCODE -ne 0) { throw 'Pregătirea/verificarea utilitarelor SQL a eșuat.' }
+$transferArgs = @((Join-Path $PSScriptRoot 'bundle_transfer.py'))
+if ($DownloadTools) { $transferArgs += '--download' }
+& $Python @transferArgs
+if ($LASTEXITCODE -ne 0) { throw 'Transfer tool verification failed.' }
 & (Join-Path $PSScriptRoot 'assets.ps1')
 if (!$SkipBuild) {
     $arguments = @('build','--locked')

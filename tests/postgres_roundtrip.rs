@@ -122,6 +122,7 @@ fn real_export_compress_verify_restore_and_source_unchanged() -> Result<()> {
         connection: c.id.clone(),
         databases: vec!["straja_source".into()],
         destination: temp.path().into(),
+        remote: None,
         schedule: Schedule::default(),
         compression: Compression::Gzip,
         keep_count: Some(1),

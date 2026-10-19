@@ -101,6 +101,10 @@ Tests cover translations, Unicode/placeholders, language persistence, constructi
 
 `scripts/package.ps1 -SkipBuild -TestVariant` creates a separate test installer AppId. Do not use this variant for normal installation.
 
+## Remote destinations
+
+Version 0.1.11 adds FTP/explicit FTPS, Google Drive, Dropbox and Amazon S3 per plan, alongside a verified local copy. The installer includes the pinned transfer client. OAuth accounts connect in the browser; credentials are protected by DPAPI. Uploads are streamed back for SHA-256 verification, and retention only removes verified app-owned files. See `docs/DESTINATIONS.en.txt` for setup, resource limits and provider acceptance tests.
+
 ## Release status
 
 Version 0.1.10 makes GitHub Releases the primary update source and adds a validated draft/upload/publish command (`scripts/publish-release.ps1`). See `docs/UPDATES.en.txt` for release commands. Version 0.1.9 displays the running build version beside the product name and icon in the Windows title bar. The version comes directly from package metadata. Version 0.1.8 reduces monitoring queries, bounds GUI worker pools and gives backup processing lower scheduling priority. It uses fast GZIP compression while preserving every integrity check. See `docs/VALIDATION-0.1.8.txt` and `docs/PERFORMANCE.en.txt` for coverage and synthetic measurements. The previous isolated installer execution test stalled before file copying/registration on the development workstation; its cause remains unresolved. Installation and uninstall still need validation on the separate test station.

@@ -1,0 +1,18 @@
+StrajaBackupSQL 0.1.11 - preview
+
+Added per-plan remote destinations: FTP / explicit FTPS, Google Drive, Dropbox and
+Amazon S3. The transfer client is bundled; no separate installation is required.
+
+Google Drive and Dropbox connect through browser authorization. FTP and S3 use
+provider-specific credential fields. Credentials are protected with Windows DPAPI.
+
+Backups are verified locally before upload. Remote copies are read back and checked
+with SHA-256 before success is reported. Activity shows upload/verification progress.
+Remote failures preserve the verified local backup and use existing email alerts.
+Count/age retention applies only to known, verified copies in the plan's own namespace.
+All destination controls are available in English, German, Spanish, Portuguese,
+French and Italian. Existing plans continue to use their local destinations.
+
+Unsigned preview. Native FTP was tested using localhost fixtures. Real cloud-account
+and FTPS acceptance tests, clean-station install/upgrade/uninstall and SQL restore
+validation remain pending. See docs/DESTINATIONS.en.txt for limits and setup.

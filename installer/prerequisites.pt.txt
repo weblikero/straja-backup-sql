@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — PRÉ-VISUALIZAÇÃO 0.1.10
+﻿StrajaBackupSQL — PRÉ-VISUALIZAÇÃO 0.1.11
 
 As ferramentas MariaDB, MySQL e PostgreSQL estão incluídas e são selecionadas automaticamente. Para outra versão, ative uma pasta personalizada nas opções avançadas da ligação.
 

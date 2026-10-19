@@ -35,3 +35,10 @@ Source archives are developer/distribution materials, not required for running t
 
 Bundled versions do not guarantee compatibility with every server version or plugin.
 A custom, compatible client directory can be selected in the advanced connection options.
+
+Remote transfer client: rclone 1.75.2, unmodified Windows x64 executable.
+Copyright Nick Craig-Wood and contributors. MIT license.
+Project: https://rclone.org/ ; source: https://github.com/rclone/rclone/tree/v1.75.2
+Original documentation and license: tools/transfer/README.txt, tools/transfer/COPYING.
+Pinned archive provenance: scripts/transfer-tool.lock.json; installed tools/manifest.json.
+The transfer client is private to StrajaBackupSQL and does not alter PATH or existing installations.

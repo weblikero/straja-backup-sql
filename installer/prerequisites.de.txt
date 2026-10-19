@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — VORSCHAU 0.1.10
+﻿StrajaBackupSQL — VORSCHAU 0.1.11
 
 MariaDB-, MySQL- und PostgreSQL-Werkzeuge sind enthalten und werden automatisch gewählt. Andere Versionen über einen eigenen Ordner in den erweiterten Verbindungsoptionen auswählen.
 

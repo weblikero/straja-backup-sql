@@ -1,3 +1,4 @@
+pub mod destinations;
 pub mod engine;
 pub mod i18n;
 pub mod mail;

@@ -11,6 +11,7 @@ use std::{
     path::PathBuf,
     time::Duration,
 };
+use straja_sql::destinations::{self, Authorized, Provider, Remote};
 use straja_sql::i18n::{self, Language, tr};
 use straja_sql::{
     engine, mail,
@@ -18,7 +19,7 @@ use straja_sql::{
     store::{self, Store},
     updates, worker,
 };
-use zeroize::Zeroize;
+use zeroize::{Zeroize, Zeroizing};
 
 const INK: Color = Color::from_rgb8(25, 40, 61);
 const MUTED: Color = Color::from_rgb8(107, 121, 139);
@@ -124,6 +125,11 @@ enum Msg {
     Engine(Engine),
     Frequency(Frequency),
     Compression(Compression),
+    DestinationProvider(Provider),
+    DestinationTls(bool),
+    AuthorizeDestination,
+    DestinationAuthorized(String, Result<Authorized, String>),
+    TestDestination,
     Tls(bool),
     CustomTools(bool),
     Notify(bool),
@@ -245,6 +251,11 @@ struct PlanForm {
     databases: Vec<String>,
     manual_dbs: String,
     destination: String,
+    remote: Remote,
+    remote_port: String,
+    remote_bandwidth: String,
+    remote_secret: Zeroizing<String>,
+    remote_saved: bool,
     frequency: Frequency,
     time: String,
     minutes: String,
@@ -269,6 +280,11 @@ impl Default for PlanForm {
             databases: vec![],
             manual_dbs: String::new(),
             destination: String::new(),
+            remote: Remote::default(),
+            remote_port: "21".into(),
+            remote_bandwidth: "0".into(),
+            remote_secret: Zeroizing::new(String::new()),
+            remote_saved: false,
             frequency: Frequency::Daily,
             time: "02:00".into(),
             minutes: "60".into(),
@@ -287,6 +303,15 @@ impl Default for PlanForm {
     }
 }
 impl PlanForm {
+    fn remote_model(&self) -> anyhow::Result<Remote> {
+        let r = Remote {
+            port: self.remote_port.parse()?,
+            bandwidth_mib: self.remote_bandwidth.parse()?,
+            ..self.remote.clone()
+        };
+        r.validate()?;
+        Ok(r)
+    }
     fn model(&self) -> anyhow::Result<Plan> {
         let (h, m) = self
             .time
@@ -344,6 +369,11 @@ impl PlanForm {
                 .clone(),
             databases,
             destination: PathBuf::from(&self.destination),
+            remote: if self.remote.provider == Provider::Local {
+                None
+            } else {
+                Some(self.remote_model()?)
+            },
             next_due: schedule.next_after(Utc::now()),
             schedule,
             compression: self.compression,
@@ -369,6 +399,16 @@ impl PlanForm {
             databases: p.databases.clone(),
             manual_dbs: String::new(),
             destination: p.destination.to_string_lossy().into(),
+            remote: p.remote.clone().unwrap_or_default(),
+            remote_port: p.remote.as_ref().map(|r| r.port).unwrap_or(21).to_string(),
+            remote_bandwidth: p
+                .remote
+                .as_ref()
+                .map(|r| r.bandwidth_mib)
+                .unwrap_or(0)
+                .to_string(),
+            remote_secret: Zeroizing::new(String::new()),
+            remote_saved: p.remote.is_some(),
             frequency: p.schedule.frequency,
             time: format!("{:02}:{:02}", p.schedule.hour, p.schedule.minute),
             minutes: p.schedule.minutes.to_string(),
@@ -667,6 +707,83 @@ impl App {
             }
             Msg::Frequency(f) => self.plan.frequency = f,
             Msg::Compression(c) => self.plan.compression = c,
+            Msg::DestinationProvider(provider) => {
+                self.plan.remote = Remote {
+                    provider,
+                    ..Remote::default()
+                };
+                self.plan.remote_port = "21".into();
+                self.plan.remote_secret.zeroize();
+                self.plan.remote_saved = false;
+            }
+            Msg::DestinationTls(tls) => self.plan.remote.tls = tls,
+            Msg::AuthorizeDestination => {
+                if self.busy {
+                    return Task::none();
+                }
+                self.plan.remote.id = uuid::Uuid::new_v4().to_string();
+                self.plan.remote_secret.zeroize();
+                self.plan.remote_saved = false;
+                let id = self.plan.remote.id.clone();
+                let provider = self.plan.remote.provider;
+                self.busy = true;
+                self.notice = tr(
+                    "Complete account authorization in your browser. This may take a few minutes.",
+                )
+                .into();
+                return Task::perform(
+                    async move {
+                        tokio::task::spawn_blocking(move || {
+                            destinations::authorize(provider).map_err(|e| format!("{e:#}"))
+                        })
+                        .await
+                        .unwrap_or_else(|e| Err(e.to_string()))
+                    },
+                    move |result| Msg::DestinationAuthorized(id.clone(), result),
+                );
+            }
+            Msg::DestinationAuthorized(id, result) => {
+                self.busy = false;
+                if self.plan.remote.id == id {
+                    match result {
+                        Ok(token) => {
+                            self.plan.remote_secret = token.0;
+                            self.notice =
+                                tr("Account connected. Save the plan to keep this authorization.")
+                                    .into();
+                            self.error = false;
+                        }
+                        Err(e) => self.result(Err(anyhow::anyhow!(e))),
+                    }
+                }
+            }
+            Msg::TestDestination => {
+                if self.busy {
+                    return Task::none();
+                }
+                let setup = (|| -> anyhow::Result<_> {
+                    let remote = self.plan.remote_model()?;
+                    let secret = if self.plan.remote_secret.is_empty() {
+                        Store::open(&self.root)?.secret(&remote.secret_key())?
+                    } else {
+                        self.plan.remote_secret.clone()
+                    };
+                    remote.validate_secret(&secret)?;
+                    Ok((remote, secret))
+                })();
+                match setup {
+                    Ok((remote, secret)) => {
+                        self.busy = true;
+                        return Task::perform(
+                            async move {
+                                tokio::task::spawn_blocking(move || destinations::test(&remote,&secret).map(|_|tr("Destination is reachable. Write access is verified during backup.").into()).map_err(|e|format!("{e:#}"))).await.unwrap_or_else(|e|Err(e.to_string()))
+                            },
+                            Msg::Done,
+                        );
+                    }
+                    Err(e) => self.result(Err(e)),
+                }
+            }
             Msg::Tls(v) => self.connection.tls = v,
             Msg::Notify(v) => self.plan.notify = v,
             Msg::ImplicitTls(v) => {
@@ -693,6 +810,14 @@ impl App {
                 "ca" => self.connection.ca = v,
                 "pn" => self.plan.name = v,
                 "dest" => self.plan.destination = v,
+                "remote_host" => self.plan.remote.host = v,
+                "remote_port" => self.plan.remote_port = v,
+                "remote_user" => self.plan.remote.user = v,
+                "remote_secret" => self.plan.remote_secret = Zeroizing::new(v),
+                "remote_path" => self.plan.remote.path = v,
+                "remote_region" => self.plan.remote.region = v,
+                "remote_bucket" => self.plan.remote.bucket = v,
+                "remote_bandwidth" => self.plan.remote_bandwidth = v,
                 "dbs" => self.plan.manual_dbs = v,
                 "table_filter" => {
                     self.table_filter = v;
@@ -754,10 +879,11 @@ impl App {
                     if p.notify {
                         mail::validate(&self.state.mail)?;
                     }
-                    Store::open(&self.root)?.save_plan(&p)?;
+                    Store::open(&self.root)?.save_plan_destination(&p, &self.plan.remote_secret)?;
                     Ok(tr("Plan saved. Start the agent for automatic backups.").into())
                 })();
                 if r.is_ok() {
+                    self.plan.remote_secret.zeroize();
                     self.page = Page::Plans;
                 }
                 self.result(r);
@@ -1532,9 +1658,14 @@ impl App {
                         )
                     ],
                     text(p.schedule.label()).size(14),
-                    text(p.destination.display().to_string())
-                        .size(12)
-                        .color(MUTED),
+                    text(
+                        p.remote
+                            .as_ref()
+                            .map(|r| r.label())
+                            .unwrap_or_else(|| p.destination.display().to_string())
+                    )
+                    .size(12)
+                    .color(MUTED),
                     text(i18n::format(
                         "{0}  ·  Retention: {1} copies / {2} days  ·  Email: {3}",
                         &[
@@ -1815,7 +1946,144 @@ impl App {
             &f.timezone,
             "tz",
         ));
-        card(column![text(tr("01   What to protect")).size(18),field(tr("Plan name"),tr("Daily backup · production"),&f.name,"pn"),row![column![label(tr("Connection")),pick_list(choices,f.connection.clone(),Msg::SelectConnection).placeholder(tr("Choose connection")).width(Fill).padding(10)].spacing(7).width(Fill),button(tr("Read databases")).on_press_maybe(if self.busy{None}else{f.connection.as_ref().map(|c|Msg::Discover(c.id.clone()))}).style(button::secondary)].spacing(15).align_y(iced::Alignment::End),databases,field(tr("Or add exact names separated by ;"),tr("shop; billing"),&f.manual_dbs,"dbs"),text(tr("02   Where and when")).size(18),path_field(tr("Destination folder (local or UNC)"),&f.destination,"dest"),schedule,text(tr("New plans use UTC. Choose the IANA time zone for your schedule, for example Europe/Berlin or America/New_York.")).size(12).color(MUTED),text(tr("03   Compression and retention")).size(18),pick_list([Compression::Gzip,Compression::None],Some(f.compression),Msg::Compression).padding(10),row![field(tr("Keep at most N copies · blank = all"),tr("Unlimited"),&f.count,"count"),field(tr("Keep at most N days · blank = all"),tr("Unlimited"),&f.days,"days")].spacing(20),text(tr("Retention runs only after a verified backup. The newest copy is always kept. If both limits are set, copies exceeding either limit expire.")).size(12).color(MUTED),field(tr("Maximum export duration, in minutes"),"120",&f.timeout,"timeout"),checkbox(f.notify).label(tr("Email on backup failure (configure SMTP in Settings)")).on_toggle(Msg::Notify),row![button(tr("Save plan")).padding([11,18]).on_press(Msg::SavePlan),button(tr("Back")).on_press(Msg::Page(Page::Plans)).style(button::text)].spacing(15)].spacing(20))
+        card(column![text(tr("01   What to protect")).size(18),field(tr("Plan name"),tr("Daily backup · production"),&f.name,"pn"),row![column![label(tr("Connection")),pick_list(choices,f.connection.clone(),Msg::SelectConnection).placeholder(tr("Choose connection")).width(Fill).padding(10)].spacing(7).width(Fill),button(tr("Read databases")).on_press_maybe(if self.busy{None}else{f.connection.as_ref().map(|c|Msg::Discover(c.id.clone()))}).style(button::secondary)].spacing(15).align_y(iced::Alignment::End),databases,field(tr("Or add exact names separated by ;"),tr("shop; billing"),&f.manual_dbs,"dbs"),text(tr("02   Where and when")).size(18),self.destination_form(),schedule,text(tr("New plans use UTC. Choose the IANA time zone for your schedule, for example Europe/Berlin or America/New_York.")).size(12).color(MUTED),text(tr("03   Compression and retention")).size(18),pick_list([Compression::Gzip,Compression::None],Some(f.compression),Msg::Compression).padding(10),row![field(tr("Keep at most N copies · blank = all"),tr("Unlimited"),&f.count,"count"),field(tr("Keep at most N days · blank = all"),tr("Unlimited"),&f.days,"days")].spacing(20),text(tr("Retention runs only after a verified backup. The newest copy is always kept. If both limits are set, copies exceeding either limit expire.")).size(12).color(MUTED),field(tr("Maximum export duration, in minutes"),"120",&f.timeout,"timeout"),checkbox(f.notify).label(tr("Email on backup failure (configure SMTP in Settings)")).on_toggle(Msg::Notify),row![button(tr("Save plan")).padding([11,18]).on_press(Msg::SavePlan),button(tr("Back")).on_press(Msg::Page(Page::Plans)).style(button::text)].spacing(15)].spacing(20))
+    }
+    fn destination_form(&self) -> Element<'_, Msg> {
+        let f = &self.plan;
+        let mut c = column![
+            label(tr("Backup destination")),
+            pick_list(
+                Provider::ALL,
+                Some(f.remote.provider),
+                Msg::DestinationProvider
+            )
+            .padding(10)
+            .width(Fill)
+        ]
+        .spacing(14);
+        c = c.push(path_field(
+            if f.remote.provider == Provider::Local {
+                tr("Destination folder (local or UNC)")
+            } else {
+                tr("Local backup folder before upload")
+            },
+            &f.destination,
+            "dest",
+        ));
+        if f.remote.provider == Provider::Local {
+            return c.into();
+        }
+        c=c.push(text(tr("A verified local copy is kept. Remote verification reads the uploaded files back and may incur download charges.")).size(12).color(MUTED));
+        match f.remote.provider {
+            Provider::Ftp => {
+                c = c
+                    .push(
+                        row![
+                            field(
+                                tr("FTP server"),
+                                "ftp.example.com",
+                                &f.remote.host,
+                                "remote_host"
+                            ),
+                            field(tr("Port"), "21", &f.remote_port, "remote_port")
+                        ]
+                        .spacing(16),
+                    )
+                    .push(
+                        row![
+                            field(tr("Username"), "backup", &f.remote.user, "remote_user"),
+                            secret(
+                                tr("Password · blank keeps the saved password"),
+                                &f.remote_secret,
+                                "remote_secret"
+                            )
+                        ]
+                        .spacing(16),
+                    )
+                    .push(
+                        checkbox(f.remote.tls)
+                            .label(tr("Require explicit FTPS (TLS, verified certificate)"))
+                            .on_toggle(Msg::DestinationTls),
+                    );
+                if !f.remote.tls {
+                    c = c.push(
+                        text(tr(
+                            "Plain FTP sends credentials and backup data without encryption.",
+                        ))
+                        .size(12)
+                        .color(MUTED),
+                    );
+                }
+            }
+            Provider::S3 => {
+                c = c
+                    .push(
+                        row![
+                            field(
+                                tr("S3 bucket"),
+                                "company-backups",
+                                &f.remote.bucket,
+                                "remote_bucket"
+                            ),
+                            field(
+                                tr("AWS region"),
+                                "eu-central-1",
+                                &f.remote.region,
+                                "remote_region"
+                            )
+                        ]
+                        .spacing(16),
+                    )
+                    .push(field(
+                        tr("Access key ID"),
+                        "AKIA...",
+                        &f.remote.user,
+                        "remote_user",
+                    ))
+                    .push(secret(
+                        tr("Secret access key · blank keeps the saved key"),
+                        &f.remote_secret,
+                        "remote_secret",
+                    ));
+            }
+            Provider::GoogleDrive | Provider::Dropbox => {
+                c = c
+                    .push(
+                        text(if !f.remote_secret.is_empty() {
+                            tr("Account connected. Save the plan to keep this authorization.")
+                        } else if f.remote_saved {
+                            tr("Saved account authorization")
+                        } else {
+                            tr("Connect your account to enable scheduled uploads.")
+                        })
+                        .size(13),
+                    )
+                    .push(
+                        button(tr("Connect account in browser"))
+                            .on_press_maybe((!self.busy).then_some(Msg::AuthorizeDestination)),
+                    );
+            }
+            Provider::Local => {}
+        }
+        c = c
+            .push(field(
+                tr("Remote folder / prefix"),
+                "Backups",
+                &f.remote.path,
+                "remote_path",
+            ))
+            .push(field(
+                tr("Transfer limit (MiB/s) · 0 = unlimited"),
+                "0",
+                &f.remote_bandwidth,
+                "remote_bandwidth",
+            ))
+            .push(
+                button(tr("Test destination"))
+                    .on_press_maybe((!self.busy).then_some(Msg::TestDestination))
+                    .style(button::secondary),
+            );
+        c.into()
     }
     fn available_update(&self) -> Option<&updates::Release> {
         self.update_preferences
@@ -2090,8 +2358,28 @@ mod explorer_tests {
                 app.page = page;
                 let _view = app.view();
             }
+            for provider in Provider::ALL {
+                app.plan.remote.provider = provider;
+                app.page = Page::PlanForm;
+                let _view = app.view();
+            }
         }
         i18n::set(Language::English);
+    }
+    #[test]
+    fn switching_destinations_discards_credentials_and_late_authorization() {
+        let mut app = app();
+        let _ = app.update(Msg::DestinationProvider(Provider::GoogleDrive));
+        let previous = app.plan.remote.id.clone();
+        app.plan.remote_secret = Zeroizing::new("old-secret".into());
+        let _ = app.update(Msg::DestinationProvider(Provider::S3));
+        assert!(app.plan.remote_secret.is_empty());
+        let _ = app.update(Msg::DestinationAuthorized(
+            previous,
+            Ok(Authorized(Zeroizing::new("late-token".into()))),
+        ));
+        assert!(app.plan.remote_secret.is_empty());
+        assert_eq!(app.plan.remote.provider, Provider::S3);
     }
     #[test]
     fn update_notice_can_be_dismissed_and_manual_check_overrides_automatic_preference() {

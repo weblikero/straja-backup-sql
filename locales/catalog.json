@@ -2502,5 +2502,293 @@
     "As atualizações são disponibilizadas através das versões oficiais do StrajaBackupSQL no GitHub.",
     "Les mises à jour sont proposées via les versions officielles de StrajaBackupSQL sur GitHub.",
     "Gli aggiornamenti sono disponibili tramite le versioni ufficiali di StrajaBackupSQL su GitHub."
+  ],
+  "Local folder / network share": [
+    "Local folder / network share",
+    "Lokaler Ordner / Netzwerkfreigabe",
+    "Carpeta local / recurso de red",
+    "Pasta local / partilha de rede",
+    "Dossier local / partage réseau",
+    "Cartella locale / condivisione di rete"
+  ],
+  "Invalid destination settings.": [
+    "Invalid destination settings.",
+    "Ungültige Zieleinstellungen.",
+    "Configuración de destino no válida.",
+    "Definições de destino inválidas.",
+    "Paramètres de destination non valides.",
+    "Impostazioni di destinazione non valide."
+  ],
+  "Use a relative remote folder without .. or a drive letter.": [
+    "Use a relative remote folder without .. or a drive letter.",
+    "Verwenden Sie einen relativen Remote-Ordner ohne .. oder Laufwerksbuchstaben.",
+    "Use una carpeta remota relativa sin .. ni letra de unidad.",
+    "Utilize uma pasta remota relativa sem .. nem letra de unidade.",
+    "Utilisez un dossier distant relatif sans .. ni lettre de lecteur.",
+    "Usare una cartella remota relativa senza .. o lettera di unità."
+  ],
+  "Enter destination credentials or connect your account.": [
+    "Enter destination credentials or connect your account.",
+    "Geben Sie die Zugangsdaten ein oder verbinden Sie Ihr Konto.",
+    "Introduzca las credenciales del destino o conecte su cuenta.",
+    "Introduza as credenciais do destino ou ligue a sua conta.",
+    "Saisissez les identifiants de destination ou connectez votre compte.",
+    "Inserire le credenziali di destinazione o collegare l'account."
+  ],
+  "Connect your account again to allow scheduled backups.": [
+    "Connect your account again to allow scheduled backups.",
+    "Verbinden Sie Ihr Konto erneut, um geplante Sicherungen zu ermöglichen.",
+    "Vuelva a conectar su cuenta para permitir copias programadas.",
+    "Volte a ligar a sua conta para permitir cópias agendadas.",
+    "Reconnectez votre compte pour autoriser les sauvegardes planifiées.",
+    "Ricollegare l'account per consentire i backup pianificati."
+  ],
+  "The bundled transfer tool is missing. Reinstall the complete package.": [
+    "The bundled transfer tool is missing. Reinstall the complete package.",
+    "Das mitgelieferte Übertragungsprogramm fehlt. Installieren Sie das vollständige Paket erneut.",
+    "Falta la herramienta de transferencia incluida. Reinstale el paquete completo.",
+    "Falta a ferramenta de transferência incluída. Reinstale o pacote completo.",
+    "L'outil de transfert intégré est manquant. Réinstallez le package complet.",
+    "Lo strumento di trasferimento incluso è assente. Reinstallare il pacchetto completo."
+  ],
+  "Could not start the transfer tool.": [
+    "Could not start the transfer tool.",
+    "Das Übertragungsprogramm konnte nicht gestartet werden.",
+    "No se pudo iniciar la herramienta de transferencia.",
+    "Não foi possível iniciar a ferramenta de transferência.",
+    "Impossible de démarrer l'outil de transfert.",
+    "Impossibile avviare lo strumento di trasferimento."
+  ],
+  "Destination operation timed out or exceeded its output limit.": [
+    "Destination operation timed out or exceeded its output limit.",
+    "Der Zielvorgang hat das Zeit- oder Ausgabelimit überschritten.",
+    "La operación de destino superó el tiempo o el límite de salida.",
+    "A operação no destino excedeu o tempo ou o limite de saída.",
+    "L'opération de destination a dépassé le délai ou la limite de sortie.",
+    "L'operazione di destinazione ha superato il tempo o il limite di output."
+  ],
+  "Destination operation failed. Check credentials, permissions, free space and network.": [
+    "Destination operation failed. Check credentials, permissions, free space and network.",
+    "Zielvorgang fehlgeschlagen. Prüfen Sie Zugangsdaten, Berechtigungen, freien Speicher und Netzwerk.",
+    "Falló la operación de destino. Compruebe credenciales, permisos, espacio libre y red.",
+    "A operação no destino falhou. Verifique credenciais, permissões, espaço livre e rede.",
+    "Échec de l'opération de destination. Vérifiez les identifiants, les autorisations, l'espace libre et le réseau.",
+    "Operazione di destinazione non riuscita. Controllare credenziali, autorizzazioni, spazio libero e rete."
+  ],
+  "Account authorization did not return a token.": [
+    "Account authorization did not return a token.",
+    "Die Kontoautorisierung hat kein Token zurückgegeben.",
+    "La autorización de la cuenta no devolvió un token.",
+    "A autorização da conta não devolveu um token.",
+    "L'autorisation du compte n'a pas renvoyé de jeton.",
+    "L'autorizzazione dell'account non ha restituito un token."
+  ],
+  "Remote backup integrity verification failed.": [
+    "Remote backup integrity verification failed.",
+    "Die Integritätsprüfung der Remote-Sicherung ist fehlgeschlagen.",
+    "Falló la verificación de integridad de la copia remota.",
+    "A verificação de integridade da cópia remota falhou.",
+    "Échec de la vérification d'intégrité de la sauvegarde distante.",
+    "Verifica dell'integrità del backup remoto non riuscita."
+  ],
+  "Remote retention refused unexpected files.": [
+    "Remote retention refused unexpected files.",
+    "Die Remote-Aufbewahrung wurde wegen unerwarteter Dateien abgebrochen.",
+    "La retención remota se detuvo por archivos inesperados.",
+    "A retenção remota foi interrompida devido a ficheiros inesperados.",
+    "La rétention distante a été interrompue en raison de fichiers inattendus.",
+    "La conservazione remota è stata interrotta per file inattesi."
+  ],
+  "Complete account authorization in your browser. This may take a few minutes.": [
+    "Complete account authorization in your browser. This may take a few minutes.",
+    "Schließen Sie die Kontoautorisierung im Browser ab. Dies kann einige Minuten dauern.",
+    "Complete la autorización de la cuenta en el navegador. Puede tardar unos minutos.",
+    "Conclua a autorização da conta no navegador. Pode demorar alguns minutos.",
+    "Terminez l'autorisation du compte dans votre navigateur. Cela peut prendre quelques minutes.",
+    "Completare l'autorizzazione dell'account nel browser. Potrebbe richiedere qualche minuto."
+  ],
+  "Account connected. Save the plan to keep this authorization.": [
+    "Account connected. Save the plan to keep this authorization.",
+    "Konto verbunden. Speichern Sie den Plan, um diese Autorisierung zu behalten.",
+    "Cuenta conectada. Guarde el plan para conservar esta autorización.",
+    "Conta ligada. Guarde o plano para manter esta autorização.",
+    "Compte connecté. Enregistrez le plan pour conserver cette autorisation.",
+    "Account collegato. Salvare il piano per conservare questa autorizzazione."
+  ],
+  "Destination is reachable. Write access is verified during backup.": [
+    "Destination is reachable. Write access is verified during backup.",
+    "Das Ziel ist erreichbar. Der Schreibzugriff wird bei der Sicherung geprüft.",
+    "El destino es accesible. El permiso de escritura se verifica durante la copia.",
+    "O destino está acessível. O acesso de escrita é verificado durante a cópia.",
+    "La destination est accessible. L'accès en écriture est vérifié pendant la sauvegarde.",
+    "La destinazione è raggiungibile. L'accesso in scrittura viene verificato durante il backup."
+  ],
+  "Backup destination": [
+    "Backup destination",
+    "Sicherungsziel",
+    "Destino de la copia",
+    "Destino da cópia",
+    "Destination de sauvegarde",
+    "Destinazione del backup"
+  ],
+  "Local backup folder before upload": [
+    "Local backup folder before upload",
+    "Lokaler Sicherungsordner vor dem Upload",
+    "Carpeta local de copia antes de subir",
+    "Pasta local de cópia antes do envio",
+    "Dossier de sauvegarde local avant l'envoi",
+    "Cartella di backup locale prima del caricamento"
+  ],
+  "A verified local copy is kept. Remote verification reads the uploaded files back and may incur download charges.": [
+    "A verified local copy is kept. Remote verification reads the uploaded files back and may incur download charges.",
+    "Eine geprüfte lokale Kopie bleibt erhalten. Die Remote-Prüfung liest die hochgeladenen Dateien zurück und kann Downloadkosten verursachen.",
+    "Se conserva una copia local verificada. La verificación remota vuelve a leer los archivos subidos y puede generar cargos de descarga.",
+    "É mantida uma cópia local verificada. A verificação remota volta a ler os ficheiros enviados e pode gerar custos de transferência.",
+    "Une copie locale vérifiée est conservée. La vérification distante relit les fichiers envoyés et peut entraîner des frais de téléchargement.",
+    "Viene conservata una copia locale verificata. La verifica remota rilegge i file caricati e può comportare costi di download."
+  ],
+  "FTP server": [
+    "FTP server",
+    "FTP-Server",
+    "Servidor FTP",
+    "Servidor FTP",
+    "Serveur FTP",
+    "Server FTP"
+  ],
+  "Require explicit FTPS (TLS, verified certificate)": [
+    "Require explicit FTPS (TLS, verified certificate)",
+    "Explizites FTPS verlangen (TLS, geprüftes Zertifikat)",
+    "Exigir FTPS explícito (TLS, certificado verificado)",
+    "Exigir FTPS explícito (TLS, certificado verificado)",
+    "Exiger FTPS explicite (TLS, certificat vérifié)",
+    "Richiedere FTPS esplicito (TLS, certificato verificato)"
+  ],
+  "Plain FTP sends credentials and backup data without encryption.": [
+    "Plain FTP sends credentials and backup data without encryption.",
+    "Unverschlüsseltes FTP überträgt Zugangsdaten und Sicherungsdaten ohne Verschlüsselung.",
+    "FTP simple envía credenciales y datos de copia sin cifrar.",
+    "O FTP simples envia credenciais e dados de cópia sem encriptação.",
+    "Le FTP simple transmet les identifiants et les données de sauvegarde sans chiffrement.",
+    "FTP semplice invia credenziali e dati di backup senza crittografia."
+  ],
+  "S3 bucket": [
+    "S3 bucket",
+    "S3-Bucket",
+    "Bucket S3",
+    "Bucket S3",
+    "Bucket S3",
+    "Bucket S3"
+  ],
+  "AWS region": [
+    "AWS region",
+    "AWS-Region",
+    "Región de AWS",
+    "Região AWS",
+    "Région AWS",
+    "Regione AWS"
+  ],
+  "Access key ID": [
+    "Access key ID",
+    "Zugriffsschlüssel-ID",
+    "ID de clave de acceso",
+    "ID da chave de acesso",
+    "ID de clé d'accès",
+    "ID chiave di accesso"
+  ],
+  "Secret access key · blank keeps the saved key": [
+    "Secret access key · blank keeps the saved key",
+    "Geheimer Zugriffsschlüssel · leer behält den gespeicherten Schlüssel",
+    "Clave de acceso secreta · vacío conserva la clave guardada",
+    "Chave de acesso secreta · vazio mantém a chave guardada",
+    "Clé d'accès secrète · vide conserve la clé enregistrée",
+    "Chiave di accesso segreta · vuoto conserva la chiave salvata"
+  ],
+  "Saved account authorization": [
+    "Saved account authorization",
+    "Gespeicherte Kontoautorisierung",
+    "Autorización de cuenta guardada",
+    "Autorização da conta guardada",
+    "Autorisation du compte enregistrée",
+    "Autorizzazione dell'account salvata"
+  ],
+  "Connect your account to enable scheduled uploads.": [
+    "Connect your account to enable scheduled uploads.",
+    "Verbinden Sie Ihr Konto für geplante Uploads.",
+    "Conecte su cuenta para activar subidas programadas.",
+    "Ligue a sua conta para ativar envios agendados.",
+    "Connectez votre compte pour activer les envois planifiés.",
+    "Collegare l'account per abilitare i caricamenti pianificati."
+  ],
+  "Connect account in browser": [
+    "Connect account in browser",
+    "Konto im Browser verbinden",
+    "Conectar cuenta en el navegador",
+    "Ligar conta no navegador",
+    "Connecter le compte dans le navigateur",
+    "Collega account nel browser"
+  ],
+  "Remote folder / prefix": [
+    "Remote folder / prefix",
+    "Remote-Ordner / Präfix",
+    "Carpeta remota / prefijo",
+    "Pasta remota / prefixo",
+    "Dossier distant / préfixe",
+    "Cartella remota / prefisso"
+  ],
+  "Transfer limit (MiB/s) · 0 = unlimited": [
+    "Transfer limit (MiB/s) · 0 = unlimited",
+    "Übertragungslimit (MiB/s) · 0 = unbegrenzt",
+    "Límite de transferencia (MiB/s) · 0 = ilimitado",
+    "Limite de transferência (MiB/s) · 0 = ilimitado",
+    "Limite de transfert (MiB/s) · 0 = illimité",
+    "Limite di trasferimento (MiB/s) · 0 = illimitato"
+  ],
+  "Test destination": [
+    "Test destination",
+    "Ziel testen",
+    "Probar destino",
+    "Testar destino",
+    "Tester la destination",
+    "Verifica destinazione"
+  ],
+  "Remote destination failed; the verified local backup was kept.": [
+    "Remote destination failed; the verified local backup was kept.",
+    "Remote-Ziel fehlgeschlagen; die geprüfte lokale Sicherung wurde behalten.",
+    "Falló el destino remoto; se conservó la copia local verificada.",
+    "O destino remoto falhou; a cópia local verificada foi mantida.",
+    "Échec de la destination distante ; la sauvegarde locale vérifiée a été conservée.",
+    "Destinazione remota non riuscita; il backup locale verificato è stato conservato."
+  ],
+  "Remote copy uploaded and SHA-256 verified by reading it back.": [
+    "Remote copy uploaded and SHA-256 verified by reading it back.",
+    "Remote-Kopie hochgeladen und durch erneutes Lesen mit SHA-256 geprüft.",
+    "Copia remota subida y verificada con SHA-256 mediante una nueva lectura.",
+    "Cópia remota enviada e verificada com SHA-256 através de nova leitura.",
+    "Copie distante envoyée et vérifiée avec SHA-256 par relecture.",
+    "Copia remota caricata e verificata con SHA-256 tramite rilettura."
+  ],
+  "Uploading backup": [
+    "Uploading backup",
+    "Sicherung wird hochgeladen",
+    "Subiendo copia de seguridad",
+    "A enviar cópia de segurança",
+    "Envoi de la sauvegarde",
+    "Caricamento del backup"
+  ],
+  "Verifying remote backup": [
+    "Verifying remote backup",
+    "Remote-Sicherung wird geprüft",
+    "Verificando copia remota",
+    "A verificar cópia remota",
+    "Vérification de la sauvegarde distante",
+    "Verifica del backup remoto"
+  ],
+  "Remote retention": [
+    "Remote retention",
+    "Remote-Aufbewahrung",
+    "Retención remota",
+    "Retenção remota",
+    "Rétention distante",
+    "Conservazione remota"
   ]
 }

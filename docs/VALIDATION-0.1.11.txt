@@ -1,0 +1,32 @@
+StrajaBackupSQL 0.1.11 validation - 2026-10-19
+
+Passed:
+- Safe Rust suite: 16 library tests, 5 GUI tests, 17 core tests, 1 local SMTP
+  fixture and 1 fake SQL backup pipeline (40 checks).
+- Separate native rclone integration test against an isolated localhost FTP
+  fixture: upload, SHA-256 readback, count retention, foreign-file refusal,
+  altered archive detection and bad credentials with the local backup preserved.
+- Fake SQL agent pipeline confirms remote failure records the verified local
+  backup folder and preserves it for recovery.
+- Destination forms constructed in all six languages for all five provider choices.
+- All 349 catalog messages validated in all six languages.
+- cargo fmt and clippy --locked --all-targets -D warnings.
+- Pinned rclone 1.75.2 archive verified against the official release SHA-256;
+  app-local tool manifest and Windows dependency checks passed.
+- Release binaries and normal Inno installer compiled successfully.
+
+Behavior:
+- One remote destination plus a verified local copy per plan. Upload and readback
+  progress, configurable bandwidth, encrypted credentials and remote retention.
+- Retention touches only individually identified, verified files in the plan's
+  destination namespace. Unknown or changed files stop cleanup.
+- Remote failure keeps the local backup and uses existing failure email handling.
+- Transfer tools are private to this product; no system PATH changes are required.
+
+Limits:
+- Installer is unsigned. This build is a preview, not an accepted stable release.
+- Real Google Drive, Dropbox, Amazon S3 and certificate-based FTPS tests remain
+  pending; no cloud account credentials were supplied or accessed during testing.
+- Clean-station install/upgrade/uninstall and real SQL restore tests remain pending.
+- No installed SQL services, real databases or system PATH were modified.
+- See DESTINATIONS.en.txt for OAuth scope, transfer costs and recovery limitations.

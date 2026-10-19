@@ -1,0 +1,76 @@
+StrajaBackupSQL - Remote backup destinations (0.1.11)
+
+SETUP
+Edit or create a plan and select Backup destination: Local folder / network share,
+FTP / FTPS, Google Drive, Dropbox, or Amazon S3. Existing plans remain local.
+Each plan has one remote destination in addition to its verified local backup.
+The local folder is required for export, compression, verification and recovery.
+
+FTP: enter server, port and username/password. Explicit FTPS with verified TLS
+certificates is enabled by default (normally port 21). Disable it only for a plain
+FTP server: plain FTP does not encrypt credentials or backup data. Implicit FTPS
+and SFTP are not part of this version.
+
+Google Drive / Dropbox: select Connect account in browser and complete the provider
+consent page. The bundled rclone client performs OAuth; the consent screen identifies
+rclone. Save the plan to persist the authorization. Google Drive uses drive.file
+scope and folders/files created through this app's transfer client. Access to an
+arbitrary existing/shared Drive folder is not provided. Reconnect if access is
+revoked. No provider password is entered into StrajaBackupSQL. A refresh token is
+required for scheduled backups. Tokens are supplied in memory to each child process;
+Google/Dropbox renew access tokens using the saved refresh token for each operation.
+
+Amazon S3: enter an existing bucket, its AWS region, access key ID and secret key.
+Use a dedicated IAM identity restricted to the backup prefix, with ListBucket and
+object read/write/delete permissions needed for verification and retention. This
+version uses static credentials, not temporary STS session tokens or custom S3
+endpoints. No bucket is created automatically.
+
+Enter a relative Remote folder / prefix (no URL, drive letter or .. components).
+Files are isolated under that prefix / straja-plan-PLAN-ID / DESTINATION-ID /
+backup-RUN-ID. Reconnecting a cloud account creates a new destination identity.
+Test destination is read-only; it confirms root/bucket access, not write permission.
+Write/read/delete permissions are exercised only during backup and retention.
+
+TRANSFER AND VERIFICATION
+The original database filenames are preserved. After local SHA-256/GZIP verification,
+archives upload sequentially. Every uploaded archive is then streamed back and
+checked against its SHA-256 and byte length. The manifest uploads last and is also
+read back. Success means both the local backup and the remote copy were verified.
+This does not prove SQL restore correctness; restore testing remains necessary.
+Full readback consumes download bandwidth and may incur provider egress charges.
+Compression is not encryption at rest; credentials are encrypted, backup files are
+ordinary SQL/GZIP files subject to the provider's storage controls.
+
+Activity shows upload and remote-verification byte progress. Credentials are stored
+with Windows user DPAPI; they are never passed as command-line arguments or written
+as a plaintext rclone configuration. The bundled client uses an in-memory config,
+not an existing rclone profile. Raw client logs and authorization URLs are not saved.
+The app uses one transfer, one checker, small buffers, at most two Go execution threads
+and a 128 MiB Go soft memory target (not a hard total RAM ceiling). A MiB/s bandwidth
+limit can be set per plan; 0 means unlimited. The configured maximum export duration
+also bounds the complete remote-transfer/retention stage, with a 90-second idle timeout.
+
+FAILURE AND RETENTION
+Transfer/readback/remote-retention failures mark the run as failed and keep the
+verified local folder available through Open backup. Existing SMTP failure alerts
+also apply. Local retention is skipped on remote failure. A failed upload can leave
+an incomplete remote folder; it has no verified completion manifest and is not
+claimed as a complete remote backup. A new run exports and uploads a new backup.
+
+The plan's count/age policy applies separately to verified local and remote copies.
+The newest remote copy is always retained. Remote retention uses local receipts
+of verified uploads; it does not sweep the account or infer ownership from filenames.
+Before deletion, it checks the exact file listing, manifest and every surviving file
+by SHA-256 readback. Foreign, changed or unknown files stop retention. Only individual
+owned files and their exact empty folder are removed. Interrupted cleanup is recorded
+and can resume after the next verified upload. Lost receipts, changed destinations
+and incomplete uploads are preserved for manual review, not automatically deleted.
+Provider versioning/trash policies can retain older object versions and consume space.
+
+TESTING
+The native client was exercised against an isolated localhost FTP fixture with fake
+SQL exports: upload, streamed verification, retention, foreign-file refusal and bad
+credentials. Google Drive, Dropbox, Amazon S3 and FTPS with a real certificate still
+require acceptance testing using your accounts on the separate test station.
+No installed SQL services or real databases are used by these tests.

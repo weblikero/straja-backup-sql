@@ -12,12 +12,27 @@ fn execute(root: &Path, id: &str, plan_id: &str) -> Result<()> {
     let _background = crate::resources::BackgroundWork::enter();
     let store = Store::open(root)?;
     let plan: Plan = store.get("plan", plan_id)?;
-    let result = (|| {
+    let mut completed_folder = None;
+    let result: Result<PathBuf> = (|| {
         let connection: Connection = store.get("connection", &plan.connection)?;
         let password = store.secret(&connection.id)?;
-        engine::backup_with_progress(&plan, &connection, &password, id, &mut |progress| {
-            let _ = store.put("progress", id, &progress);
-        })
+        let folder =
+            engine::backup_with_progress(&plan, &connection, &password, id, &mut |progress| {
+                let _ = store.put("progress", id, &progress);
+            })?;
+        completed_folder = Some(folder.clone());
+        if plan.remote.is_some() {
+            crate::destinations::transfer(&plan, &folder, &store, &mut |progress| {
+                let _ = store.put("progress", id, &progress);
+            })
+            .map_err(|e| {
+                anyhow::anyhow!(
+                    "{} {e:#}",
+                    tr("Remote destination failed; the verified local backup was kept.")
+                )
+            })?;
+        }
+        Ok(folder)
     })();
     match result {
         Ok(folder) => {
@@ -34,7 +49,7 @@ fn execute(root: &Path, id: &str, plan_id: &str) -> Result<()> {
                     updated: Utc::now(),
                 },
             );
-            let detail = match engine::retention(&plan, &folder, Utc::now()) {
+            let mut detail = match engine::retention(&plan, &folder, Utc::now()) {
                 Ok(n) => i18n::format(
                     "Databases exported: {0}. SHA-256 and reread verified. Expired copies removed: {1}. Verification does not include a restore on a test server.",
                     &[(plan.databases.len()).to_string(), (n).to_string()],
@@ -44,12 +59,18 @@ fn execute(root: &Path, id: &str, plan_id: &str) -> Result<()> {
                     &[format!("{:#}", e)],
                 ),
             };
+            if plan.remote.is_some() {
+                detail.push_str(&format!(
+                    " {}",
+                    tr("Remote copy uploaded and SHA-256 verified by reading it back.")
+                ));
+            }
             store.finish(id, "Reușit", &detail, Some(&folder))?;
         }
         Err(e) => {
             let detail = format!("{e:#}");
             // Persist failure before trying SMTP, so a mail outage cannot hide a backup failure.
-            store.finish(id, "Eroare", &detail, None)?;
+            store.finish(id, "Eroare", &detail, completed_folder.as_deref())?;
             if plan.notify {
                 let sent = (|| -> Result<()> {
                     let settings = store.get("settings", "mail")?;
@@ -75,7 +96,12 @@ fn execute(root: &Path, id: &str, plan_id: &str) -> Result<()> {
                     Ok(()) => tr("Alert email sent.").to_string(),
                     Err(e) => i18n::format("Alert email was NOT sent: {0}", &[format!("{:#}", e)]),
                 };
-                store.finish(id, "Eroare", &format!("{detail}\n{notification}"), None)?;
+                store.finish(
+                    id,
+                    "Eroare",
+                    &format!("{detail}\n{notification}"),
+                    completed_folder.as_deref(),
+                )?;
             }
         }
     }
