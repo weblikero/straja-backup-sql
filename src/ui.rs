@@ -1847,7 +1847,7 @@ impl App {
                 );
             let status = match self.update_status {
                 UpdateStatus::Idle => {
-                    tr("Updates are provided by strajabackup.com for StrajaBackupSQL.")
+                    tr("Updates are provided through the official StrajaBackupSQL GitHub releases.")
                 }
                 UpdateStatus::Checking => tr("Checking for updates…"),
                 UpdateStatus::Current => {

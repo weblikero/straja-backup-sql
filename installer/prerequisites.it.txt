@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — ANTEPRIMA 0.1.9
+﻿StrajaBackupSQL — ANTEPRIMA 0.1.10
 
 Gli strumenti MariaDB, MySQL e PostgreSQL sono inclusi e selezionati automaticamente. Per un’altra versione, attiva una cartella personalizzata nelle opzioni avanzate della connessione.
 

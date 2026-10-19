@@ -1,6 +1,6 @@
 [package]
 name = "straja-sql"
-version = "0.1.9"
+version = "0.1.10"
 edition = "2024"
 description = "Windows SQL backup manager"
 

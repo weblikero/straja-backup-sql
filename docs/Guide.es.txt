@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — VERSIÓN PRELIMINAR 0.1.9
+﻿StrajaBackupSQL — VERSIÓN PRELIMINAR 0.1.10
 strajabackup.com
 
 Empiece en cuatro pasos

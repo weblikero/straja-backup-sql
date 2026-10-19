@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — VERSION PRÉLIMINAIRE 0.1.9
+﻿StrajaBackupSQL — VERSION PRÉLIMINAIRE 0.1.10
 
 Les outils MariaDB, MySQL et PostgreSQL sont inclus et sélectionnés automatiquement. Pour une autre version, activez un dossier personnalisé dans les options avancées de connexion.
 

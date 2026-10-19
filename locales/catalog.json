@@ -2399,14 +2399,6 @@
     "Vérifier automatiquement toutes les 24 heures lorsque l’application est ouverte",
     "Controlla automaticamente ogni 24 ore mentre l’app è aperta"
   ],
-  "Updates are provided by strajabackup.com for StrajaBackupSQL.": [
-    "Updates are provided by strajabackup.com for StrajaBackupSQL.",
-    "Updates für StrajaBackupSQL werden über strajabackup.com bereitgestellt.",
-    "Las actualizaciones de StrajaBackupSQL se ofrecen en strajabackup.com.",
-    "As atualizações do StrajaBackupSQL são disponibilizadas em strajabackup.com.",
-    "Les mises à jour de StrajaBackupSQL sont proposées sur strajabackup.com.",
-    "Gli aggiornamenti di StrajaBackupSQL sono disponibili su strajabackup.com."
-  ],
   "Checking for updates…": [
     "Checking for updates…",
     "Suche nach Updates…",
@@ -2502,5 +2494,13 @@
     "Não foi possível abrir as definições locais.",
     "Impossible d’ouvrir les paramètres locaux.",
     "Impossibile aprire le impostazioni locali."
+  ],
+  "Updates are provided through the official StrajaBackupSQL GitHub releases.": [
+    "Updates are provided through the official StrajaBackupSQL GitHub releases.",
+    "Updates werden über die offiziellen GitHub-Releases von StrajaBackupSQL bereitgestellt.",
+    "Las actualizaciones se ofrecen a través de las versiones oficiales de StrajaBackupSQL en GitHub.",
+    "As atualizações são disponibilizadas através das versões oficiais do StrajaBackupSQL no GitHub.",
+    "Les mises à jour sont proposées via les versions officielles de StrajaBackupSQL sur GitHub.",
+    "Gli aggiornamenti sono disponibili tramite le versioni ufficiali di StrajaBackupSQL su GitHub."
   ]
 }

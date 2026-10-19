@@ -1,0 +1,28 @@
+StrajaBackupSQL 0.1.10 validation - 2026-10-19
+
+Passed:
+- Rust safe suite: 12 library tests, 4 GUI tests, 17 core tests, 1 local SMTP
+  refusal fixture, and 1 fake SQL backup pipeline (35 checks).
+- Update tests rerun after response-limit changes: GitHub priority, website
+  fallback, no downgrade, version skips, invalid/oversized responses, stable-only
+  releases and exact installer matching. All network fixtures used localhost.
+- Seven offline publisher integration tests: dry run without network, stable
+  publication ordering, preview/draft isolation, immutable public versions,
+  corrupted remote digest rejection, interrupted upload resume, changed local
+  installer rejection. These use fake files and a fake GitHub CLI.
+- All 313 messages validated in all six languages.
+- cargo fmt and clippy --all-targets -D warnings.
+- Release binaries and normal Inno installer compiled successfully.
+
+Behavior:
+- GitHub Releases is authoritative starting with 0.1.10; the product website is
+  a fallback. GitHub metadata is capped at 256 KiB, website feed at 32 KiB.
+- GUI startup/daily checks and a manual Settings check display the existing
+  localized update banner. The tray-only agent does not check for updates.
+- Publisher stages assets in a draft, checks every remote SHA-256, then publishes
+  only when explicitly invoked with -Publish. Stable sets Latest; preview does not.
+
+Limits:
+- Installer is unsigned. No production release was published during local tests.
+- Clean-station install/upgrade/uninstall and real SQL restore tests remain pending.
+- No installed SQL services, real databases, system PATH, or user profiles modified.

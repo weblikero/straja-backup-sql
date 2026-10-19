@@ -18,11 +18,13 @@ close the GUI, then run the normal installer. Keep the installer AppId unchanged
 retain the same installation identity. Configuration and backups are preserved.
 
 UPDATE SOURCES, IN ORDER
-1. https://strajabackup.com/updates/strajabackupsql/windows-x64/stable.json
-2. https://api.github.com/repos/weblikero/straja-backup-sql/releases/latest
+1. https://api.github.com/repos/weblikero/straja-backup-sql/releases/latest
+2. https://strajabackup.com/updates/strajabackupsql/windows-x64/stable.json
 
-A valid website feed is authoritative, including a version pin. When the feed is
-missing, inaccessible or invalid, the app tries the product's public GitHub releases.
+Since 0.1.10, a valid GitHub release is authoritative. When GitHub is missing,
+inaccessible or invalid, the app tries the product-specific website feed.
+Versions 0.1.7-0.1.9 still prefer the website: update or remove an old site feed
+when publishing a new release so these clients can discover it too.
 GitHub must return a non-draft, non-prerelease release tagged vMAJOR.MINOR.PATCH,
 with an uploaded nonempty asset named:
 StrajaBackupSQL-MAJOR.MINOR.PATCH-windows-x64-setup.exe
@@ -30,10 +32,11 @@ Tags without a release, draft releases and preview releases are not update offer
 If GitHub has no stable release and the website returns 404, Settings says the feed
 has not been published. Network/server/format failures show a retry message; they
 never report successful verification or affect backup jobs. Cached valid offers remain
-available offline. The website may pin the installed version to withdraw an offer.
+available offline. An old website feed cannot hide a newer GitHub release in clients 0.1.10+.
 
 Each source request has a 15-second total timeout, 5-second connection timeout,
-32-KiB response limit, verified HTTPS and no redirects. Worst case is two requests.
+256-KiB GitHub / 32-KiB website response limits, verified HTTPS and no redirects.
+Worst case is two requests.
 No GitHub token is bundled or requested from end users. Requests carry the product
 and app version User-Agent plus normal HTTP/IP metadata; they contain no connection
 names, database names, passwords, backups, Windows user names or machine identifiers.
@@ -61,13 +64,24 @@ PUBLISH A NEW VERSION
 2. Run the tests, localization generator, dependency notices and release packaging.
 3. Test install/upgrade/uninstall and SQL restore on a separate clean Windows station.
    Complete publisher signing and redistribution review before a production release.
-4. Create a GitHub draft release in weblikero/straja-backup-sql with tag vX.Y.Z.
-   Upload the normal installer, its SHA-256 file, release notes, dependency notices
-   and corresponding MariaDB/MySQL source archives from dist/sources. Never upload
-   database backups, test profiles, .vendor-cache or local credentials.
-5. Publish previews with the prerelease flag. Publish a validated production version
-   as a normal release and mark it Latest. The app can now discover it via GitHub
-   without a website change, provided no valid website feed pins an older version.
+4. Commit the tested source, build the installer from that revision, then run:
+   .\scripts\prepare-release.ps1
+   The immutable kit records the source commit and hashes. Push that commit to GitHub.
+   Write release notes in a UTF-8 text file describing changes and any limitations.
+5. Validate and inspect the release without network access:
+   .\scripts\publish-release.ps1 -NotesFile .\release-notes.txt -Channel stable -DryRun
+   Upload a draft (not offered to installed clients):
+   .\scripts\publish-release.ps1 -NotesFile .\release-notes.txt -Channel stable
+   Publish the tested version, making it Latest:
+   .\scripts\publish-release.ps1 -NotesFile .\release-notes.txt -Channel stable -Publish
+   To publish a test version instead, use -Channel preview -Publish (the default
+   channel is preview). Previews never notify stable clients.
+   Requires an authenticated GitHub CLI with release-write access. No token is
+   stored in the app. All files upload to a draft first. Every remote SHA-256 and
+   size is verified before publication. Interrupted uploads can resume by rerunning
+   the same command. Public versions cannot be overwritten by this script.
+   The command uploads the installer, checksum, notices, documentation, manifest
+   and corresponding SQL utility source archives. A Git push alone is not a release.
 6. Optional website feed: run scripts/prepare-update-feed.ps1 -Version X.Y.Z.
    Upload the resulting dist/update-feed/updates/strajabackupsql/windows-x64/stable.json
    to the identical site path, AFTER the matching release/assets are publicly available.
@@ -80,4 +94,5 @@ PUBLISH A NEW VERSION
 The SHA-256 file is for checking downloaded artifacts; the app only discovers releases
 and opens their pages. It does not download, hash, verify Authenticode or execute the
 installer. HTTPS/feed validation is not a substitute for publisher signing.
-No stable feed is uploaded and no production release is published by the build scripts.
+Building/packaging alone never publishes a version. Only publish-release.ps1 with
+-Publish makes a release public. The website feed is always uploaded separately.

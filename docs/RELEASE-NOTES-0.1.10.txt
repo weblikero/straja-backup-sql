@@ -1,0 +1,16 @@
+StrajaBackupSQL 0.1.10 - preview
+
+- GitHub Releases is now the primary source for update discovery. An outdated
+  website feed no longer masks a newer stable GitHub release.
+- The website remains a fallback when GitHub is unavailable or unconfigured.
+- Release metadata accommodates installer, documentation and SQL source assets
+  while retaining a strict size limit and HTTPS validation.
+- Maintainers can validate, upload and publish releases using publish-release.ps1.
+  Uploads are staged as drafts and checked by SHA-256 before publication.
+
+The app checks when due at startup and every 24 hours while the window is open.
+Settings offers a manual check. A banner links to the release page; installation
+requires the user's action. The tray agent alone does not check for updates.
+
+Unsigned preview. Clean-station installation/upgrade/uninstall and real-server
+restore validation remain pending. No SQL servers were accessed during this change.

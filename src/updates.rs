@@ -14,6 +14,8 @@ pub const CURRENT_VERSION: &str = env!("CARGO_PKG_VERSION");
 const GITHUB_LATEST: &str =
     "https://api.github.com/repos/weblikero/straja-backup-sql/releases/latest";
 const MAX_FEED_BYTES: usize = 32 * 1024;
+// GitHub includes metadata for every installer, notice and corresponding-source asset.
+const MAX_GITHUB_BYTES: usize = 256 * 1024;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
@@ -133,6 +135,10 @@ pub fn parse_feed(bytes: &[u8], current: &str) -> Result<CheckResult> {
 }
 
 async fn fetch_bytes(client: &Client, url: &str) -> Result<Option<Vec<u8>>> {
+    fetch_limited(client, url, MAX_FEED_BYTES).await
+}
+
+async fn fetch_limited(client: &Client, url: &str, limit: usize) -> Result<Option<Vec<u8>>> {
     let mut response = client
         .get(url)
         .header("Accept", "application/json")
@@ -149,14 +155,12 @@ async fn fetch_bytes(client: &Client, url: &str) -> Result<Option<Vec<u8>>> {
         response.status()
     );
     ensure!(
-        response
-            .content_length()
-            .is_none_or(|n| n <= MAX_FEED_BYTES as u64),
+        response.content_length().is_none_or(|n| n <= limit as u64),
         "Update feed is too large"
     );
     let mut body = Vec::new();
     while let Some(chunk) = response.chunk().await? {
-        if body.len() + chunk.len() > MAX_FEED_BYTES {
+        if body.len() + chunk.len() > limit {
             bail!("Update feed is too large");
         }
         body.extend_from_slice(&chunk);
@@ -182,7 +186,7 @@ struct GithubAsset {
 
 fn parse_github(bytes: &[u8], current: &str) -> Result<CheckResult> {
     ensure!(
-        bytes.len() <= MAX_FEED_BYTES,
+        bytes.len() <= MAX_GITHUB_BYTES,
         "Release information is too large"
     );
     let github: GithubRelease = serde_json::from_slice(bytes)?;
@@ -221,18 +225,26 @@ pub async fn check() -> Result<CheckResult> {
         .timeout(Duration::from_secs(15))
         .user_agent(concat!("StrajaBackupSQL/", env!("CARGO_PKG_VERSION")))
         .build()?;
-    // A valid website feed is authoritative, including an intentional version pin.
-    // If the site is not configured or is unavailable, public GitHub releases work independently.
-    let website_result = match fetch_bytes(&client, FEED_URL).await {
-        Ok(Some(bytes)) => parse_feed(&bytes, CURRENT_VERSION).map(Some),
+    check_sources(&client, GITHUB_LATEST, FEED_URL, CURRENT_VERSION).await
+}
+
+async fn check_sources(
+    client: &Client,
+    github_url: &str,
+    website_url: &str,
+    current: &str,
+) -> Result<CheckResult> {
+    // GitHub is authoritative. An old website feed must not hide a new GitHub release.
+    let github_result = match fetch_limited(client, github_url, MAX_GITHUB_BYTES).await {
+        Ok(Some(bytes)) => parse_github(&bytes, current).map(Some),
         Ok(None) => Ok(None),
         Err(error) => Err(error),
     };
-    match website_result {
+    match github_result {
         Ok(Some(result)) => Ok(result),
-        website_result => match fetch_bytes(&client, GITHUB_LATEST).await? {
-            Some(bytes) => parse_github(&bytes, CURRENT_VERSION),
-            None => match website_result {
+        github_result => match fetch_bytes(client, website_url).await? {
+            Some(bytes) => parse_feed(&bytes, current),
+            None => match github_result {
                 Ok(None) => Ok(CheckResult::NotPublished),
                 Err(error) => Err(error),
                 _ => unreachable!(),
@@ -404,6 +416,76 @@ mod tests {
     }
 
     #[test]
+    fn github_priority_and_website_fallback_use_local_http_only() {
+        use std::io::{Read, Write};
+        use std::net::TcpListener;
+        let github = serde_json::json!({"tag_name":"v0.1.11", "draft":false, "prerelease":false,
+            "html_url":"https://github.com/weblikero/straja-backup-sql/releases/tag/v0.1.11",
+            "assets":[{"name":"StrajaBackupSQL-0.1.11-windows-x64-setup.exe","size":100,"state":"uploaded"}]}).to_string();
+        let website = serde_json::to_string(&release("0.1.12")).unwrap();
+        for (responses, expected) in [
+            (vec![(200, github.clone())], Some("0.1.11")),
+            (
+                vec![(200, github.replace("0.1.11", "0.1.9"))],
+                Some("current"),
+            ),
+            (
+                vec![(404, String::new()), (200, website.clone())],
+                Some("0.1.12"),
+            ),
+            (
+                vec![(200, "invalid".into()), (200, website)],
+                Some("0.1.12"),
+            ),
+            (vec![(404, String::new()), (404, String::new())], None),
+        ] {
+            let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+            listener.set_nonblocking(true).unwrap();
+            let url = format!("http://{}", listener.local_addr().unwrap());
+            let server = std::thread::spawn(move || {
+                for (status, body) in responses {
+                    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+                    let mut stream = loop {
+                        match listener.accept() {
+                            Ok((stream, _)) => break stream,
+                            Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {
+                                assert!(
+                                    std::time::Instant::now() < deadline,
+                                    "Missing source request"
+                                );
+                                std::thread::sleep(Duration::from_millis(10));
+                            }
+                            Err(e) => panic!("{e}"),
+                        }
+                    };
+                    stream
+                        .set_read_timeout(Some(Duration::from_secs(5)))
+                        .unwrap();
+                    let _ = stream.read(&mut [0u8; 4096]);
+                    write!(stream, "HTTP/1.1 {status} Test\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).unwrap();
+                }
+            });
+            let client = Client::builder()
+                .no_proxy()
+                .timeout(Duration::from_secs(3))
+                .build()
+                .unwrap();
+            let result = tokio::runtime::Runtime::new()
+                .unwrap()
+                .block_on(check_sources(&client, &url, &url, "0.1.10"));
+            server.join().unwrap();
+            match (expected, result.unwrap()) {
+                (Some("current"), CheckResult::Current) => {}
+                (Some(version), CheckResult::Available(release)) => {
+                    assert_eq!(release.version, version)
+                }
+                (None, CheckResult::NotPublished) => {}
+                other => panic!("Unexpected source resolution: {other:?}"),
+            }
+        }
+    }
+
+    #[test]
     fn github_requires_a_stable_release_with_the_correct_installer() {
         let good = serde_json::json!({"tag_name":"v0.1.10", "draft":false, "prerelease":false,
             "html_url":"https://github.com/weblikero/straja-backup-sql/releases/tag/v0.1.10",
@@ -412,6 +494,10 @@ mod tests {
             parse_github(&serde_json::to_vec(&good).unwrap(), "0.1.9").unwrap(),
             CheckResult::Available(_)
         ));
+        let mut with_notes = good.clone();
+        with_notes["body"] = "Release metadata".repeat(3000).into();
+        assert!(parse_github(&serde_json::to_vec(&with_notes).unwrap(), "0.1.9").is_ok());
+        assert!(parse_github(&vec![b' '; MAX_GITHUB_BYTES + 1], "0.1.9").is_err());
         for key in ["draft", "prerelease"] {
             let mut bad = good.clone();
             bad[key] = true.into();

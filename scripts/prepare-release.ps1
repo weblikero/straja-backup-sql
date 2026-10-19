@@ -1,6 +1,10 @@
 param()
 $ErrorActionPreference = 'Stop'
 $project = [IO.Path]::GetFullPath((Split-Path $PSScriptRoot -Parent))
+$sourceCommit = & git -C $project rev-parse HEAD
+if ($LASTEXITCODE -ne 0) { throw 'Cannot identify the source commit.' }
+$changes = & git -C $project status --porcelain
+if ($LASTEXITCODE -ne 0 -or $changes) { throw 'Commit the tested source changes before preparing an immutable release kit.' }
 $version = [regex]::Match((Get-Content (Join-Path $project 'Cargo.toml') -Raw),'(?m)^version = "([^"]+)"').Groups[1].Value
 $name = "StrajaBackupSQL-$version-windows-x64-setup.exe"
 $installer = Join-Path $project ('dist\installer\' + $name)
@@ -22,7 +26,7 @@ $files = @(Get-ChildItem -LiteralPath $destination -File -Recurse | Sort-Object 
 })
 $signature = Get-AuthenticodeSignature -LiteralPath $installer
 [pscustomobject]@{
-    Product='StrajaBackupSQL';Version=$version;Channel='preview';Platform='windows-x64';
+    Product='StrajaBackupSQL';Version=$version;Channel='preview';Platform='windows-x64';SourceCommit=$sourceCommit;
     DefaultLanguage='en';Languages=@('en','de','es','pt','fr','it');Website='https://strajabackup.com';
     ReadyForPublicRelease=$false;ValidationReport="docs/VALIDATION-$version.txt";
     InstallerSignatureStatus=$signature.Status.ToString();
