@@ -3,6 +3,7 @@ name = "straja-sql"
 version = "3.0.7"
 edition = "2024"
 description = "SQL backup manager for Windows, Ubuntu and macOS"
+license = "MIT"
 
 [[bin]]
 name = "StrajaBackupSQL"

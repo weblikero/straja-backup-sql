@@ -1,5 +1,10 @@
 # StrajaBackupSQL — Database Backup Studio
 
+Created by [Weblike PRO](https://weblike.ro/). Own code: [MIT license](LICENSE).
+Bundled components retain their own licenses.
+[Code signing policy](CODE_SIGNING.md) · [Desktop privacy policy](PRIVACY.md).
+SignPath onboarding is being prepared; current Windows kits are unsigned.
+
 Database backup application written in Rust, with an Iced desktop interface. Supports MariaDB, MySQL and PostgreSQL. Version **3.0.7** continues the preview with kits for **Ubuntu 24.04+ x64** and **macOS 15+ Apple Silicon / Intel** alongside Windows x64. Future patch versions continue with 3.0.8, 3.0.9, 3.0.10, and so on.
 
 Native kits and their corresponding bundled-tool sources are built by `.github/workflows/native-kits.yml`. See [native installation and preview limitations](docs/NATIVE-KITS.en.txt) for installation, removal, credential stores, background operation and platform-specific update behavior. The Windows-specific instructions below remain applicable to Windows.

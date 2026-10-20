@@ -76,6 +76,9 @@ Source: "..\dist\StrajaBackupSQL\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\dist\StrajaBackupSQL\tools\*"; DestDir: "{app}\tools"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "assets\straja-sql.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\PRIVACY.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\CODE_SIGNING.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\THIRD-PARTY-NOTICES.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\SQL-TOOLS-NOTICES.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "language.en.txt"; DestDir: "{app}"; DestName: "default-language.txt"; Languages: en; Flags: ignoreversion

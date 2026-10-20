@@ -295,6 +295,8 @@ def main():
         copy(ROOT / "target/release" / binary, executable_dir / binary)
     (app / "default-language.txt").write_text("en\n")
     shutil.copytree(ROOT / "docs", app / "docs")
+    for document in ("LICENSE", "PRIVACY.md", "CODE_SIGNING.md"):
+        shutil.copy2(ROOT / document, app / document)
     rust_notices(app)
     clients(app)
     if MAC:

@@ -24,6 +24,9 @@ New-Item -ItemType Directory -Path $dist -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $project "target\$profile\StrajaBackupSQL.exe") -Destination $dist -Force
 Copy-Item -LiteralPath (Join-Path $project "target\$profile\StrajaBackupSQL-Agent.exe") -Destination $dist -Force
 Copy-Item -LiteralPath (Join-Path $project 'README.md') -Destination $dist -Force
+foreach ($document in @('LICENSE', 'PRIVACY.md', 'CODE_SIGNING.md')) {
+    Copy-Item -LiteralPath (Join-Path $project $document) -Destination $dist -Force
+}
 Copy-Item -LiteralPath (Join-Path $project 'THIRD-PARTY-NOTICES.txt') -Destination $dist -Force
 Copy-Item -LiteralPath (Join-Path $project 'SQL-TOOLS-NOTICES.txt') -Destination $dist -Force
 Copy-Item -LiteralPath (Join-Path $project 'docs') -Destination $dist -Recurse -Force
