@@ -363,7 +363,7 @@ def main():
         autostart.write_text("[Desktop Entry]\nType=Application\nName=Straja Backup SQL Agent\nExec=/opt/strajabackupsql/StrajaBackupSQL-Agent\nNoDisplay=true\nX-GNOME-Autostart-enabled=true\n")
         control = payload / "DEBIAN"
         control.mkdir()
-        (control / "control").write_text(f"Package: strajabackupsql\nVersion: {VERSION}\nArchitecture: amd64\nMaintainer: Straja Backup\nSection: utils\nPriority: optional\nDepends: libc6 (>= 2.39), libdbus-1-3, libxkbcommon0, libfontconfig1, libgtk-3-0t64, gnome-keyring, gdebi\nDescription: SQL backup manager for MariaDB, MySQL and PostgreSQL\n Bundled private clients, scheduled verified backups and remote destinations.\n")
+        (control / "control").write_text(f"Package: strajabackupsql\nVersion: {VERSION}\nArchitecture: amd64\nMaintainer: Straja Backup\nSection: utils\nPriority: optional\nDepends: libc6 (>= 2.39), libdbus-1-3, libxkbcommon0, libxkbcommon-x11-0, libfontconfig1, libgtk-3-0t64, gnome-keyring, gdebi\nDescription: SQL backup manager for MariaDB, MySQL and PostgreSQL\n Bundled private clients, scheduled verified backups and remote destinations.\n")
         script(control / "preinst", process_guard())
         script(control / "prerm", process_guard())
         artifact = OUT / (name + ".deb")

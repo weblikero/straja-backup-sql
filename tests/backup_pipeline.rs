@@ -24,7 +24,14 @@ fn main() -> Result<()> {
             "SQL client fixture must run below normal CPU priority"
         );
         #[cfg(unix)]
-        ensure!(unsafe { libc::getpriority(libc::PRIO_PROCESS, 0) } >= 5, "SQL child priority was not lowered");
+        {
+            let parent: i32 = fs::read_to_string("parent-priority.txt")?.parse()?;
+            let child = unsafe { libc::getpriority(libc::PRIO_PROCESS, 0) };
+            ensure!(
+                child >= (parent + 5).min(19),
+                "SQL child priority was not lowered: parent={parent}, child={child}"
+            );
+        }
         let args = std::env::args().collect::<Vec<_>>();
         if args.iter().any(|s| s == "--host=fail") {
             eprintln!("fixture failure");
@@ -47,6 +54,11 @@ fn main() -> Result<()> {
     let temp = tempfile::tempdir()?;
     let bin = temp.path().join("clients");
     fs::create_dir(&bin)?;
+    #[cfg(unix)]
+    fs::write(
+        bin.join("parent-priority.txt"),
+        unsafe { libc::getpriority(libc::PRIO_PROCESS, 0) }.to_string(),
+    )?;
     for name in ["mysql", "mysqldump", "psql", "pg_dump"] {
         fs::copy(&exe, bin.join(straja_sql::platform::executable(name)))?;
     }
