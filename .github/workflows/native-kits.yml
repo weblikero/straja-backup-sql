@@ -6,11 +6,11 @@ on:
     paths: ['src/**', 'tests/**', 'Cargo.*', 'build.rs', 'scripts/package_native.py', 'scripts/native_*.py', '.github/workflows/native-kits.yml', 'locales/**']
 permissions:
   contents: read
-concurrency:
-  group: native-kits-${{ github.ref }}
-  cancel-in-progress: false
 jobs:
   package:
+    concurrency:
+      group: native-kits-${{ matrix.platform }}-${{ github.ref }}
+      cancel-in-progress: false
     strategy:
       fail-fast: false
       matrix:
@@ -53,7 +53,9 @@ jobs:
         run: |
           brew install mysql-client@8.4 mariadb@11.4 libpq
           security create-keychain -p fixture "$RUNNER_TEMP/straja-test.keychain-db"
-          security default-keychain -s "$RUNNER_TEMP/straja-test.keychain-db"
+          security list-keychains -d user -s "$RUNNER_TEMP/straja-test.keychain-db"
+          security default-keychain -d user -s "$RUNNER_TEMP/straja-test.keychain-db"
+          security set-keychain-settings -lut 7200 "$RUNNER_TEMP/straja-test.keychain-db"
           security unlock-keychain -p fixture "$RUNNER_TEMP/straja-test.keychain-db"
       - name: Build native application
         run: cargo build --locked --release --bins
@@ -77,6 +79,14 @@ jobs:
       - name: Ubuntu desktop smoke test (empty disposable profile)
         if: runner.os == 'Linux'
         run: xvfb-run -a -s '-screen 0 1440x960x24' python3 scripts/native_gui_smoke.py
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: StrajaBackupSQL-${{ matrix.platform }}-diagnostics
+          path: |
+            dist/native/*.log
+            dist/native/*.png
+          if-no-files-found: ignore
       - uses: actions/upload-artifact@v4
         with:
           name: StrajaBackupSQL-${{ matrix.platform }}

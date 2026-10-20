@@ -11,12 +11,16 @@ app = root / "target/native/payload/opt/strajabackupsql/StrajaBackupSQL"
 output = root / "dist/native"
 assert app.is_file() and os.environ.get("DISPLAY"), "Run the staged app under Xvfb"
 with tempfile.TemporaryDirectory(prefix="straja-gui-") as profile:
-    environment = {**os.environ, "HOME": profile, "XDG_DATA_HOME": profile + "/data"}
+    environment = {**os.environ, "HOME": profile, "XDG_DATA_HOME": profile + "/data",
+                   "WINIT_UNIX_BACKEND": "x11", "RUST_BACKTRACE": "1"}
+    environment.pop("WAYLAND_DISPLAY", None)
     with (output / "ubuntu-gui-smoke.log").open("w") as log:
         child = subprocess.Popen([app], env=environment, stdout=log, stderr=log, start_new_session=True)
         try:
             time.sleep(8)
             if child.poll() is not None:
+                log.flush()
+                print((output / "ubuntu-gui-smoke.log").read_text(), flush=True)
                 raise RuntimeError(f"GUI exited early: {child.returncode}; see ubuntu-gui-smoke.log")
             tree = subprocess.check_output(["xwininfo", "-root", "-tree"], text=True)
             if "Straja" not in tree:
