@@ -342,7 +342,9 @@ def main():
         run("xattr", "-cr", bundle)
         # Sign executable helpers explicitly, then seal the outer app.
         # --deep is verification, not a substitute for signing each nested binary.
-        for binary in (executable_dir / "StrajaBackupSQL", executable_dir / "StrajaBackupSQL-Agent", app / "tools/transfer/rclone"):
+        # Signing the main executable also examines its surrounding app bundle.
+        # Intel linkers leave the agent unsigned, so sign helpers before the main executable.
+        for binary in (executable_dir / "StrajaBackupSQL-Agent", app / "tools/transfer/rclone", executable_dir / "StrajaBackupSQL"):
             run("codesign", "--force", "--sign", "-", binary, stderr=subprocess.STDOUT)
         run("codesign", "--force", "--sign", "-", bundle, stderr=subprocess.STDOUT)
         run("codesign", "--verify", "--deep", "--strict", bundle, stderr=subprocess.STDOUT)
