@@ -31,7 +31,12 @@ BREW_KEGS = set()
 APT_SOURCES = set()
 
 def run(*args, **kw):
-    return subprocess.check_output([str(x) for x in args], text=True, **kw).strip()
+    try:
+        return subprocess.check_output([str(x) for x in args], text=True, **kw).strip()
+    except subprocess.CalledProcessError as error:
+        if error.output:
+            print(error.output, flush=True)
+        raise
 
 def copy(source, target):
     target = Path(target)
@@ -288,7 +293,12 @@ def main():
             "Label":"com.strajabackup.sql.agent", "ProgramArguments":["/Applications/Straja Backup SQL.app/Contents/MacOS/StrajaBackupSQL-Agent"],
             "RunAtLoad":True, "LimitLoadToSessionType":"Aqua", "ProcessType":"Background",
         }))
-        run("codesign", "--force", "--deep", "--sign", "-", bundle, stderr=subprocess.STDOUT)
+        run("xattr", "-cr", bundle)
+        # Sign executable helpers explicitly, then seal the outer app.
+        # --deep is verification, not a substitute for signing each nested binary.
+        for binary in (app / "StrajaBackupSQL", app / "StrajaBackupSQL-Agent", app / "tools/transfer/rclone"):
+            run("codesign", "--force", "--sign", "-", binary, stderr=subprocess.STDOUT)
+        run("codesign", "--force", "--sign", "-", bundle, stderr=subprocess.STDOUT)
         run("codesign", "--verify", "--deep", "--strict", bundle, stderr=subprocess.STDOUT)
         artifact = OUT / (name + ".pkg")
         scripts = WORK / "scripts"
