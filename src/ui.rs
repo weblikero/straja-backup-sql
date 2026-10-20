@@ -1231,7 +1231,7 @@ impl App {
                 .width(Fill)
                 .padding(8),
             Space::new().height(10),
-            text(concat!("WINDOWS  /  RUST  /  v", env!("CARGO_PKG_VERSION")))
+            text(concat!("v", env!("CARGO_PKG_VERSION")))
                 .size(10)
                 .color(Color::from_rgb8(116, 138, 163))
         ]
