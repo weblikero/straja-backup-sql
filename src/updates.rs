@@ -472,9 +472,18 @@ mod tests {
                         }
                     };
                     stream
+                        .set_nonblocking(false)
+                        .unwrap();
+                    stream
                         .set_read_timeout(Some(Duration::from_secs(5)))
                         .unwrap();
-                    let _ = stream.read(&mut [0u8; 4096]);
+                    let mut request = Vec::new();
+                    while !request.ends_with(b"\r\n\r\n") {
+                        let mut byte = [0u8; 1];
+                        stream.read_exact(&mut byte).unwrap();
+                        request.push(byte[0]);
+                        assert!(request.len() < 8192);
+                    }
                     write!(stream, "HTTP/1.1 {status} Test\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).unwrap();
                 }
             });
