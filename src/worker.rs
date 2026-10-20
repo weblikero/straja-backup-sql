@@ -189,7 +189,8 @@ pub fn run(root: PathBuf) -> Result<()> {
     Ok(())
 }
 pub fn launch() -> Result<()> {
-    let agent = std::env::current_exe()?.with_file_name("StrajaBackupSQL-Agent.exe");
+    let agent = std::env::current_exe()?
+        .with_file_name(crate::platform::executable("StrajaBackupSQL-Agent"));
     engine::command(agent).spawn()?;
     Ok(())
 }

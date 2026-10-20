@@ -942,7 +942,10 @@ impl App {
                 let r = (|| {
                     let c = self.connection.model()?;
                     Store::open(&self.root)?.save_connection(&c, &self.connection.password)?;
-                    Ok(tr("Connection saved. Password protected with Windows DPAPI.").into())
+                    Ok(
+                        tr("Connection saved. Credentials protected by the operating system.")
+                            .into(),
+                    )
                 })();
                 if r.is_ok() {
                     self.connection.password.zeroize();
@@ -1193,11 +1196,7 @@ impl App {
                 );
             }
             Msg::OpenFolder(p) => {
-                let r = std::process::Command::new("explorer.exe")
-                    .arg(p)
-                    .spawn()
-                    .map(|_| ())
-                    .map_err(anyhow::Error::from);
+                let r = straja_sql::platform::open(&p);
                 if let Err(e) = r {
                     self.result(Err(e));
                 }
@@ -1624,7 +1623,7 @@ impl App {
             row![
                 badge(tr("Read-only SQL export"), true),
                 badge(tr("SHA-256 integrity"), true),
-                badge(tr("DPAPI-protected passwords"), true)
+                badge(tr("OS-protected credentials"), true)
             ]
             .spacing(14)
         ]
@@ -2223,7 +2222,7 @@ impl App {
         }
         if let Some(release) = self.available_update() {
             content = content.push(text(i18n::format("StrajaBackupSQL {0} is available.", std::slice::from_ref(&release.version))).size(16).color(GREEN))
-                .push(text(tr("Download and install here. The current backup finishes first, then the app restarts automatically. Your settings and backups are kept.")).size(13).color(MUTED));
+                .push(text(if cfg!(windows) { tr("Download and install here. The current backup finishes first, then the app restarts automatically. Your settings and backups are kept.") } else { tr("Download the verified package here. The current backup finishes first. Complete installation in the system installer, then reopen the app. Settings and backups are kept.") }).size(13).color(MUTED));
             if let Some(progress) = &self.update_progress {
                 let stage = progress.stage.load(Ordering::Relaxed);
                 let description = match stage {
@@ -2258,7 +2257,12 @@ impl App {
                 return card(content);
             }
             let mut actions = row![
-                button(tr("Download and install")).on_press_maybe(
+                button(if cfg!(windows) {
+                    tr("Download and install")
+                } else {
+                    tr("Download installer")
+                })
+                .on_press_maybe(
                     (!matches!(self.update_status, UpdateStatus::Checking))
                         .then_some(Msg::DownloadUpdate)
                 )
@@ -2276,10 +2280,10 @@ impl App {
         card(content)
     }
     fn settings(&self) -> Element<'_, Msg> {
-        column![self.update_card(true),card(column![text(tr("Language")).size(20),pick_list(Language::ALL,Some(i18n::current()),Msg::Language).padding(10),text(tr("Choose your language. Menus and new notifications update automatically. Existing log messages keep their original language.")).size(13).color(MUTED)].spacing(16)),card(column![text("StrajaBackupSQL Agent").size(20),text(tr("The agent runs independently of the window and appears beside the clock (also check ^). Right-click its icon to open the app, view Activity or stop after backup. Setup can enable startup at sign-in. The PC must stay on; the agent does not wake it from sleep.")).size(13).color(MUTED),row![button(tr("Start agent")).on_press(Msg::LaunchAgent),button(tr("Stop after current run")).on_press(Msg::StopAgent).style(button::secondary)].spacing(12)].spacing(16)),card(column![text(tr("Email alerts")).size(20),text(tr("Sent only for plans with notifications enabled. SMTP connections require TLS.")).size(13).color(MUTED),row![field(tr("SMTP server"),"smtp.example.com",&self.mail.host,"smtp"),field(tr("Port"),"587",&self.mail_port,"smtpport")].spacing(20),row![field(tr("SMTP username"),"backup@example.com",&self.mail.username,"smtpuser"),secret(tr("SMTP password / app password"),&self.mail_password,"smtppass")].spacing(20),row![field(tr("Sender"),"backup@example.com",&self.mail.from,"from"),field(tr("Recipient"),"admin@example.com",&self.mail.to,"to")].spacing(20),checkbox(self.mail.implicit_tls).label(tr("Implicit TLS (usually 465); unchecked = STARTTLS (usually 587)")).on_toggle(Msg::ImplicitTls),row![button(tr("Save SMTP")).on_press(Msg::SaveMail),button(tr("Send test using saved settings")).on_press_maybe((!self.busy).then_some(Msg::TestMail)).style(button::secondary)].spacing(12)].spacing(18))].spacing(22).into()
+        column![self.update_card(true),card(column![text(tr("Language")).size(20),pick_list(Language::ALL,Some(i18n::current()),Msg::Language).padding(10),text(tr("Choose your language. Menus and new notifications update automatically. Existing log messages keep their original language.")).size(13).color(MUTED)].spacing(16)),card(column![text("StrajaBackupSQL Agent").size(20),text(if cfg!(windows) { tr("The agent runs independently of the window and appears beside the clock (also check ^). Right-click its icon to open the app, view Activity or stop after backup. Setup can enable startup at sign-in. The PC must stay on; the agent does not wake it from sleep.") } else { tr("The agent runs independently after you open the app and at login after package installation. Manage it here. A tray icon is not included in this platform preview. The computer must remain awake and your credential store unlocked.") }).size(13).color(MUTED),row![button(tr("Start agent")).on_press(Msg::LaunchAgent),button(tr("Stop after current run")).on_press(Msg::StopAgent).style(button::secondary)].spacing(12)].spacing(16)),card(column![text(tr("Email alerts")).size(20),text(tr("Sent only for plans with notifications enabled. SMTP connections require TLS.")).size(13).color(MUTED),row![field(tr("SMTP server"),"smtp.example.com",&self.mail.host,"smtp"),field(tr("Port"),"587",&self.mail_port,"smtpport")].spacing(20),row![field(tr("SMTP username"),"backup@example.com",&self.mail.username,"smtpuser"),secret(tr("SMTP password / app password"),&self.mail_password,"smtppass")].spacing(20),row![field(tr("Sender"),"backup@example.com",&self.mail.from,"from"),field(tr("Recipient"),"admin@example.com",&self.mail.to,"to")].spacing(20),checkbox(self.mail.implicit_tls).label(tr("Implicit TLS (usually 465); unchecked = STARTTLS (usually 587)")).on_toggle(Msg::ImplicitTls),row![button(tr("Save SMTP")).on_press(Msg::SaveMail),button(tr("Send test using saved settings")).on_press_maybe((!self.busy).then_some(Msg::TestMail)).style(button::secondary)].spacing(12)].spacing(18))].spacing(22).into()
     }
     fn help(&self) -> Element<'_, Msg> {
-        card(column![text(tr("Get started in four steps")).size(22),text(tr("1. MariaDB, MySQL and PostgreSQL tools are bundled and selected automatically. For another version, enable a custom tools folder in advanced connection options.")).size(15),text(tr("2. Add and test the connection. Use a dedicated export account with minimal privileges. System databases are hidden in the explorer.")).size(15),text(tr("3. Create a plan: select databases, destination, compression and schedule. Run a manual backup and check the result in Activity.")).size(15),text(tr("4. Start the agent. Configure SMTP and enable alerts in each plan. Keep an additional copy on another drive or server.")).size(15),text(tr("What we verify")).size(20),text(tr("We check the tool exit code, export completion marker, SHA-256 reread and decompressed GZIP content. These checks detect file corruption but do not prove a full restore will succeed. Regularly test restoration on a separate server with official tools.")).size(14).color(MUTED),text(tr("Consistency and scheduling")).size(20),text(tr("MySQL/MariaDB use single-transaction: consistency applies to transactional tables (InnoDB). Avoid schema changes during export. Databases are exported sequentially without a shared snapshot. PostgreSQL uses the pg_dump snapshot. Global PostgreSQL roles are not exported.")).size(14).color(MUTED),text(tr("When the agent returns, it catches up one overdue run per plan. Failures are not retried immediately; the next schedule or Back up now starts a new attempt. Nonexistent DST times are skipped; repeated times run once. Hourly means 60 minutes after saving or the scheduled run.")).size(14).color(MUTED),text(tr("Local data and uninstall")).size(20),text(tr("Settings are in %LOCALAPPDATA%\\StrajaSQL. Passwords use DPAPI and work only under the same Windows account. SQL/GZIP backups are not encrypted. Uninstall keeps settings and backups. Bundled tools are private to this app; they do not change PATH, services or existing SQL installations.")).size(14).color(MUTED)].spacing(20))
+        card(column![text(tr("Get started in four steps")).size(22),text(tr("1. MariaDB, MySQL and PostgreSQL tools are bundled and selected automatically. For another version, enable a custom tools folder in advanced connection options.")).size(15),text(tr("2. Add and test the connection. Use a dedicated export account with minimal privileges. System databases are hidden in the explorer.")).size(15),text(tr("3. Create a plan: select databases, destination, compression and schedule. Run a manual backup and check the result in Activity.")).size(15),text(tr("4. Start the agent. Configure SMTP and enable alerts in each plan. Keep an additional copy on another drive or server.")).size(15),text(tr("What we verify")).size(20),text(tr("We check the tool exit code, export completion marker, SHA-256 reread and decompressed GZIP content. These checks detect file corruption but do not prove a full restore will succeed. Regularly test restoration on a separate server with official tools.")).size(14).color(MUTED),text(tr("Consistency and scheduling")).size(20),text(tr("MySQL/MariaDB use single-transaction: consistency applies to transactional tables (InnoDB). Avoid schema changes during export. Databases are exported sequentially without a shared snapshot. PostgreSQL uses the pg_dump snapshot. Global PostgreSQL roles are not exported.")).size(14).color(MUTED),text(tr("When the agent returns, it catches up one overdue run per plan. Failures are not retried immediately; the next schedule or Back up now starts a new attempt. Nonexistent DST times are skipped; repeated times run once. Hourly means 60 minutes after saving or the scheduled run.")).size(14).color(MUTED),text(tr("Local data and uninstall")).size(20),text(if cfg!(windows) { tr("Settings are in %LOCALAPPDATA%\\StrajaSQL. Passwords use DPAPI and work only under the same Windows account. SQL/GZIP backups are not encrypted. Uninstall keeps settings and backups. Bundled tools are private to this app; they do not change PATH, services or existing SQL installations.") } else { tr("Settings are stored in your user profile. Credentials use the system keychain. SQL/GZIP backups are not encrypted. Removing the app keeps settings and backups. Bundled clients do not modify existing SQL servers.") }).size(14).color(MUTED)].spacing(20))
     }
 }
 fn label(s: &str) -> Element<'_, Msg> {
@@ -2507,7 +2511,7 @@ mod explorer_tests {
         app.update_preferences.last_release = Some(updates::Release {
             schema_version: 1,
             product: "strajabackupsql".into(),
-            platform: "windows-x64".into(),
+            platform: straja_sql::platform::ID.into(),
             channel: "stable".into(),
             version: "99.0.0".into(),
             release_url: "https://github.com/weblikero/straja-backup-sql/releases/tag/v99.0.0"
@@ -2549,7 +2553,7 @@ mod explorer_tests {
         let release = updates::Release {
             schema_version: 1,
             product: "strajabackupsql".into(),
-            platform: "windows-x64".into(),
+            platform: straja_sql::platform::ID.into(),
             channel: "stable".into(),
             version: "99.0.0".into(),
             release_url: "https://github.com/weblikero/straja-backup-sql/releases/tag/v99.0.0"

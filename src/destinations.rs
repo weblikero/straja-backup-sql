@@ -10,7 +10,6 @@ use anyhow::{Context, Result, bail, ensure};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use std::os::windows::process::CommandExt;
 use std::{
     fmt, fs,
     io::{BufRead, BufReader, Read, Write},
@@ -213,10 +212,9 @@ impl Remote {
 }
 
 pub fn bundled() -> Result<PathBuf> {
-    let path = std::env::current_exe()?
-        .parent()
-        .context("Executable folder missing")?
-        .join("tools/transfer/rclone.exe");
+    let path = crate::platform::tools_root()?
+        .join("transfer")
+        .join(crate::platform::executable("rclone"));
     ensure!(
         path.is_file(),
         tr("The bundled transfer tool is missing. Reinstall the complete package.")
@@ -225,9 +223,7 @@ pub fn bundled() -> Result<PathBuf> {
 }
 fn base_command(binary: &Path) -> Command {
     let mut cmd = engine::command(binary);
-    cmd.creation_flags(
-        0x08000000 | windows_sys::Win32::System::Threading::BELOW_NORMAL_PRIORITY_CLASS,
-    );
+    crate::platform::low_priority(&mut cmd);
     for (key, _) in std::env::vars_os() {
         let name = key.to_string_lossy().to_ascii_uppercase();
         if name.starts_with("RCLONE_") || name.starts_with("AWS_") || name.starts_with("GOOGLE_") {
@@ -237,7 +233,7 @@ fn base_command(binary: &Path) -> Command {
     cmd.env("GOMAXPROCS", "2").env("GOMEMLIMIT", "128MiB");
     cmd.args([
         "--config",
-        "NUL",
+        if cfg!(windows) { "NUL" } else { "/dev/null" },
         "--transfers",
         "1",
         "--checkers",
@@ -923,7 +919,11 @@ mod tests {
             .map(|s| s.to_string_lossy().to_string())
             .collect();
         assert!(!args.join(" ").contains("super-secret"));
-        assert!(args.contains(&"NUL".into()));
+        assert!(args.contains(&if cfg!(windows) {
+            "NUL".into()
+        } else {
+            "/dev/null".into()
+        }));
         assert!(args.contains(&"--transfers".into()));
         let r = Remote {
             provider: Provider::GoogleDrive,

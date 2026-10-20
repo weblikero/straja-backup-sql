@@ -19,28 +19,73 @@ impl Engine {
             Self::PostgreSql => "postgresql",
         }
     }
-    pub fn bundled_version(self) -> &'static str {
+    pub fn bundled_version(self) -> String {
+        if !cfg!(windows) {
+            return crate::platform::tools_root()
+                .ok()
+                .and_then(|p| std::fs::read(p.join("versions.json")).ok())
+                .and_then(|b| serde_json::from_slice::<serde_json::Value>(&b).ok())
+                .and_then(|v| v[self.tools_folder()].as_str().map(str::to_owned))
+                .unwrap_or_else(|| "—".into());
+        }
         match self {
             Self::MariaDb => "11.4.10",
             Self::MySql => "8.4.11",
             Self::PostgreSql => "18.6",
         }
+        .into()
     }
     pub fn port(self) -> u16 {
         if self == Self::PostgreSql { 5432 } else { 3306 }
     }
     pub fn client(self) -> &'static str {
         match self {
-            Self::MariaDb => "mariadb.exe",
-            Self::MySql => "mysql.exe",
-            Self::PostgreSql => "psql.exe",
+            Self::MariaDb => {
+                if cfg!(windows) {
+                    "mariadb.exe"
+                } else {
+                    "mariadb"
+                }
+            }
+            Self::MySql => {
+                if cfg!(windows) {
+                    "mysql.exe"
+                } else {
+                    "mysql"
+                }
+            }
+            Self::PostgreSql => {
+                if cfg!(windows) {
+                    "psql.exe"
+                } else {
+                    "psql"
+                }
+            }
         }
     }
     pub fn dump(self) -> &'static str {
         match self {
-            Self::MariaDb => "mariadb-dump.exe",
-            Self::MySql => "mysqldump.exe",
-            Self::PostgreSql => "pg_dump.exe",
+            Self::MariaDb => {
+                if cfg!(windows) {
+                    "mariadb-dump.exe"
+                } else {
+                    "mariadb-dump"
+                }
+            }
+            Self::MySql => {
+                if cfg!(windows) {
+                    "mysqldump.exe"
+                } else {
+                    "mysqldump"
+                }
+            }
+            Self::PostgreSql => {
+                if cfg!(windows) {
+                    "pg_dump.exe"
+                } else {
+                    "pg_dump"
+                }
+            }
         }
     }
 }

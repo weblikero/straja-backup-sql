@@ -5,6 +5,7 @@ use chrono::{DateTime, Duration as Days, Utc};
 use flate2::{read::GzDecoder, write::GzEncoder};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
+#[cfg(windows)]
 use std::os::windows::{fs::MetadataExt, process::CommandExt};
 use std::{
     fs::{self, File},
@@ -16,6 +17,7 @@ use std::{
 
 pub fn command(exe: impl AsRef<std::ffi::OsStr>) -> Command {
     let mut c = Command::new(exe);
+    #[cfg(windows)]
     c.creation_flags(0x08000000);
     c.stdin(Stdio::null());
     c
@@ -29,9 +31,7 @@ pub fn connection_command(c: &Connection, password: &str, dump: bool) -> Result<
         c.engine.client()
     }));
     // Only our SQL client process gets reduced priority; server processes are untouched.
-    cmd.creation_flags(
-        0x08000000 | windows_sys::Win32::System::Threading::BELOW_NORMAL_PRIORITY_CLASS,
-    );
+    crate::platform::low_priority(&mut cmd);
     // App-local DLLs and resources are isolated from the caller's working directory.
     cmd.current_dir(&tools);
     if c.engine == Engine::PostgreSql {
@@ -388,10 +388,11 @@ pub fn hash(path: &Path) -> Result<(String, u64)> {
 }
 pub fn ordinary(path: &Path, directory: bool) -> Result<()> {
     let m = fs::symlink_metadata(path)?;
-    if m.file_attributes() & 0x400 != 0
-        || (directory && !m.is_dir())
-        || (!directory && !m.is_file())
-    {
+    #[cfg(windows)]
+    let link = m.file_attributes() & 0x400 != 0;
+    #[cfg(unix)]
+    let link = m.file_type().is_symlink();
+    if link || (directory && !m.is_dir()) || (!directory && !m.is_file()) {
         bail!(
             "{}",
             i18n::format(

@@ -50,7 +50,7 @@ def generate():
             customs.append(f"{code}.{key}={values[i]}")
         customs.append(f"{code}.OpenApp={t('Open StrajaBackupSQL')}")
         title = "StrajaBackupSQL — " + custom["Preview"][i]
-        info = title + "\n\n" + t("1. MariaDB")[3:] + "\n\n" + t("The agent runs independently") + "\n\n" + t("We check the tool exit") + "\n\n" + t("Settings are in %LOCALAPPDATA%")
+        info = title + "\n\n" + t("1. MariaDB")[3:] + "\n\n" + t("The agent runs independently of the window") + "\n\n" + t("We check the tool exit") + "\n\n" + t("Settings are in %LOCALAPPDATA%")
         # BOM makes Inno's plain-text wizard pages unambiguously Unicode.
         (ROOT / f"installer/prerequisites.{code}.txt").write_text(info + "\n", encoding="utf-8-sig")
         (ROOT / f"installer/language.{code}.txt").write_text(code + "\n", encoding="ascii")

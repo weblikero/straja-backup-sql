@@ -2862,5 +2862,53 @@
     "Não foi possível concluir a atualização. As definições e as cópias são mantidas.",
     "La mise à jour n’a pas pu être terminée. Vos paramètres et sauvegardes sont conservés.",
     "Impossibile completare l’aggiornamento. Le impostazioni e i backup vengono conservati."
+  ],
+  "Connection saved. Credentials protected by the operating system.": [
+    "Connection saved. Credentials protected by the operating system.",
+    "Verbindung gespeichert. Zugangsdaten werden vom Betriebssystem geschützt.",
+    "Conexión guardada. El sistema operativo protege las credenciales.",
+    "Ligação guardada. As credenciais são protegidas pelo sistema operativo.",
+    "Connexion enregistrée. Les identifiants sont protégés par le système.",
+    "Connessione salvata. Le credenziali sono protette dal sistema operativo."
+  ],
+  "OS-protected credentials": [
+    "OS-protected credentials",
+    "Vom System geschützte Zugangsdaten",
+    "Credenciales protegidas por el sistema",
+    "Credenciais protegidas pelo sistema",
+    "Identifiants protégés par le système",
+    "Credenziali protette dal sistema"
+  ],
+  "Download installer": [
+    "Download installer",
+    "Installationspaket herunterladen",
+    "Descargar instalador",
+    "Transferir instalador",
+    "Télécharger le programme d’installation",
+    "Scarica programma di installazione"
+  ],
+  "Download the verified package here. The current backup finishes first. Complete installation in the system installer, then reopen the app. Settings and backups are kept.": [
+    "Download the verified package here. The current backup finishes first. Complete installation in the system installer, then reopen the app. Settings and backups are kept.",
+    "Laden Sie hier das geprüfte Paket herunter. Das laufende Backup wird zuerst abgeschlossen. Beenden Sie die Installation im System-Installer und öffnen Sie die App erneut. Einstellungen und Backups bleiben erhalten.",
+    "Descarga aquí el paquete verificado. Primero termina la copia en curso. Completa la instalación con el instalador del sistema y vuelve a abrir la aplicación. Se conservan los ajustes y las copias.",
+    "Transfira aqui o pacote verificado. A cópia em curso termina primeiro. Conclua a instalação no instalador do sistema e reabra a aplicação. As definições e as cópias são mantidas.",
+    "Téléchargez ici le paquet vérifié. La sauvegarde en cours se termine d’abord. Terminez l’installation avec le programme du système, puis rouvrez l’application. Les paramètres et sauvegardes sont conservés.",
+    "Scarica qui il pacchetto verificato. Prima termina il backup in corso. Completa l’installazione nel programma di sistema, poi riapri l’app. Impostazioni e backup vengono conservati."
+  ],
+  "The agent runs independently after you open the app and at login after package installation. Manage it here. A tray icon is not included in this platform preview. The computer must remain awake and your credential store unlocked.": [
+    "The agent runs independently after you open the app and at login after package installation. Manage it here. A tray icon is not included in this platform preview. The computer must remain awake and your credential store unlocked.",
+    "Der Agent läuft nach dem Öffnen der App und bei der Anmeldung nach der Paketinstallation unabhängig. Verwalten Sie ihn hier. Diese Plattformvorschau enthält kein Tray-Symbol. Der Computer muss wach und der Zugangsspeicher entsperrt bleiben.",
+    "El agente funciona de forma independiente al abrir la aplicación y al iniciar sesión tras instalar el paquete. Se gestiona aquí. Esta vista previa no incluye un icono en la bandeja. El equipo debe permanecer activo y el almacén de credenciales desbloqueado.",
+    "O agente funciona de forma independente após abrir a aplicação e ao iniciar sessão após instalar o pacote. Faça a gestão aqui. Esta pré-visualização não inclui ícone na bandeja. O computador deve estar ativo e o cofre de credenciais desbloqueado.",
+    "L’agent fonctionne indépendamment après l’ouverture de l’application et à la connexion après installation. Gérez-le ici. Cette version préliminaire ne comporte pas d’icône de notification. L’ordinateur doit rester éveillé et le trousseau déverrouillé.",
+    "L’agente funziona autonomamente dopo l’apertura dell’app e all’accesso dopo l’installazione. Gestiscilo qui. Questa anteprima non include un’icona nell’area di notifica. Il computer deve restare attivo e il portachiavi sbloccato."
+  ],
+  "Settings are stored in your user profile. Credentials use the system keychain. SQL/GZIP backups are not encrypted. Removing the app keeps settings and backups. Bundled clients do not modify existing SQL servers.": [
+    "Settings are stored in your user profile. Credentials use the system keychain. SQL/GZIP backups are not encrypted. Removing the app keeps settings and backups. Bundled clients do not modify existing SQL servers.",
+    "Einstellungen liegen im Benutzerprofil. Zugangsdaten verwenden den System-Schlüsselbund. SQL/GZIP-Backups sind nicht verschlüsselt. Beim Entfernen der App bleiben Einstellungen und Backups erhalten. Mitgelieferte Clients verändern keine vorhandenen SQL-Server.",
+    "Los ajustes se guardan en tu perfil. Las credenciales usan el llavero del sistema. Las copias SQL/GZIP no están cifradas. Desinstalar conserva los ajustes y las copias. Los clientes incluidos no modifican los servidores SQL existentes.",
+    "As definições são guardadas no perfil do utilizador. As credenciais usam o cofre do sistema. As cópias SQL/GZIP não são encriptadas. Remover a aplicação mantém definições e cópias. Os clientes incluídos não alteram servidores SQL existentes.",
+    "Les paramètres sont stockés dans votre profil. Les identifiants utilisent le trousseau du système. Les sauvegardes SQL/GZIP ne sont pas chiffrées. La suppression de l’application conserve paramètres et sauvegardes. Les clients inclus ne modifient pas les serveurs SQL existants.",
+    "Le impostazioni sono nel profilo utente. Le credenziali usano il portachiavi di sistema. I backup SQL/GZIP non sono cifrati. La rimozione dell’app conserva impostazioni e backup. I client inclusi non modificano i server SQL esistenti."
   ]
 }

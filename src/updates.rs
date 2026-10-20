@@ -71,7 +71,7 @@ impl Release {
     pub fn validate(&self) -> Result<Version> {
         ensure!(self.schema_version == 1, "Unsupported update schema");
         ensure!(self.product == "strajabackupsql", "Different product");
-        ensure!(self.platform == "windows-x64", "Different platform");
+        ensure!(self.platform == crate::platform::ID, "Different platform");
         ensure!(self.channel == "stable", "Different update channel");
         let version = Version::parse(&self.version)?;
         ensure!(
@@ -206,7 +206,7 @@ pub(crate) fn parse_github(bytes: &[u8], current: &str) -> Result<CheckResult> {
         .tag_name
         .strip_prefix('v')
         .ok_or_else(|| anyhow::anyhow!("Invalid release tag"))?;
-    let filename = format!("StrajaBackupSQL-{version}-windows-x64-setup.exe");
+    let filename = crate::platform::artifact(version);
     ensure!(
         github
             .assets
@@ -217,7 +217,7 @@ pub(crate) fn parse_github(bytes: &[u8], current: &str) -> Result<CheckResult> {
     let release = Release {
         schema_version: 1,
         product: "strajabackupsql".into(),
-        platform: "windows-x64".into(),
+        platform: crate::platform::ID.into(),
         channel: "stable".into(),
         version: version.into(),
         release_url: github.html_url,
@@ -233,7 +233,11 @@ pub async fn check() -> Result<CheckResult> {
         .timeout(Duration::from_secs(15))
         .user_agent(concat!("StrajaBackupSQL/", env!("CARGO_PKG_VERSION")))
         .build()?;
-    check_sources(&client, GITHUB_LATEST, FEED_URL, CURRENT_VERSION).await
+    let feed = format!(
+        "https://strajabackup.com/updates/strajabackupsql/{}/stable.json",
+        crate::platform::ID
+    );
+    check_sources(&client, GITHUB_LATEST, &feed, CURRENT_VERSION).await
 }
 
 async fn check_sources(
@@ -282,11 +286,11 @@ pub fn open_release(release: &Release) -> Result<()> {
         ensure!((result as isize) > 32, "Could not open the browser");
         Ok(())
     }
-    #[cfg(not(windows))]
-    bail!("Opening the browser is supported on Windows only")
+    #[cfg(unix)]
+    crate::platform::open(Path::new(&release.release_url))
 }
 
-#[cfg(test)]
+#[cfg(all(test, windows))]
 mod tests {
     use super::*;
 
@@ -294,7 +298,7 @@ mod tests {
         Release {
             schema_version: 1,
             product: "strajabackupsql".into(),
-            platform: "windows-x64".into(),
+            platform: crate::platform::ID.into(),
             channel: "stable".into(),
             version: version.into(),
             release_url: format!(

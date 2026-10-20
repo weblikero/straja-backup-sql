@@ -1,6 +1,6 @@
 use crate::i18n::tr;
 use crate::{model::*, security};
-use anyhow::{Context, Result, bail};
+use anyhow::{Result, bail};
 use chrono::{DateTime, Utc};
 use rusqlite::{Connection as Db, OptionalExtension, params};
 use serde::{Serialize, de::DeserializeOwned};
@@ -8,10 +8,7 @@ use std::path::{Path, PathBuf};
 use zeroize::Zeroizing;
 
 pub fn data_dir() -> Result<PathBuf> {
-    Ok(
-        PathBuf::from(std::env::var_os("LOCALAPPDATA").context(tr("LOCALAPPDATA is missing"))?)
-            .join("StrajaSQL"),
-    )
+    crate::platform::data_dir()
 }
 pub struct Store {
     pub db: Db,
@@ -32,7 +29,7 @@ impl Store {
         value.map(|s| Ok(serde_json::from_str(&s)?)).transpose()
     }
     pub fn open(root: &Path) -> Result<Self> {
-        std::fs::create_dir_all(root)?;
+        crate::platform::restricted_directory(root)?;
         let db = Db::open(root.join("straja-sql.sqlite"))?;
         db.busy_timeout(std::time::Duration::from_secs(10))?;
         // Each GUI/agent reader has its own cache; keep these small even on large histories.

@@ -1,39 +1,52 @@
 //! Resource limits apply only to this application's work, never to other processes.
-use std::{marker::PhantomData, rc::Rc};
-use windows_sys::Win32::System::Threading::*;
+#[cfg(windows)]
+mod native {
+    use std::{marker::PhantomData, rc::Rc};
+    use windows_sys::Win32::System::Threading::*;
 
-/// Scoped Windows background I/O/CPU scheduling. Not Send: restore on the same thread.
-pub struct BackgroundWork {
-    background: bool,
-    previous: i32,
-    _same_thread: PhantomData<Rc<()>>,
-}
-impl BackgroundWork {
-    pub fn enter() -> Self {
-        unsafe {
-            let thread = GetCurrentThread();
-            let previous = GetThreadPriority(thread);
-            let background = SetThreadPriority(thread, THREAD_MODE_BACKGROUND_BEGIN) != 0;
-            if !background && previous != i32::MAX {
-                SetThreadPriority(thread, THREAD_PRIORITY_BELOW_NORMAL);
+    /// Scoped Windows background I/O/CPU scheduling. Not Send: restore on the same thread.
+    pub struct BackgroundWork {
+        background: bool,
+        previous: i32,
+        _same_thread: PhantomData<Rc<()>>,
+    }
+    impl BackgroundWork {
+        pub fn enter() -> Self {
+            unsafe {
+                let thread = GetCurrentThread();
+                let previous = GetThreadPriority(thread);
+                let background = SetThreadPriority(thread, THREAD_MODE_BACKGROUND_BEGIN) != 0;
+                if !background && previous != i32::MAX {
+                    SetThreadPriority(thread, THREAD_PRIORITY_BELOW_NORMAL);
+                }
+                Self {
+                    background,
+                    previous,
+                    _same_thread: PhantomData,
+                }
             }
-            Self {
-                background,
-                previous,
-                _same_thread: PhantomData,
+        }
+    }
+    impl Drop for BackgroundWork {
+        fn drop(&mut self) {
+            unsafe {
+                if self.background {
+                    SetThreadPriority(GetCurrentThread(), THREAD_MODE_BACKGROUND_END);
+                } else if self.previous != i32::MAX {
+                    SetThreadPriority(GetCurrentThread(), self.previous);
+                }
             }
         }
     }
 }
-impl Drop for BackgroundWork {
-    fn drop(&mut self) {
-        unsafe {
-            if self.background {
-                SetThreadPriority(GetCurrentThread(), THREAD_MODE_BACKGROUND_END);
-            } else if self.previous != i32::MAX {
-                SetThreadPriority(GetCurrentThread(), self.previous);
-            }
-        }
+#[cfg(windows)]
+pub use native::BackgroundWork;
+#[cfg(unix)]
+pub struct BackgroundWork;
+#[cfg(unix)]
+impl BackgroundWork {
+    pub fn enter() -> Self {
+        Self
     }
 }
 
@@ -65,6 +78,9 @@ impl iced::Executor for UiExecutor {
 mod tests {
     use super::*;
     use iced::Executor;
+    #[cfg(windows)]
+    use windows_sys::Win32::System::Threading::*;
+    #[cfg(windows)]
     #[test]
     fn background_priority_is_restored_on_the_worker_thread() {
         std::thread::spawn(|| {
