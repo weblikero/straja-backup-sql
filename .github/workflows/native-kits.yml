@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['src/**', 'tests/**', 'Cargo.*', 'build.rs', 'scripts/package_native.py', 'scripts/native_gui_smoke.py', '.github/workflows/native-kits.yml', 'locales/**']
+    paths: ['src/**', 'tests/**', 'Cargo.*', 'build.rs', 'scripts/package_native.py', 'scripts/native_*.py', '.github/workflows/native-kits.yml', 'locales/**']
 permissions:
   contents: read
 concurrency:
@@ -63,6 +63,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target/release
+            target/debug
           key: native-${{ matrix.platform }}-${{ hashFiles('Cargo.lock') }}-${{ github.sha }}
       - name: Ubuntu isolated tests
         if: runner.os == 'Linux'
@@ -70,7 +71,7 @@ jobs:
           dbus-run-session -- bash -c 'printf fixture | gnome-keyring-daemon --unlock --components=secrets; cargo test --locked --lib --bin StrajaBackupSQL --test core --test mail --test backup_pipeline'
       - name: macOS isolated tests
         if: runner.os == 'macOS'
-        run: cargo test --locked --lib --bin StrajaBackupSQL --test core --test mail --test backup_pipeline
+        run: python3 scripts/native_mac_tests.py
       - name: Bundle clients, verify relocation and package
         run: python3 scripts/package_native.py --sources
       - name: Ubuntu desktop smoke test (empty disposable profile)
