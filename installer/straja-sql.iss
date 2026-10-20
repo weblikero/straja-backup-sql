@@ -1,5 +1,5 @@
 #ifndef AppVersion
-  #define AppVersion "0.1.13"
+  #define AppVersion "3.0.7"
 #endif
 #ifdef InstallerTest
   #define ProductName "StrajaBackupSQL Installer Test"

@@ -1,4 +1,4 @@
-Straja Backup SQL 0.1.13 — Ubuntu and macOS preview
+Straja Backup SQL 3.0.7 — Ubuntu and macOS preview
 
 Supported kits
   Ubuntu 24.04 or later, x86-64 desktop: .deb
@@ -7,7 +7,7 @@ Supported kits
 
 Install
   Ubuntu: open Terminal in the download directory and run:
-    sudo apt install ./StrajaBackupSQL-0.1.13-linux-x64.deb
+    sudo apt install ./StrajaBackupSQL-3.0.7-linux-x64.deb
   Then launch Straja Backup SQL from the application menu.
   macOS: open the .pkg and follow the system installer.
   Then open /Applications/Straja Backup SQL.app.

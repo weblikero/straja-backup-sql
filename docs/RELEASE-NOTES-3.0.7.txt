@@ -1,0 +1,27 @@
+Straja Backup SQL 3.0.7 — preview
+
+The product now uses version 3.0.7 across Windows, Ubuntu and macOS. Future patch
+releases continue with 3.0.8, 3.0.9, 3.0.10, and so on. This replaces the 0.1.x
+preview numbering; it does not imply new backup features or stable certification.
+
+Installers include private MariaDB, MySQL and PostgreSQL clients and rclone:
+- Windows x64: .exe installer
+- Ubuntu 24.04+ x64: .deb
+- macOS 15+ Apple Silicon / Intel: separate .pkg installers
+
+The application version, executable/package metadata, installer names and offline
+guides use 3.0.7. Product identity, settings locations and backup formats stay the
+same. Version comparison recognizes 3.0.7 as newer than existing 0.1.x releases.
+
+Existing Windows 0.1.10/0.1.11 installations need a manual upgrade to enable
+in-app installation. Windows 0.1.12 and later support the in-app installer handoff.
+Drafts and prereleases remain excluded from stable update checks.
+
+Native preview limitations still apply: no native tray icon; the agent runs in a
+logged-in, awake user session with an unlocked credential store. Native updates
+download in the app and finish in the OS installer; reopen the app afterwards.
+
+Installers remain unsigned for public distribution; Mac packages are not Developer
+ID signed or notarized. Clean-machine installation, upgrade, scheduled backup and
+uninstall acceptance testing is required before stable publication. See
+NATIVE-KITS.en.txt for native installation and removal instructions.

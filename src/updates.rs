@@ -310,6 +310,13 @@ mod tests {
 
     #[test]
     fn semantic_order_never_offers_downgrades_or_build_metadata_as_updates() {
+        for previous in ["0.1.11", "0.1.12", "0.1.13"] {
+            assert!(release("3.0.7").is_newer_than(previous).unwrap());
+            assert!(!release(previous).is_newer_than("3.0.7").unwrap());
+        }
+        assert!(!release("3.0.7").is_newer_than("3.0.7").unwrap());
+        assert!(release("3.0.8").is_newer_than("3.0.7").unwrap());
+        assert!(release("3.0.10").is_newer_than("3.0.9").unwrap());
         assert!(release("0.1.10").is_newer_than("0.1.9").unwrap());
         assert!(!release("0.1.9").is_newer_than("0.1.10").unwrap());
         assert!(!release("0.1.7").is_newer_than("0.1.7").unwrap());

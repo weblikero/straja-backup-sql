@@ -1,0 +1,21 @@
+Straja Backup SQL 3.0.7 — version transition validation
+
+Windows regression tests passed on the versioned source:
+- Library and GUI state tests.
+- Core scheduling, metadata safety and retention tests.
+- Local SMTP fixture.
+- Fake SQL backup pipeline.
+- Isolated update handoff: successful installation and installer failure.
+- Numeric version ordering from 0.1.11 / 0.1.12 / 0.1.13 to 3.0.7,
+  rejection of downgrades/equal versions, and continuation to 3.0.8 / 3.0.10.
+
+These tests use local fixtures, not the machine's installed SQL servers.
+Each native kit's build report records its actual source commit, version,
+platform, compiler, bundled clients and installer SHA-256. The native release
+manifest links the successful build/test run for all three native platforms.
+
+Version renumbering does not certify production readiness. Clean-machine install,
+upgrade, GUI, real scheduled backup and uninstall acceptance testing is still
+required on each platform. Mac packages are not Developer ID signed or notarized;
+Windows packages remain unsigned. Native preview limitations remain documented
+in NATIVE-KITS.en.txt.

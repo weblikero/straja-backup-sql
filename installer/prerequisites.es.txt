@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — VERSIÓN PRELIMINAR 0.1.13
+﻿StrajaBackupSQL — VERSIÓN PRELIMINAR 3.0.7
 
 Las herramientas MariaDB, MySQL y PostgreSQL están incluidas y se seleccionan automáticamente. Para otra versión, active una carpeta personalizada en las opciones avanzadas de conexión.
 

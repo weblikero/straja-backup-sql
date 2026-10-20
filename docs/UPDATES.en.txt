@@ -4,6 +4,14 @@ PUBLIC REPOSITORY
 https://github.com/weblikero/straja-backup-sql
 This repository is separate from weblikero/straja-backup (the Windows file backup product).
 
+VERSION NUMBERING
+The product continues from 3.0.7 after the 0.1.x previews, on every platform.
+Subsequent patch releases are 3.0.8, 3.0.9, 3.0.10, and so on. Versions are
+compared numerically, so existing 0.1.x installations recognize 3.0.7 as newer.
+This numbering change does not change the application identity, settings paths,
+backup format, or release channel. A 3.0.7 draft/preview is still excluded from
+stable update checks until explicitly published as a stable release.
+
 INSTALLED APPLICATION
 Version 0.1.7 introduces update discovery. Earlier versions must be upgraded manually once.
 With automatic checking enabled (default), the open GUI checks at startup when due and

@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — PREVIEW 0.1.13
+﻿StrajaBackupSQL — PREVIEW 3.0.7
 
 MariaDB, MySQL and PostgreSQL tools are bundled and selected automatically. For another version, enable a custom tools folder in advanced connection options.
 

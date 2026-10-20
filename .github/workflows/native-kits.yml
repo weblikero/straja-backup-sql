@@ -38,7 +38,9 @@ jobs:
             target/release
             target/debug
           key: native-${{ matrix.platform }}-${{ hashFiles('Cargo.lock') }}-${{ github.sha }}
-          restore-keys: native-${{ matrix.platform }}-${{ hashFiles('Cargo.lock') }}-
+          restore-keys: |
+            native-${{ matrix.platform }}-${{ hashFiles('Cargo.lock') }}-
+            native-${{ matrix.platform }}-
       - name: Ubuntu build dependencies (runner only)
         if: runner.os == 'Linux'
         run: |
