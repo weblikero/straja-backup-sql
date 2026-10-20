@@ -287,10 +287,12 @@ def main():
     SOURCES.mkdir(parents=True, exist_ok=True)
     payload = WORK / "payload"
     bundle = payload / "Applications/Straja Backup SQL.app"
-    app = bundle / "Contents/MacOS" if MAC else payload / "opt/strajabackupsql"
+    app = bundle / "Contents/Resources" if MAC else payload / "opt/strajabackupsql"
+    executable_dir = bundle / "Contents/MacOS" if MAC else app
     app.mkdir(parents=True)
+    executable_dir.mkdir(parents=True, exist_ok=True)
     for binary in ("StrajaBackupSQL", "StrajaBackupSQL-Agent"):
-        copy(ROOT / "target/release" / binary, app / binary)
+        copy(ROOT / "target/release" / binary, executable_dir / binary)
     (app / "default-language.txt").write_text("en\n")
     shutil.copytree(ROOT / "docs", app / "docs")
     rust_notices(app)
@@ -307,16 +309,17 @@ def main():
     transfer(app)
     (app / "tools/provenance.json").write_text(json.dumps(PROVENANCE, indent=2))
     # Move the staged directory to prove client library relocation before packaging.
-    moved = app.with_name(app.name + "-relocated")
-    app.rename(moved)
+    relocatable = bundle if MAC else app
+    moved = relocatable.with_name(relocatable.name + "-relocated")
+    relocatable.rename(moved)
     try:
-        print(run(moved / "StrajaBackupSQL", "--self-check"))
+        print(run(moved / "Contents/MacOS/StrajaBackupSQL" if MAC else moved / "StrajaBackupSQL", "--self-check"))
     finally:
-        moved.rename(app)
+        moved.rename(relocatable)
     name = f"StrajaBackupSQL-{VERSION}-{ID}"
     if MAC:
         resources = bundle / "Contents/Resources"
-        resources.mkdir()
+        resources.mkdir(exist_ok=True)
         iconset = WORK / "AppIcon.iconset"
         iconset.mkdir()
         for size in (16, 32, 128, 256, 512):
@@ -339,7 +342,7 @@ def main():
         run("xattr", "-cr", bundle)
         # Sign executable helpers explicitly, then seal the outer app.
         # --deep is verification, not a substitute for signing each nested binary.
-        for binary in (app / "StrajaBackupSQL", app / "StrajaBackupSQL-Agent", app / "tools/transfer/rclone"):
+        for binary in (executable_dir / "StrajaBackupSQL", executable_dir / "StrajaBackupSQL-Agent", app / "tools/transfer/rclone"):
             run("codesign", "--force", "--sign", "-", binary, stderr=subprocess.STDOUT)
         run("codesign", "--force", "--sign", "-", bundle, stderr=subprocess.STDOUT)
         run("codesign", "--verify", "--deep", "--strict", bundle, stderr=subprocess.STDOUT)
@@ -367,7 +370,7 @@ def main():
         run("dpkg-deb", "--root-owner-group", "--build", payload, artifact)
     (OUT / (artifact.name + ".sha256")).write_text(f"{sha(artifact)}  {artifact.name}\n")
     (OUT / (name + "-tools.json")).write_text(json.dumps({"version":VERSION,"platform":ID,
-        "files":{str(p.relative_to(app)):sha(p) for p in app.rglob("*") if p.is_file()}}, indent=2))
+        "files":{str(p.relative_to(relocatable)):sha(p) for p in relocatable.rglob("*") if p.is_file()}}, indent=2))
     (OUT / (name + "-build.json")).write_text(json.dumps({
         "version": VERSION, "platform": ID, "commit": run("git", "rev-parse", "HEAD", cwd=ROOT),
         "compiler": run("rustc", "--version"), "build_os": platform.platform(),

@@ -65,10 +65,10 @@ pub fn load(root: &Path) -> Language {
         .as_deref()
         .and_then(Language::parse)
         .or_else(|| {
-            std::env::current_exe()
+            crate::platform::resources_root()
                 .ok()
                 .and_then(|p| {
-                    std::fs::read_to_string(p.with_file_name("default-language.txt")).ok()
+                    std::fs::read_to_string(p.join("default-language.txt")).ok()
                 })
                 .as_deref()
                 .and_then(Language::parse)

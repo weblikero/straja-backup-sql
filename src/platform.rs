@@ -56,12 +56,21 @@ pub fn data_dir() -> Result<PathBuf> {
         )
     }
 }
-pub fn tools_root() -> Result<PathBuf> {
+pub fn resources_root() -> Result<PathBuf> {
     let exe = std::env::current_exe()?;
-    Ok(exe
+    let directory = exe
         .parent()
-        .context("Application directory missing")?
-        .join("tools"))
+        .context("Application directory missing")?;
+    #[cfg(target_os = "macos")]
+    if directory.file_name().is_some_and(|n| n == "MacOS")
+        && directory.parent().and_then(Path::file_name).is_some_and(|n| n == "Contents")
+    {
+        return Ok(directory.parent().unwrap().join("Resources"));
+    }
+    Ok(directory.to_owned())
+}
+pub fn tools_root() -> Result<PathBuf> {
+    Ok(resources_root()?.join("tools"))
 }
 pub fn restricted_directory(path: &Path) -> Result<()> {
     std::fs::create_dir_all(path)?;

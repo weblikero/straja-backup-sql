@@ -1,5 +1,5 @@
 use crate::i18n::{self, tr};
-use anyhow::{Context, Result, bail};
+use anyhow::{Result, bail};
 use chrono::{DateTime, Datelike, Duration, NaiveDate, TimeZone, Utc};
 use serde::{Deserialize, Serialize};
 use std::{fmt, path::PathBuf};
@@ -122,12 +122,7 @@ impl Connection {
             }
             return Ok(self.tools.clone());
         }
-        let executable = std::env::current_exe()?;
-        let root = executable
-            .parent()
-            .context(tr("Cannot determine the application location."))?;
-        Ok(root
-            .join("tools")
+        Ok(crate::platform::tools_root()?
             .join(self.engine.tools_folder())
             .join("bin"))
     }
