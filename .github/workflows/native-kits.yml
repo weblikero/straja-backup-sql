@@ -3,12 +3,12 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['src/**', 'Cargo.*', 'build.rs', 'scripts/package_native.py', '.github/workflows/native-kits.yml', 'locales/**']
+    paths: ['src/**', 'tests/**', 'Cargo.*', 'build.rs', 'scripts/package_native.py', 'scripts/native_gui_smoke.py', '.github/workflows/native-kits.yml', 'locales/**']
 permissions:
   contents: read
 concurrency:
   group: native-kits-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   package:
     strategy:
@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
         with:
           path: |
             ~/.cargo/registry
@@ -43,8 +43,11 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl --fail --silent --show-error -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          printf 'Types: deb deb-src\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: noble-pgdg\nArchitectures: amd64\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n' | sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null
           sudo apt-get update
-          sudo apt-get install -y pkg-config libgtk-3-dev libdbus-1-dev libmariadb3 libpq5 libssl3t64 libedit2 libaio1t64 liblz4-1 libzstd1 libpcre2-8-0 libtinfo6 libreadline8t64 libncurses6 libxml2 libkrb5-3 libfido2-1 libevent-core-2.1-7t64 patchelf gnome-keyring dbus-x11
+          sudo apt-get install -y pkg-config libgtk-3-dev libdbus-1-dev libmariadb3 libpq5 libssl3t64 libedit2 libaio1t64 liblz4-1 libzstd1 libpcre2-8-0 libtinfo6 libreadline8t64 libncurses6 libxml2 libkrb5-3 libfido2-1 libevent-core-2.1-7t64 patchelf gnome-keyring dbus-x11 xvfb x11-utils imagemagick
       - name: macOS client kegs (runner only, no services started)
         if: runner.os == 'macOS'
         run: |
@@ -54,15 +57,25 @@ jobs:
           security unlock-keychain -p fixture "$RUNNER_TEMP/straja-test.keychain-db"
       - name: Build native application
         run: cargo build --locked --release --bins
+      - uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target/release
+          key: native-${{ matrix.platform }}-${{ hashFiles('Cargo.lock') }}-${{ github.sha }}
       - name: Ubuntu isolated tests
         if: runner.os == 'Linux'
         run: |
-          dbus-run-session -- bash -c 'printf fixture | gnome-keyring-daemon --unlock --components=secrets; cargo test --locked --lib --bin StrajaBackupSQL --test core --test mail'
+          dbus-run-session -- bash -c 'printf fixture | gnome-keyring-daemon --unlock --components=secrets; cargo test --locked --lib --bin StrajaBackupSQL --test core --test mail --test backup_pipeline'
       - name: macOS isolated tests
         if: runner.os == 'macOS'
-        run: cargo test --locked --lib --bin StrajaBackupSQL --test core --test mail
+        run: cargo test --locked --lib --bin StrajaBackupSQL --test core --test mail --test backup_pipeline
       - name: Bundle clients, verify relocation and package
         run: python3 scripts/package_native.py --sources
+      - name: Ubuntu desktop smoke test (empty disposable profile)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a -s '-screen 0 1440x960x24' python3 scripts/native_gui_smoke.py
       - uses: actions/upload-artifact@v4
         with:
           name: StrajaBackupSQL-${{ matrix.platform }}

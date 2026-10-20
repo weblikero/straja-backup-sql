@@ -122,7 +122,7 @@ def clients(app):
     linux_packages = {
         "mariadb": ["mariadb-client-core", "mariadb-client", "mariadb-common", "libmariadb3"],
         "mysql": ["mysql-client-core-8.0", "mysql-client-8.0", "mysql-common"],
-        "postgresql": ["postgresql-client-16"],
+        "postgresql": ["postgresql-client-18"],
     }
     for family, names, formula in [
         ("mariadb", ["mariadb", "mariadb-dump"], "mariadb@11.4"),
@@ -153,7 +153,7 @@ def clients(app):
                 APT_SOURCES.add((source_match[1], source_match[2] or fields["Version"]))
                 PROVENANCE.append({**fields, "archive": archive.name, "sha256": sha(archive)})
                 run("dpkg-deb", "-x", archive, prefix)
-            binary_dir = prefix / ("usr/lib/postgresql/16/bin" if family == "postgresql" else "usr/bin")
+            binary_dir = prefix / ("usr/lib/postgresql/18/bin" if family == "postgresql" else "usr/bin")
             for name in names:
                 elf(binary_dir / name, target / "bin" / name, target / "lib", seen)
             plugin_roots = list(prefix.glob("usr/lib/**/plugin"))

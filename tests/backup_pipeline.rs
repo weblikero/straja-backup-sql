@@ -1,5 +1,7 @@
 //! Real child-process/file pipeline with a deterministic client fixture; no SQL/network.
-use anyhow::{Context, Result, ensure};
+use anyhow::{Result, ensure};
+#[cfg(windows)]
+use anyhow::Context;
 use chrono::Utc;
 use std::{
     fs,
@@ -12,13 +14,17 @@ fn main() -> Result<()> {
     let exe = std::env::current_exe()?;
     let stem = exe.file_stem().unwrap().to_string_lossy();
     if stem == "mysql" || stem == "mysqldump" || stem == "psql" {
+        #[cfg(windows)]
         use windows_sys::Win32::System::Threading::{
             BELOW_NORMAL_PRIORITY_CLASS, GetCurrentProcess, GetPriorityClass,
         };
+        #[cfg(windows)]
         ensure!(
             unsafe { GetPriorityClass(GetCurrentProcess()) } == BELOW_NORMAL_PRIORITY_CLASS,
             "SQL client fixture must run below normal CPU priority"
         );
+        #[cfg(unix)]
+        ensure!(unsafe { libc::getpriority(libc::PRIO_PROCESS, 0) } >= 5, "SQL child priority was not lowered");
         let args = std::env::args().collect::<Vec<_>>();
         if args.iter().any(|s| s == "--host=fail") {
             eprintln!("fixture failure");
@@ -41,8 +47,8 @@ fn main() -> Result<()> {
     let temp = tempfile::tempdir()?;
     let bin = temp.path().join("clients");
     fs::create_dir(&bin)?;
-    for name in ["mysql.exe", "mysqldump.exe", "psql.exe", "pg_dump.exe"] {
-        fs::copy(&exe, bin.join(name))?;
+    for name in ["mysql", "mysqldump", "psql", "pg_dump"] {
+        fs::copy(&exe, bin.join(straja_sql::platform::executable(name)))?;
     }
     let mut c = Connection {
         id: uuid::Uuid::new_v4().to_string(),
@@ -126,6 +132,8 @@ fn main() -> Result<()> {
     c.host = "fail".into();
     ensure!(engine::backup(&p, &c, "", &uuid::Uuid::new_v4().to_string()).is_err());
     ensure!(engine::verify(&next).is_ok());
+    #[cfg(windows)]
+    {
     // A stop request from the tray waits for the running export and verification.
     let profile = temp.path().join("agent-profile");
     let root = profile.join("StrajaSQL");
@@ -226,6 +234,7 @@ fn main() -> Result<()> {
     while agent.0.try_wait()?.is_none() {
         ensure!(started.elapsed().as_secs() < 35);
         std::thread::sleep(Duration::from_millis(100));
+    }
     }
     println!(
         "backup_pipeline: progress, persisted state, metadata, named files, retention and failure preservation passed; no SQL servers used."

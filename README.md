@@ -14,7 +14,7 @@ Connection names, database identifiers, file names, existing plans and passwords
 
 ## Install and start
 
-Run `StrajaBackupSQL-0.1.9-windows-x64-setup.exe`, or use the complete portable folder `dist/StrajaBackupSQL`. Setup includes uninstall support, an optional desktop shortcut and optional agent startup at Windows sign-in. Installation is per user, without administrator privileges.
+Run the Windows setup executable from the desired release, or use the complete portable folder `dist/StrajaBackupSQL`. Setup includes uninstall support, an optional desktop shortcut and optional agent startup at Windows sign-in. Installation is per user, without administrator privileges.
 
 1. Add a connection: name, engine, server, port, username and password. SQL client utilities are bundled and selected automatically. Advanced options allow a compatible custom client folder. Existing custom paths remain unchanged on upgrade.
 2. Keep certificate and server identity verification enabled for TLS. Supply a CA certificate when needed. There is no automatic fallback to unverified TLS.
@@ -33,9 +33,9 @@ Before upgrading or uninstalling, close the window and stop the agent after the 
 
 ## Software updates
 
-Starting with 0.1.7, the open app checks for updates when due at startup and every 24 hours. **Settings & notifications → Software updates** also offers a manual check and an automatic-check toggle. A banner offers the official release page; you can skip a version. Downloading and running the installer is your choice. Update failures do not affect backups.
+The open app checks for updates when due at startup and every 24 hours. **Settings & notifications → Software updates** also offers a manual check and an automatic-check toggle. You can skip a version. Starting with 0.1.12, Windows downloads and verifies the installer inside the app, waits for running backups, installs the update and restarts the app. Native preview packages download inside the app and then use the OS installer.
 
-The app checks `https://strajabackup.com/updates/strajabackupsql/windows-x64/stable.json`, falling back to stable public GitHub releases in [weblikero/straja-backup-sql](https://github.com/weblikero/straja-backup-sql). Product, platform, channel, semantic version and release-page URL are validated. Other suite products, drafts and prereleases are excluded. No GitHub account or token is needed by end users.
+The app checks stable public GitHub releases in [weblikero/straja-backup-sql](https://github.com/weblikero/straja-backup-sql), falling back to `https://strajabackup.com/updates/strajabackupsql/<platform>/stable.json`. Product, platform, channel, semantic version and release-page URL are validated. Other suite products, drafts and prereleases are excluded. No GitHub account or token is needed by end users.
 
 The tray agent alone does not check updates. Earlier app versions require one manual upgrade to obtain this feature. See [docs/UPDATES.en.txt](docs/UPDATES.en.txt) for publishing instructions, the JSON schema, privacy details and limitations. The repository currently contains preview source; it does not imply a tested production installer is available.
 

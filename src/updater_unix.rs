@@ -118,7 +118,7 @@ fn client(download: bool) -> Result<reqwest::Client> {
 fn plain(path: &Path) -> Result<()> {
     ensure!(
         !std::fs::symlink_metadata(path)?.file_type().is_symlink(),
-        "Update path cannot be a reparse point"
+        "Update path cannot be a symlink"
     );
     Ok(())
 }
@@ -272,7 +272,7 @@ fn verified_installer(prepared: &Prepared) -> Result<File> {
         hash(&mut file)? == prepared.sha256,
         "Installer SHA-256 mismatch"
     );
-    Ok(file) // Prevent replacement/writes until Setup finishes.
+    Ok(file) // A file descriptor does not prevent writes on Unix; the profile is owner-only.
 }
 /// All new agent/window starts and agent claims participate in this short coordination lock.
 pub fn coordination(root: &Path) -> Result<File> {
@@ -308,9 +308,7 @@ fn instance_lock(root: &Path, name: &str) -> Result<File> {
 }
 fn same(a: &Path, b: &Path) -> bool {
     match (a.canonicalize(), b.canonicalize()) {
-        (Ok(a), Ok(b)) => a
-            .to_string_lossy()
-            .eq_ignore_ascii_case(&b.to_string_lossy()),
+        (Ok(a), Ok(b)) => a == b,
         _ => false,
     }
 }
@@ -364,4 +362,128 @@ pub fn handoff(root: &Path, prepared: Prepared) -> Result<()> {
         return Err(error);
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::{io::Write, net::TcpListener};
+
+    fn metadata() -> serde_json::Value {
+        serde_json::json!({
+            "tag_name":"v99.0.0", "draft":false, "prerelease":false,
+            "html_url":format!("https://github.com/{REPO}/releases/tag/v99.0.0"),
+            "assets":[{
+                "name":installer_name("99.0.0"), "state":"uploaded", "size":10,
+                "digest":format!("sha256:{}", "a".repeat(64)),
+                "browser_download_url":format!("https://github.com/{REPO}/releases/download/v99.0.0/{}",installer_name("99.0.0"))
+            }]
+        })
+    }
+    #[test]
+    fn metadata_requires_exact_product_stable_version_size_and_digest() {
+        let good = metadata();
+        assert!(asset_metadata(&serde_json::to_vec(&good).unwrap(), "99.0.0").is_ok());
+        for (key, value) in [
+            ("size", serde_json::json!(MAX_INSTALLER + 1)),
+            ("size", serde_json::json!(0)),
+            ("digest", serde_json::json!(null)),
+            ("digest", serde_json::json!("sha256:wrong")),
+            (
+                "browser_download_url",
+                serde_json::json!(
+                    "https://github.com/weblikero/straja-backup/releases/download/v99.0.0/setup.exe"
+                ),
+            ),
+        ] {
+            let mut bad = good.clone();
+            bad["assets"][0][key] = value;
+            assert!(
+                asset_metadata(&serde_json::to_vec(&bad).unwrap(), "99.0.0").is_err(),
+                "{key}"
+            );
+        }
+        for key in ["draft", "prerelease"] {
+            let mut bad = good.clone();
+            bad[key] = true.into();
+            assert!(asset_metadata(&serde_json::to_vec(&bad).unwrap(), "99.0.0").is_err());
+        }
+        let mut duplicate = good.clone();
+        duplicate["assets"]
+            .as_array_mut()
+            .unwrap()
+            .push(good["assets"][0].clone());
+        assert!(asset_metadata(&serde_json::to_vec(&duplicate).unwrap(), "99.0.0").is_err());
+        assert!(asset_metadata(&serde_json::to_vec(&good).unwrap(), "98.0.0").is_err());
+        assert!(numeric_version(updates::CURRENT_VERSION).is_err());
+        assert!(numeric_version("99.0.0+build").is_err());
+        for url in [
+            "http://github.com/test",
+            "https://github.com.evil.test/file",
+            "https://user@github.com/file",
+            "https://example.com/file",
+        ] {
+            assert!(!allowed_download(&reqwest::Url::parse(url).unwrap()));
+        }
+        assert!(allowed_download(
+            &reqwest::Url::parse(
+                "https://release-assets.githubusercontent.com/asset?signature=value"
+            )
+            .unwrap()
+        ));
+    }
+    fn server(body: Vec<u8>, status: &str) -> (String, std::thread::JoinHandle<()>) {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let url = format!("http://{}", listener.local_addr().unwrap());
+        let status = status.to_owned();
+        let handle = std::thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            let mut request = [0u8; 2048];
+            let _ = stream.read(&mut request);
+            write!(
+                stream,
+                "HTTP/1.1 {status}\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+                body.len()
+            )
+            .unwrap();
+            let _ = stream.write_all(&body);
+        });
+        (url, handle)
+    }
+    #[test]
+    fn streaming_download_checks_hash_size_cancel_and_keeps_only_verified_file() {
+        tokio::runtime::Runtime::new().unwrap().block_on(async {
+            let temp = tempfile::tempdir().unwrap();
+            let body = vec![42u8; 1024 * 1024];
+            let hash = format!("{:x}", Sha256::digest(&body));
+            for case in 0..5 {
+                let (url, thread) = server(
+                    body.clone(),
+                    if case == 4 {
+                        "503 Unavailable"
+                    } else {
+                        "200 OK"
+                    },
+                );
+                let response = reqwest::Client::new().get(url).send().await.unwrap();
+                let path = temp.path().join(format!("test{case}.part"));
+                let progress = Progress::default();
+                if case == 3 {
+                    progress.cancel.store(true, Ordering::Relaxed);
+                }
+                let result = receive(
+                    response,
+                    &path,
+                    body.len() as u64 + u64::from(case == 2),
+                    if case == 1 { "wrong" } else { &hash },
+                    &progress,
+                )
+                .await;
+                thread.join().unwrap();
+                assert_eq!(result.is_ok(), case == 0, "{case}");
+                assert!(!path.exists());
+                assert_eq!(path.with_extension(if cfg!(target_os = "linux") { "deb" } else { "pkg" }).exists(), case == 0);
+            }
+        });
+    }
 }

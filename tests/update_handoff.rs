@@ -1,5 +1,7 @@
-//! Exercises the real updater with a fake installer/agent/UI in a private LOCALAPPDATA.
-//! Never executes Inno Setup, connects to SQL, or uses the user's installed application.
+#[cfg(windows)]
+mod windows_fixture {
+// Exercises the real updater with a fake installer/agent/UI in a private LOCALAPPDATA.
+// Never executes Inno Setup, connects to SQL, or uses the user's installed application.
 use anyhow::{Result, ensure};
 use sha2::{Digest, Sha256};
 use std::{
@@ -43,7 +45,7 @@ fn lock(root: &Path, name: &str) -> Result<File> {
     file.try_lock()?;
     Ok(file)
 }
-fn main() -> Result<()> {
+pub fn main() -> Result<()> {
     let exe = std::env::current_exe()?;
     let name = exe.file_name().unwrap().to_string_lossy();
     if name == "StrajaBackupSQL-Updater.exe" {
@@ -194,3 +196,9 @@ fn main() -> Result<()> {
     }
     Ok(())
 }
+
+}
+#[cfg(windows)]
+fn main() -> anyhow::Result<()> { windows_fixture::main() }
+#[cfg(not(windows))]
+fn main() {}
