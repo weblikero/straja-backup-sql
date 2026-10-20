@@ -1,6 +1,8 @@
 # StrajaBackupSQL — Database Backup Studio
 
-Windows x64 database backup application written in Rust, with an Iced desktop interface. Supports MariaDB, MySQL and PostgreSQL. Version **0.1.9 is a preview**, intended for testing on a separate Windows station before public distribution at **strajabackup.com**.
+Database backup application written in Rust, with an Iced desktop interface. Supports MariaDB, MySQL and PostgreSQL. Version **0.1.13** adds preview kits for **Ubuntu 24.04+ x64** and **macOS 15+ Apple Silicon / Intel** alongside Windows x64.
+
+Native kits and their corresponding bundled-tool sources are built by `.github/workflows/native-kits.yml`. See [native installation and preview limitations](docs/NATIVE-KITS.en.txt) for installation, removal, credential stores, background operation and platform-specific update behavior. The Windows-specific instructions below remain applicable to Windows.
 
 ## Languages
 

@@ -212,7 +212,7 @@ fn command_does_not_expose_password_or_allow_mutation() {
             host: "localhost".into(),
             port: engine.port(),
             user: "backup".into(),
-            tools: "C:/tools".into(),
+            tools: std::env::temp_dir().join("straja-fixture-tools"),
             tls: true,
             ca: String::new(),
         };
@@ -366,7 +366,7 @@ fn metadata_names_are_encoded_and_database_is_never_interpolated_into_sql() {
             host: "fixture.invalid".into(),
             port: engine.port(),
             user: "backup".into(),
-            tools: "C:/tools".into(),
+            tools: std::env::temp_dir().join("straja-fixture-tools"),
             tls: true,
             ca: String::new(),
         };

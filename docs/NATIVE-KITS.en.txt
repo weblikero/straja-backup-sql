@@ -1,0 +1,68 @@
+Straja Backup SQL 0.1.13 — Ubuntu and macOS preview
+
+Supported kits
+  Ubuntu 24.04 or later, x86-64 desktop: .deb
+  macOS 15 or later, Apple Silicon: macos-arm64.pkg
+  macOS 15 or later, Intel: macos-x64.pkg
+
+Install
+  Ubuntu: open Terminal in the download directory and run:
+    sudo apt install ./StrajaBackupSQL-0.1.13-linux-x64.deb
+  Then launch Straja Backup SQL from the application menu.
+  macOS: open the .pkg and follow the system installer.
+  Then open /Applications/Straja Backup SQL.app.
+
+Preview packages are not Developer ID signed or notarized. macOS may block the
+downloaded installer. Public distribution requires signing/notarization and
+acceptance testing on clean computers. Do not disable Gatekeeper.
+
+The SQL clients and rclone are private to the application. No database servers
+are installed or started. Existing SQL installations and global PATH are not
+modified. Native client versions are listed in tools/versions.json. PostgreSQL
+server versions newer than the bundled pg_dump require a compatible custom
+client directory in the connection settings.
+
+Background operation
+  The agent starts when the app opens and at the next graphical login.
+  Control it through Settings. This preview has no native tray icon.
+  Keep the user logged in, the computer awake and its credential store unlocked.
+  The application does not wake a sleeping computer or run while logged out.
+
+Credentials and data
+  macOS: passwords use Keychain; settings are in
+    ~/Library/Application Support/StrajaBackupSQL
+  Ubuntu: passwords use Secret Service (GNOME Keyring); settings are in
+    ~/.local/share/StrajaBackupSQL
+  An absolute XDG_DATA_HOME overrides the Ubuntu base directory.
+  Allow access to the system credential store when prompted.
+  Credentials cannot be copied between operating systems; enter them again.
+  Store backups outside application installation directories.
+
+Updates
+  The app selects releases for its own operating system and architecture.
+  Download and SHA-256 verification happen in the application. The native OS
+  installer then completes the upgrade; reopen the application afterwards.
+  Upgrades preserve settings and backups. Draft/prerelease builds are not
+  advertised on the stable channel. This differs from the Windows updater,
+  which automatically restarts the application.
+
+Remove
+  First wait for running backups, stop the agent in Settings, and close the app.
+  Ubuntu:
+    sudo apt remove strajabackupsql
+  macOS:
+    Move /Applications/Straja Backup SQL.app to Trash and remove this product's
+    login entry /Library/LaunchAgents/com.strajabackup.sql.agent.plist.
+    Log out and back in to unload the removed login entry.
+  Removal keeps user settings, saved credentials and backup files.
+
+The six translated Guide.*.txt documents describe the common connection,
+scheduling, verification and destination features. Their Windows installation,
+tray and DPAPI paragraphs do not apply here; this document takes precedence.
+
+Validation
+  Native builds run scheduling, metadata safety, retention, credential-store,
+  UI state and SMTP tests. Packaging relocates private client directories and
+  executes every SQL utility and rclone with --version.
+  These checks do not replace interactive installation, GUI, scheduled backup
+  and uninstall acceptance tests on clean Ubuntu and macOS computers.

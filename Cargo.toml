@@ -2,7 +2,7 @@
 name = "straja-sql"
 version = "0.1.13"
 edition = "2024"
-description = "Windows SQL backup manager"
+description = "SQL backup manager for Windows, Ubuntu and macOS"
 
 [[bin]]
 name = "StrajaBackupSQL"
@@ -37,6 +37,7 @@ windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Securit
 libc = "0.2"
 
 [target.'cfg(target_os = "linux")'.dependencies]
+iced = { version = "0.14", default-features = false, features = ["x11", "wayland"] }
 keyring = { version = "=3.6.3", features = ["sync-secret-service", "crypto-rust"] }
 
 [target.'cfg(target_os = "macos")'.dependencies]

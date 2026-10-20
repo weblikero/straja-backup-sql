@@ -27,6 +27,7 @@ ID = "macos-" + ARCH if MAC else "linux-x64"
 VERSION = re.search(r'^version = "([^"]+)"', (ROOT / "Cargo.toml").read_text(), re.M)[1]
 PROVENANCE = []
 BREW_SOURCES = set()
+BREW_KEGS = set()
 APT_SOURCES = set()
 
 def run(*args, **kw):
@@ -55,6 +56,7 @@ def brew_source(path):
     parts = Path(path).resolve().parts
     if "Cellar" in parts:
         BREW_SOURCES.add(parts[parts.index("Cellar") + 1])
+        BREW_KEGS.add(Path(*parts[:parts.index("Cellar") + 3]))
 
 def macho(source, target, libraries, seen):
     source = Path(source).resolve()
@@ -209,6 +211,22 @@ def sources():
             run("apt-get", "source", "--download-only", "--only-source", name + "=" + version, cwd=SOURCES)
     (SOURCES / "SHA256SUMS.txt").write_text("".join(f"{sha(p)}  {p.name}\n" for p in sorted(SOURCES.iterdir()) if p.is_file() and p.name != "SHA256SUMS.txt"))
 
+def script(path, content):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content)
+    path.chmod(0o755)
+
+def process_guard():
+    pattern = (r"^/Applications/Straja Backup SQL[.]app/Contents/MacOS/StrajaBackupSQL( |$|-Agent)"
+               if MAC else r"^/opt/strajabackupsql/StrajaBackupSQL( |$|-Agent)")
+    return f"""#!/bin/sh
+set -eu
+if /usr/bin/pgrep -f '{pattern}' >/dev/null; then
+    echo 'Straja Backup SQL is running. Wait for backups to finish, stop its agent in Settings and close its window, then retry.' >&2
+    exit 1
+fi
+"""
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--sources", action="store_true")
@@ -229,6 +247,15 @@ def main():
     shutil.copytree(ROOT / "docs", app / "docs")
     shutil.copy2(ROOT / "THIRD-PARTY-NOTICES.txt", app)
     clients(app)
+    if MAC:
+        for keg in sorted(BREW_KEGS):
+            notices = app / "tools/notices" / keg.parent.name
+            notices.mkdir(parents=True, exist_ok=True)
+            for name in ("INSTALL_RECEIPT.json", "LICENSE", "LICENSE.txt", "COPYING", "COPYING.txt", "COPYRIGHT"):
+                if (keg / name).is_file():
+                    shutil.copy2(keg / name, notices / name)
+            if (keg / ".brew").is_dir():
+                shutil.copytree(keg / ".brew", notices / "brew", dirs_exist_ok=True)
     transfer(app)
     (app / "tools/provenance.json").write_text(json.dumps(PROVENANCE, indent=2))
     # Move the staged directory to prove client library relocation before packaging.
@@ -264,8 +291,10 @@ def main():
         run("codesign", "--force", "--deep", "--sign", "-", bundle, stderr=subprocess.STDOUT)
         run("codesign", "--verify", "--deep", "--strict", bundle, stderr=subprocess.STDOUT)
         artifact = OUT / (name + ".pkg")
+        scripts = WORK / "scripts"
+        script(scripts / "preinstall", process_guard())
         run("pkgbuild", "--root", payload, "--identifier", "com.strajabackup.sql",
-            "--version", VERSION, "--install-location", "/", artifact)
+            "--version", VERSION, "--scripts", scripts, "--install-location", "/", artifact)
     else:
         desktop = payload / "usr/share/applications/strajabackupsql.desktop"
         desktop.parent.mkdir(parents=True)
@@ -279,6 +308,8 @@ def main():
         control = payload / "DEBIAN"
         control.mkdir()
         (control / "control").write_text(f"Package: strajabackupsql\nVersion: {VERSION}\nArchitecture: amd64\nMaintainer: Straja Backup\nSection: utils\nPriority: optional\nDepends: libc6 (>= 2.39), libdbus-1-3, libxkbcommon0, libfontconfig1, libgtk-3-0t64, gnome-keyring, gdebi\nDescription: SQL backup manager for MariaDB, MySQL and PostgreSQL\n Bundled private clients, scheduled verified backups and remote destinations.\n")
+        script(control / "preinst", process_guard())
+        script(control / "prerm", process_guard())
         artifact = OUT / (name + ".deb")
         run("dpkg-deb", "--root-owner-group", "--build", payload, artifact)
     (OUT / (artifact.name + ".sha256")).write_text(f"{sha(artifact)}  {artifact.name}\n")

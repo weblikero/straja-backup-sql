@@ -206,14 +206,6 @@ pub(crate) fn parse_github(bytes: &[u8], current: &str) -> Result<CheckResult> {
         .tag_name
         .strip_prefix('v')
         .ok_or_else(|| anyhow::anyhow!("Invalid release tag"))?;
-    let filename = crate::platform::artifact(version);
-    ensure!(
-        github
-            .assets
-            .iter()
-            .any(|asset| asset.name == filename && asset.size > 0 && asset.state == "uploaded"),
-        "The release has no Windows x64 installer"
-    );
     let release = Release {
         schema_version: 1,
         product: "strajabackupsql".into(),
@@ -222,7 +214,16 @@ pub(crate) fn parse_github(bytes: &[u8], current: &str) -> Result<CheckResult> {
         version: version.into(),
         release_url: github.html_url,
     };
-    parse_feed(&serde_json::to_vec(&release)?, current)
+    if !release.is_newer_than(current)? {
+        return Ok(CheckResult::Current);
+    }
+    let filename = crate::platform::artifact(version);
+    if !github.assets.iter().any(|asset| {
+        asset.name == filename && asset.size > 0 && asset.state == "uploaded"
+    }) {
+        return Ok(CheckResult::NotPublished);
+    }
+    Ok(CheckResult::Available(release))
 }
 
 pub async fn check() -> Result<CheckResult> {
@@ -290,7 +291,7 @@ pub fn open_release(release: &Release) -> Result<()> {
     crate::platform::open(Path::new(&release.release_url))
 }
 
-#[cfg(all(test, windows))]
+#[cfg(test)]
 mod tests {
     use super::*;
 
@@ -433,7 +434,7 @@ mod tests {
         use std::net::TcpListener;
         let github = serde_json::json!({"tag_name":"v0.1.11", "draft":false, "prerelease":false,
             "html_url":"https://github.com/weblikero/straja-backup-sql/releases/tag/v0.1.11",
-            "assets":[{"name":"StrajaBackupSQL-0.1.11-windows-x64-setup.exe","size":100,"state":"uploaded"}]}).to_string();
+            "assets":[{"name":crate::platform::artifact("0.1.11"),"size":100,"state":"uploaded"}]}).to_string();
         let website = serde_json::to_string(&release("0.1.12")).unwrap();
         for (responses, expected) in [
             (vec![(200, github.clone())], Some("0.1.11")),
@@ -501,7 +502,7 @@ mod tests {
     fn github_requires_a_stable_release_with_the_correct_installer() {
         let good = serde_json::json!({"tag_name":"v0.1.10", "draft":false, "prerelease":false,
             "html_url":"https://github.com/weblikero/straja-backup-sql/releases/tag/v0.1.10",
-            "assets":[{"name":"StrajaBackupSQL-0.1.10-windows-x64-setup.exe","size":100,"state":"uploaded"}]});
+            "assets":[{"name":crate::platform::artifact("0.1.10"),"size":100,"state":"uploaded"}]});
         assert!(matches!(
             parse_github(&serde_json::to_vec(&good).unwrap(), "0.1.9").unwrap(),
             CheckResult::Available(_)
@@ -517,9 +518,9 @@ mod tests {
         }
         let mut bad = good.clone();
         bad["assets"][0]["name"] = "StrajaBackup-0.1.10-setup.exe".into();
-        assert!(parse_github(&serde_json::to_vec(&bad).unwrap(), "0.1.9").is_err());
+        assert!(matches!(parse_github(&serde_json::to_vec(&bad).unwrap(), "0.1.9").unwrap(), CheckResult::NotPublished));
         let mut bad = good;
         bad["assets"][0]["state"] = "new".into();
-        assert!(parse_github(&serde_json::to_vec(&bad).unwrap(), "0.1.9").is_err());
+        assert!(matches!(parse_github(&serde_json::to_vec(&bad).unwrap(), "0.1.9").unwrap(), CheckResult::NotPublished));
     }
 }

@@ -30,6 +30,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target/release
+            target/debug
+          key: native-${{ matrix.platform }}-${{ hashFiles('Cargo.lock') }}-${{ github.sha }}
+          restore-keys: native-${{ matrix.platform }}-${{ hashFiles('Cargo.lock') }}-
       - name: Ubuntu build dependencies (runner only)
         if: runner.os == 'Linux'
         run: |
