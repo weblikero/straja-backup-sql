@@ -12,10 +12,46 @@ agent alone does not check for updates. Settings offers a manual check and opt-o
 
 A new release appears in an in-app banner. Skip this version dismisses that version
 across restarts; a later version still appears. A manual check shows skipped updates
-again. Open release page opens the validated HTTPS page in the default browser.
-Nothing downloads or installs automatically. Finish backups, stop the agent gracefully,
-close the GUI, then run the normal installer. Keep the installer AppId unchanged to
-retain the same installation identity. Configuration and backups are preserved.
+again.
+
+Starting with 0.1.12, Download and install performs the update without opening a
+browser. The application shows download percentage and transferred bytes, verifies
+the installer, waits for the current backup, and hands off to Setup. The application
+closes only for installation and reopens afterward. A previously running agent is
+restarted; an agent that was already stopped is left stopped. Configuration and
+backups are preserved. The check preference never silently authorizes installation:
+the user clicks Download and install for the offered version.
+
+Versions through 0.1.11 still open the release page. Install 0.1.12 manually once
+to enable this workflow for later updates. In-app installation requires a normal
+installed copy (not the portable build).
+
+DOWNLOAD AND HANDOFF
+Metadata is fetched afresh from the exact product's public stable GitHub tag.
+The installer filename, version, HTTPS URL, SHA-256 digest and size must match.
+Missing digests, previews, downgrades, other repositories and unexpected redirects
+are rejected. Downloads stream to a unique folder in %LOCALAPPDATA%\StrajaSQL\updates;
+the size is bounded to 512 MiB. Partial or corrupt content cannot become an installer.
+Download cancellation leaves the application and running backups available.
+Only GitHub and its official release asset CDN hosts may serve the download.
+
+The verified installer is rehashed and held with a read-sharing lock during launch
+and installation. A copy of the application's executable and its app-local runtime
+performs the handoff from the cache directory, outside the installation directory.
+Coordination locks prevent new agent starts/claims and new windows during handoff.
+The current backup may finish for up to 24 hours; it is never force-terminated.
+The updater also verifies that a running agent belongs to this installation.
+Setup uses /SILENT with installation progress, /NORESTART, /NOCLOSEAPPLICATIONS and
+/NORESTARTAPPLICATIONS. It targets the same directory and preserves installer tasks.
+On installation failure the existing application and previously active agent are
+restarted, and error details are written in the update's cache folder.
+Windows restart requests are reported; the updater never reboots the PC.
+
+SHA-256 from HTTPS GitHub metadata verifies integrity, not an independent publisher
+signature. Builds currently remain unsigned. Keep the repository/account secure.
+Automatic downloading or installation does not bypass Windows security checks.
+Reference: https://jrsoftware.org/ishelp/topic_setupcmdline.htm
+Asset metadata: https://docs.github.com/en/rest/releases/assets
 
 UPDATE SOURCES, IN ORDER
 1. https://api.github.com/repos/weblikero/straja-backup-sql/releases/latest

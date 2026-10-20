@@ -1,4 +1,4 @@
-﻿StrajaBackupSQL — PREVIEW 0.1.11
+﻿StrajaBackupSQL — PREVIEW 0.1.12
 strajabackup.com
 
 Get started in four steps

@@ -1,6 +1,6 @@
 [package]
 name = "straja-sql"
-version = "0.1.11"
+version = "0.1.12"
 edition = "2024"
 description = "Windows SQL backup manager"
 
@@ -25,7 +25,7 @@ sha2 = "0.10"
 flate2 = "1"
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
 semver = "1"
-tokio = { version = "1", features = ["rt-multi-thread", "time"] }
+tokio = { version = "1", features = ["rt-multi-thread", "time", "fs", "io-util"] }
 uuid = { version = "1", features = ["v4", "serde"] }
 zeroize = "1"
 lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "rustls-tls", "ring", "webpki-roots"] }
@@ -37,6 +37,11 @@ tempfile = "3"
 [[test]]
 name = "backup_pipeline"
 path = "tests/backup_pipeline.rs"
+harness = false
+
+[[test]]
+name = "update_handoff"
+path = "tests/update_handoff.rs"
 harness = false
 
 [build-dependencies]

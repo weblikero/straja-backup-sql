@@ -1,0 +1,34 @@
+StrajaBackupSQL 0.1.12 validation - 2026-10-20
+
+Passed:
+- 19 library tests, 6 GUI tests, 17 core tests and 1 local SMTP fixture.
+- Fake SQL backup pipeline including graceful agent stop and remote-failure recovery.
+- Two isolated updater handoff scenarios with fake installer/agent/UI executables:
+  successful install and installer exit code 5. Both verify current-backup draining,
+  blocked new claims, UI-close handshake, same installation target, safe installer
+  arguments, agent/UI restart, retained settings/backups and released coordination lock.
+- Streaming download fixtures on localhost: success, incorrect hash, incorrect length,
+  cancellation and HTTP failure. Only verified bytes become an .exe.
+- Metadata rejects other products/versions, previews/drafts, ambiguous assets,
+  excessive sizes, missing/invalid digests and untrusted download hosts.
+- Installer is rehashed and locked against writes before execution.
+- GUI progress states construct in all six languages; cancellation/failure leaves
+  the window usable and update retries available.
+- All 358 catalog messages validated in all six languages.
+- cargo fmt; clippy --locked --all-targets -D warnings.
+- Release binaries and normal Inno installer compiled; app-local tool manifest checked.
+
+Scope:
+- Update tests never execute the real installer, change the installed application,
+  connect to real SQL servers, or touch installed SQL services/PATH.
+- GitHub SHA-256 over HTTPS verifies content integrity; it is not code signing.
+- Existing 0.1.10/0.1.11 installations need one manual upgrade to enable in-app updates.
+
+Pending on the separate test station:
+- Actual installed 0.1.12 -> next published stable release, including Windows/antivirus
+  behavior, Setup progress, language and startup preferences, reopen and uninstall.
+- Full SQL restore and real cloud-account acceptance tests carried forward from 0.1.11.
+- Installer remains unsigned.
+
+Reference:
+docs/UPDATES.en.txt documents source restrictions, cache, limits and handoff behavior.

@@ -2790,5 +2790,77 @@
     "Retenção remota",
     "Rétention distante",
     "Conservazione remota"
+  ],
+  "Download and install": [
+    "Download and install",
+    "Herunterladen und installieren",
+    "Descargar e instalar",
+    "Transferir e instalar",
+    "Télécharger et installer",
+    "Scarica e installa"
+  ],
+  "Download and install here. The current backup finishes first, then the app restarts automatically. Your settings and backups are kept.": [
+    "Download and install here. The current backup finishes first, then the app restarts automatically. Your settings and backups are kept.",
+    "Hier herunterladen und installieren. Das laufende Backup wird zuerst abgeschlossen, dann startet die App automatisch neu. Einstellungen und Backups bleiben erhalten.",
+    "Descarga e instala aquí. Primero termina la copia en curso y después la aplicación se reinicia automáticamente. Se conservan los ajustes y las copias.",
+    "Transfira e instale aqui. A cópia em curso termina primeiro e a aplicação reinicia automaticamente. As definições e as cópias são mantidas.",
+    "Téléchargez et installez ici. La sauvegarde en cours se termine, puis l’application redémarre automatiquement. Vos paramètres et sauvegardes sont conservés.",
+    "Scarica e installa qui. Prima termina il backup in corso, poi l’app si riavvia automaticamente. Le impostazioni e i backup vengono conservati."
+  ],
+  "Preparing update download…": [
+    "Preparing update download…",
+    "Update-Download wird vorbereitet…",
+    "Preparando la descarga…",
+    "A preparar a transferência…",
+    "Préparation du téléchargement…",
+    "Preparazione del download…"
+  ],
+  "Downloading update…": [
+    "Downloading update…",
+    "Update wird heruntergeladen…",
+    "Descargando actualización…",
+    "A transferir a atualização…",
+    "Téléchargement de la mise à jour…",
+    "Download dell’aggiornamento…"
+  ],
+  "Verifying installer…": [
+    "Verifying installer…",
+    "Installationsdatei wird geprüft…",
+    "Verificando el instalador…",
+    "A verificar o instalador…",
+    "Vérification du programme d’installation…",
+    "Verifica del programma di installazione…"
+  ],
+  "Waiting for the backup agent. The app will restart to install the update.": [
+    "Waiting for the backup agent. The app will restart to install the update.",
+    "Warten auf den Backup-Agenten. Die App startet zur Installation des Updates neu.",
+    "Esperando al agente de copias. La aplicación se reiniciará para instalar la actualización.",
+    "A aguardar o agente de cópias. A aplicação reiniciará para instalar a atualização.",
+    "En attente de l’agent de sauvegarde. L’application redémarrera pour installer la mise à jour.",
+    "In attesa dell’agente di backup. L’app si riavvierà per installare l’aggiornamento."
+  ],
+  "Cancel download": [
+    "Cancel download",
+    "Download abbrechen",
+    "Cancelar descarga",
+    "Cancelar transferência",
+    "Annuler le téléchargement",
+    "Annulla download"
+  ],
+  "Update download cancelled.": [
+    "Update download cancelled.",
+    "Update-Download abgebrochen.",
+    "Descarga de la actualización cancelada.",
+    "Transferência da atualização cancelada.",
+    "Téléchargement de la mise à jour annulé.",
+    "Download dell’aggiornamento annullato."
+  ],
+  "The update could not be completed. Your settings and backups are kept.": [
+    "The update could not be completed. Your settings and backups are kept.",
+    "Das Update konnte nicht abgeschlossen werden. Einstellungen und Backups bleiben erhalten.",
+    "No se pudo completar la actualización. Se conservan los ajustes y las copias.",
+    "Não foi possível concluir a atualização. As definições e as cópias são mantidas.",
+    "La mise à jour n’a pas pu être terminée. Vos paramètres et sauvegardes sont conservés.",
+    "Impossibile completare l’aggiornamento. Le impostazioni e i backup vengono conservati."
   ]
 }

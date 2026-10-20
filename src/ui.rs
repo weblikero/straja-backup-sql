@@ -9,6 +9,7 @@ use iced::{
 use std::{
     collections::{HashMap, HashSet},
     path::PathBuf,
+    sync::{Arc, atomic::Ordering},
     time::Duration,
 };
 use straja_sql::destinations::{self, Authorized, Provider, Remote};
@@ -17,7 +18,7 @@ use straja_sql::{
     engine, mail,
     model::*,
     store::{self, Store},
-    updates, worker,
+    updater, updates, worker,
 };
 use zeroize::{Zeroize, Zeroizing};
 
@@ -55,7 +56,14 @@ pub fn run() -> iced::Result {
                 .runs
                 .iter()
                 .any(|r| matches!(r.status.as_str(), "În lucru" | "În așteptare"));
-            let refresh = iced::time::every(Duration::from_secs(if active { 2 } else { 5 }))
+            let refresh =
+                iced::time::every(Duration::from_secs(if app.update_progress.is_some() {
+                    1
+                } else if active {
+                    2
+                } else {
+                    5
+                }))
                 .map(|_| Msg::Tick);
             let focus = iced::window::events().map(|(_, event)| Msg::WindowEvent(event));
             if app.focused
@@ -163,7 +171,10 @@ enum Msg {
     UpdatesChecked(Result<updates::CheckResult, String>),
     AutomaticUpdates(bool),
     DismissUpdate,
-    OpenUpdate,
+    DownloadUpdate,
+    CancelDownload,
+    UpdateDownloaded(Result<updater::Prepared, String>),
+    UpdateHandoff(Result<(), String>),
 }
 #[derive(Default)]
 enum UpdateStatus {
@@ -432,6 +443,7 @@ struct App {
     focused: bool,
     update_preferences: updates::Preferences,
     update_status: UpdateStatus,
+    update_progress: Option<Arc<updater::Progress>>,
     state: Snapshot,
     page: Page,
     connection: ConnectionForm,
@@ -475,6 +487,7 @@ impl App {
                 focused: true,
                 update_preferences: updates::Preferences::load(&root),
                 update_status: UpdateStatus::Idle,
+                update_progress: None,
                 root,
                 state,
                 page: if std::env::args().any(|a| a == "--activity") {
@@ -558,7 +571,8 @@ impl App {
     fn update_message(&mut self, msg: Msg) -> Task<Msg> {
         match msg {
             Msg::CheckUpdates(manual) => {
-                if matches!(self.update_status, UpdateStatus::Checking)
+                if self.update_progress.is_some()
+                    || matches!(self.update_status, UpdateStatus::Checking)
                     || (!manual && !self.update_preferences.due(Utc::now()))
                 {
                     return Task::none();
@@ -613,14 +627,78 @@ impl App {
                     self.result(Err(e));
                 }
             }
-            Msg::OpenUpdate => {
-                if let Some(release) = self.available_update()
-                    && updates::open_release(release).is_err()
+            Msg::DownloadUpdate => {
+                if self.update_progress.is_some()
+                    || matches!(self.update_status, UpdateStatus::Checking)
                 {
-                    self.result(Err(anyhow::anyhow!(
-                        "{}",
-                        tr("Could not open the browser.")
-                    )));
+                    return Task::none();
+                }
+                if let Some(release) = self.available_update().cloned() {
+                    let progress = Arc::new(updater::Progress::default());
+                    self.update_progress = Some(progress.clone());
+                    let root = self.root.clone();
+                    return Task::perform(
+                        async move {
+                            updater::download(root, release, progress)
+                                .await
+                                .map_err(|e| format!("{e:#}"))
+                        },
+                        Msg::UpdateDownloaded,
+                    );
+                }
+            }
+            Msg::CancelDownload => {
+                if let Some(progress) = &self.update_progress
+                    && progress.stage.load(Ordering::Relaxed) < 3
+                {
+                    progress.cancel.store(true, Ordering::Relaxed);
+                }
+            }
+            Msg::UpdateDownloaded(result) => match result {
+                Ok(prepared)
+                    if self
+                        .update_progress
+                        .as_ref()
+                        .is_some_and(|p| !p.cancel.load(Ordering::Relaxed)) =>
+                {
+                    if let Some(progress) = &self.update_progress {
+                        progress.stage.store(3, Ordering::Relaxed);
+                    }
+                    let root = self.root.clone();
+                    return Task::perform(
+                        async move {
+                            tokio::task::spawn_blocking(move || updater::handoff(&root, prepared))
+                                .await
+                                .map_err(|e| e.to_string())?
+                                .map_err(|e| format!("{e:#}"))
+                        },
+                        Msg::UpdateHandoff,
+                    );
+                }
+                Err(e) => {
+                    let cancelled = self
+                        .update_progress
+                        .as_ref()
+                        .is_some_and(|p| p.cancel.load(Ordering::Relaxed));
+                    self.update_progress = None;
+                    if cancelled {
+                        self.result(Ok(tr("Update download cancelled.").into()));
+                    } else {
+                        self.result(Err(anyhow::anyhow!("{} {e}", tr("The update could not be completed. Your settings and backups are kept."))));
+                    }
+                }
+                _ => {
+                    self.update_progress = None;
+                    self.result(Ok(tr("Update download cancelled.").into()));
+                }
+            },
+            Msg::UpdateHandoff(result) => {
+                match result {
+                    Ok(()) => return iced::exit(),
+                    Err(e) => {
+                        self.update_progress = None;
+                        self.result(Err(anyhow::anyhow!("{} {e}", tr("The update could not be completed. Your settings and backups are kept."))));
+                    }
                 }
             }
             Msg::Language(language) => {
@@ -2137,16 +2215,55 @@ impl App {
             }
             content = content.push(
                 button(tr("Check for updates")).on_press_maybe(
-                    (!matches!(self.update_status, UpdateStatus::Checking))
-                        .then_some(Msg::CheckUpdates(true)),
+                    (self.update_progress.is_none()
+                        && !matches!(self.update_status, UpdateStatus::Checking))
+                    .then_some(Msg::CheckUpdates(true)),
                 ),
             );
         }
         if let Some(release) = self.available_update() {
             content = content.push(text(i18n::format("StrajaBackupSQL {0} is available.", std::slice::from_ref(&release.version))).size(16).color(GREEN))
-                .push(text(tr("Open the release page to download the installer. Finish running backups, stop the agent and close the app before installing. Your settings and backups are kept.")).size(13).color(MUTED));
-            let mut actions =
-                row![button(tr("Open release page")).on_press(Msg::OpenUpdate)].spacing(12);
+                .push(text(tr("Download and install here. The current backup finishes first, then the app restarts automatically. Your settings and backups are kept.")).size(13).color(MUTED));
+            if let Some(progress) = &self.update_progress {
+                let stage = progress.stage.load(Ordering::Relaxed);
+                let description = match stage {
+                    0 => tr("Preparing update download…"),
+                    1 => tr("Downloading update…"),
+                    2 => tr("Verifying installer…"),
+                    _ => tr(
+                        "Waiting for the backup agent. The app will restart to install the update.",
+                    ),
+                };
+                content = content.push(text(description).size(14).color(GREEN));
+                let bytes = progress.bytes.load(Ordering::Relaxed);
+                let total = progress.total.load(Ordering::Relaxed);
+                if total > 0 {
+                    let percent = (bytes as f64 / total as f64 * 100.).min(100.) as f32;
+                    content = content.push(progress_bar(0.0..=100.0, percent)).push(
+                        text(format!(
+                            "{percent:.0}% · {:.1} / {:.1} MiB",
+                            bytes as f64 / 1048576.,
+                            total as f64 / 1048576.
+                        ))
+                        .size(12),
+                    );
+                }
+                if stage < 3 {
+                    content = content.push(
+                        button(tr("Cancel download"))
+                            .on_press(Msg::CancelDownload)
+                            .style(button::secondary),
+                    );
+                }
+                return card(content);
+            }
+            let mut actions = row![
+                button(tr("Download and install")).on_press_maybe(
+                    (!matches!(self.update_status, UpdateStatus::Checking))
+                        .then_some(Msg::DownloadUpdate)
+                )
+            ]
+            .spacing(12);
             if !settings {
                 actions = actions.push(
                     button(tr("Skip this version"))
@@ -2311,6 +2428,7 @@ mod explorer_tests {
             focused: true,
             update_preferences: updates::Preferences::default(),
             update_status: UpdateStatus::Idle,
+            update_progress: None,
             state: Snapshot::default(),
             page: Page::Dashboard,
             connection: ConnectionForm::default(),
@@ -2380,6 +2498,48 @@ mod explorer_tests {
         ));
         assert!(app.plan.remote_secret.is_empty());
         assert_eq!(app.plan.remote.provider, Provider::S3);
+    }
+    #[test]
+    fn update_download_progress_cancellation_and_failure_keep_the_window_usable() {
+        let root = tempfile::tempdir().unwrap();
+        let mut app = app();
+        app.root = root.path().into();
+        app.update_preferences.last_release = Some(updates::Release {
+            schema_version: 1,
+            product: "strajabackupsql".into(),
+            platform: "windows-x64".into(),
+            channel: "stable".into(),
+            version: "99.0.0".into(),
+            release_url: "https://github.com/weblikero/straja-backup-sql/releases/tag/v99.0.0"
+                .into(),
+        });
+        let progress = Arc::new(updater::Progress::default());
+        app.update_progress = Some(progress.clone());
+        progress.total.store(100, Ordering::Relaxed);
+        progress.bytes.store(50, Ordering::Relaxed);
+        for stage in 0..4 {
+            progress.stage.store(stage, Ordering::Relaxed);
+            for language in Language::ALL {
+                i18n::set(language);
+                let _ = app.update_card(true);
+                let _ = app.update_card(false);
+            }
+        }
+        let _ = app.update(Msg::CheckUpdates(true));
+        assert!(!matches!(app.update_status, UpdateStatus::Checking));
+        let _ = app.update(Msg::CancelDownload);
+        assert!(!progress.cancel.load(Ordering::Relaxed)); // Installer handoff cannot be cancelled mid-copy.
+        progress.stage.store(1, Ordering::Relaxed);
+        let _ = app.update(Msg::CancelDownload);
+        assert!(progress.cancel.load(Ordering::Relaxed));
+        let _ = app.update(Msg::UpdateDownloaded(Err("cancelled".into())));
+        assert!(app.update_progress.is_none());
+        assert!(!app.error);
+        app.update_progress = Some(Arc::new(updater::Progress::default()));
+        let _ = app.update(Msg::UpdateHandoff(Err("fixture failure".into())));
+        assert!(app.update_progress.is_none() && app.error);
+        assert!(app.available_update().is_some()); // Retry remains available.
+        i18n::set(Language::English);
     }
     #[test]
     fn update_notice_can_be_dismissed_and_manual_check_overrides_automatic_preference() {

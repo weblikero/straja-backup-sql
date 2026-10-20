@@ -7,5 +7,6 @@ pub mod resources;
 pub mod security;
 pub mod store;
 pub mod tray;
+pub mod updater;
 pub mod updates;
 pub mod worker;

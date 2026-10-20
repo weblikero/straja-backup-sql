@@ -1,4 +1,4 @@
-//! Product-scoped update discovery. Never downloads or executes an installer.
+//! Product-scoped update discovery. Installation is handled by the isolated updater.
 use anyhow::{Result, bail, ensure};
 use chrono::{DateTime, Utc};
 use reqwest::{Client, Url};
@@ -15,7 +15,7 @@ const GITHUB_LATEST: &str =
     "https://api.github.com/repos/weblikero/straja-backup-sql/releases/latest";
 const MAX_FEED_BYTES: usize = 32 * 1024;
 // GitHub includes metadata for every installer, notice and corresponding-source asset.
-const MAX_GITHUB_BYTES: usize = 256 * 1024;
+pub(crate) const MAX_GITHUB_BYTES: usize = 256 * 1024;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
@@ -138,7 +138,11 @@ async fn fetch_bytes(client: &Client, url: &str) -> Result<Option<Vec<u8>>> {
     fetch_limited(client, url, MAX_FEED_BYTES).await
 }
 
-async fn fetch_limited(client: &Client, url: &str, limit: usize) -> Result<Option<Vec<u8>>> {
+pub(crate) async fn fetch_limited(
+    client: &Client,
+    url: &str,
+    limit: usize,
+) -> Result<Option<Vec<u8>>> {
     let mut response = client
         .get(url)
         .header("Accept", "application/json")
@@ -169,22 +173,26 @@ async fn fetch_limited(client: &Client, url: &str, limit: usize) -> Result<Optio
 }
 
 #[derive(Deserialize)]
-struct GithubRelease {
+pub(crate) struct GithubRelease {
     tag_name: String,
     html_url: String,
     draft: bool,
     prerelease: bool,
-    assets: Vec<GithubAsset>,
+    pub(crate) assets: Vec<GithubAsset>,
 }
 
 #[derive(Deserialize)]
-struct GithubAsset {
-    name: String,
-    size: u64,
+pub(crate) struct GithubAsset {
+    pub(crate) name: String,
+    pub(crate) size: u64,
     state: String,
+    #[serde(default)]
+    pub(crate) digest: Option<String>,
+    #[serde(default)]
+    pub(crate) browser_download_url: String,
 }
 
-fn parse_github(bytes: &[u8], current: &str) -> Result<CheckResult> {
+pub(crate) fn parse_github(bytes: &[u8], current: &str) -> Result<CheckResult> {
     ensure!(
         bytes.len() <= MAX_GITHUB_BYTES,
         "Release information is too large"

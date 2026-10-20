@@ -110,6 +110,10 @@ fn execute(root: &Path, id: &str, plan_id: &str) -> Result<()> {
 pub fn run(root: PathBuf) -> Result<()> {
     i18n::reload(&root);
     std::fs::create_dir_all(&root)?;
+    let coordination = match crate::updater::startup_coordination(&root) {
+        Ok(lock) => lock,
+        Err(_) => return Ok(()),
+    };
     let lock = File::options()
         .create(true)
         .truncate(false)
@@ -121,8 +125,10 @@ pub fn run(root: PathBuf) -> Result<()> {
     }
     let _mutex = security::AppMutex::new("Local\\StrajaBackupSQL.Agent")?;
     let store = Store::open(&root)?;
+    store.put("agent", "executable", &std::env::current_exe()?)?;
     store.recover()?;
     store.put("agent", "stop", &false)?;
+    drop(coordination);
     // The icon belongs to the background agent, not the Iced window.
     // A temporarily unavailable Explorer must not disable scheduled backups.
     let _tray = match crate::tray::Tray::start(root.clone()) {
@@ -152,6 +158,10 @@ pub fn run(root: PathBuf) -> Result<()> {
             if store.get::<bool>("agent", "stop").unwrap_or(false) {
                 break;
             }
+            let Ok(_coordination) = crate::updater::coordination(&root) else {
+                std::thread::sleep(Duration::from_secs(2));
+                continue;
+            };
             store.tick_schedule(Utc::now())?;
             if let Some((id, plan)) = store.claim()? {
                 let root = root.clone();

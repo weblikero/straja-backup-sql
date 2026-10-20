@@ -1,0 +1,21 @@
+StrajaBackupSQL 0.1.12
+
+In-app updates: Download and install replaces Open release page.
+The app downloads the official Windows installer with percentage/byte progress,
+supports cancellation during download, and verifies its size and SHA-256.
+
+The current backup finishes before installation. New backup claims are paused during
+handoff. Setup runs automatically with progress, then the app reopens and the
+previously active agent restarts. Settings, plans and backups are retained.
+Installer failures also trigger restart of the existing app/agent.
+
+Download metadata is refreshed from this product's stable GitHub release. Drafts,
+previews, downgrades, incorrect products, missing digests and corrupt files are rejected.
+Update controls are translated into English, German, Spanish, Portuguese, French
+and Italian. No browser navigation is required for downloading or installing.
+
+One-time migration: versions 0.1.10 and 0.1.11 require manual installation of 0.1.12.
+They cannot gain the new updater until upgraded. Later updates use the in-app flow.
+
+Unsigned build. Automated tests use local HTTP and fake installer/agent processes.
+Actual installation and upgrade acceptance on the separate test station remain pending.

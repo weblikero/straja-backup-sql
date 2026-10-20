@@ -2,11 +2,24 @@
 #![allow(non_snake_case)] // Windows product executable name.
 mod ui;
 fn main() -> anyhow::Result<()> {
+    let arguments: Vec<_> = std::env::args_os().collect();
+    if arguments.get(1).is_some_and(|a| a == "--apply-update") {
+        anyhow::ensure!(arguments.len() == 3, "Invalid update handoff");
+        let result = straja_sql::updater::apply(std::path::Path::new(&arguments[2]));
+        if let Err(e) = &result {
+            straja_sql::updater::notify_error(e);
+        }
+        return result;
+    }
     if std::env::args().any(|a| a == "--agent") {
         return straja_sql::worker::launch();
     }
     let root = straja_sql::store::data_dir()?;
     std::fs::create_dir_all(&root)?;
+    let coordination = match straja_sql::updater::startup_coordination(&root) {
+        Ok(lock) => lock,
+        Err(_) => return Ok(()),
+    };
     let window_lock = std::fs::File::options()
         .create(true)
         .truncate(false)
@@ -28,6 +41,7 @@ fn main() -> anyhow::Result<()> {
         Err(std::fs::TryLockError::Error(error)) => return Err(error.into()),
     }
     let _mutex = straja_sql::security::AppMutex::new("Local\\StrajaBackupSQL.Window")?;
+    drop(coordination);
     straja_sql::store::Store::open(&root)?.put("ui", "pid", &std::process::id())?;
     ui::run()?;
     Ok(())
