@@ -185,7 +185,16 @@ def clients(app):
             if directory.is_dir():
                 shutil.copytree(directory, target / "share/charsets", dirs_exist_ok=True)
                 break
-        versions[family] = run(target / "bin" / names[0], "--version").splitlines()[0]
+        reported = run(target / "bin" / names[0], "--version").splitlines()[0]
+        pattern = {
+            "mariadb": r"(?:Distrib|from)\s+(\d+(?:\.\d+)+)",
+            "mysql": r"\bVer\s+(\d+(?:\.\d+)+)",
+            "postgresql": r"\(PostgreSQL\)\s+(\d+(?:\.\d+)+)",
+        }[family]
+        match = re.search(pattern, reported)
+        if not match:
+            raise RuntimeError(f"Unrecognized {family} client version: {reported}")
+        versions[family] = match[1]
     (app / "tools/versions.json").write_text(json.dumps(versions, indent=2) + "\n")
 
 def transfer(app):
@@ -359,6 +368,13 @@ def main():
     (OUT / (artifact.name + ".sha256")).write_text(f"{sha(artifact)}  {artifact.name}\n")
     (OUT / (name + "-tools.json")).write_text(json.dumps({"version":VERSION,"platform":ID,
         "files":{str(p.relative_to(app)):sha(p) for p in app.rglob("*") if p.is_file()}}, indent=2))
+    (OUT / (name + "-build.json")).write_text(json.dumps({
+        "version": VERSION, "platform": ID, "commit": run("git", "rev-parse", "HEAD", cwd=ROOT),
+        "compiler": run("rustc", "--version"), "build_os": platform.platform(),
+        "installer": artifact.name, "sha256": sha(artifact),
+        "sql_clients": json.loads((app / "tools/versions.json").read_text()),
+        "distribution_signing": "not signed or notarized",
+    }, indent=2))
     if args.sources:
         sources()
     print(artifact)
