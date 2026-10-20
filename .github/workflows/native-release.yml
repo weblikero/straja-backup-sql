@@ -1,0 +1,25 @@
+name: Prepare native draft release
+on:
+  workflow_dispatch:
+    inputs:
+      build_run:
+        description: Successful Native Ubuntu and macOS kits run ID
+        required: true
+        type: string
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: native-draft-release
+  cancel-in-progress: false
+jobs:
+  draft:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate native kits and upload a draft with corresponding sources
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NATIVE_BUILD_RUN: ${{ inputs.build_run }}
+        run: python3 scripts/prepare_native_release.py
