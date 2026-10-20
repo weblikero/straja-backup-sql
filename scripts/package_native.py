@@ -107,6 +107,11 @@ def elf(source, target, libraries, seen):
         source_name = run("dpkg-query", "-W", "-f=${source:Package}", package)
         source_version = run("dpkg-query", "-W", "-f=${source:Version}", package)
         APT_SOURCES.add((source_name, source_version))
+        copyright_file = Path("/usr/share/doc") / package / "copyright"
+        if copyright_file.is_file():
+            notice = libraries.parent / "notices" / package
+            notice.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(copyright_file, notice / "copyright")
     except subprocess.CalledProcessError:
         pass  # Extracted client packages are recorded separately.
     for line in run("ldd", source).splitlines():
@@ -205,12 +210,23 @@ def sources():
     if MAC:
         for formula in sorted(BREW_SOURCES):
             info = json.loads(run("brew", "info", "--json=v2", formula))["formulae"][0]
+            kegs = [k for k in BREW_KEGS if k.parent.name == formula]
+            for keg in kegs:
+                if keg.name.split("_")[0] != info["versions"]["stable"]:
+                    raise RuntimeError(f"Source version differs from bundled keg: {keg}")
             SOURCES.joinpath(formula.replace("/", "_") + ".json").write_text(json.dumps(info, indent=2))
             source = info["urls"]["stable"]
             path = SOURCES / (formula.replace("/", "_") + "-" + source["url"].rsplit("/", 1)[1])
             download(source["url"], path, source["checksum"])
             # Preserve the formula/patch references and build metadata too.
-            SOURCES.joinpath(formula.replace("/", "_") + ".rb").write_text(run("brew", "cat", formula))
+            formula_files = [p for k in kegs for p in (k / ".brew").glob("*.rb")]
+            recipe = formula_files[0].read_text() if formula_files else run("brew", "cat", formula)
+            SOURCES.joinpath(formula.replace("/", "_") + ".rb").write_text(recipe)
+            for index, block in enumerate(re.findall(r"patch do(.*?)\n\s*end", recipe, re.S)):
+                url = re.search(r'url "([^"]+)"', block)
+                checksum = re.search(r'sha256 "([a-f0-9]{64})"', block)
+                if url and checksum:
+                    download(url[1], SOURCES / f"{formula}-patch-{index}.patch", checksum[1])
     else:
         for name, version in sorted(APT_SOURCES):
             run("apt-get", "source", "--download-only", "--only-source", name + "=" + version, cwd=SOURCES)
@@ -220,6 +236,24 @@ def script(path, content):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content)
     path.chmod(0o755)
+
+def rust_notices(app):
+    host = next(line.split(": ", 1)[1] for line in run("rustc", "-vV").splitlines() if line.startswith("host: "))
+    metadata = json.loads(run("cargo", "metadata", "--locked", "--format-version", "1", "--filter-platform", host, cwd=ROOT))
+    selected = {node["id"] for node in metadata["resolve"]["nodes"]}
+    text = ["STRAJA BACKUP SQL — THIRD-PARTY NOTICES", f"Cargo.lock dependency inventory for {host} (including test dependencies).\n"]
+    for package in sorted(metadata["packages"], key=lambda p: (p["name"], p["version"])):
+        if package["name"] == "straja-sql" or package["id"] not in selected:
+            continue
+        text.extend(["=" * 60, f"{package['name']} {package['version']} — {package.get('license')}",
+                     f"Source: {package.get('repository') or package.get('source')}"])
+        directory = Path(package["manifest_path"]).parent
+        licenses = {p for p in directory.iterdir() if p.is_file() and p.name.upper().startswith(("LICENSE", "LICENCE", "COPYING", "NOTICE"))}
+        if package.get("license_file"):
+            licenses.add(directory / package["license_file"])
+        for path in sorted(licenses):
+            text.extend([path.name, path.read_text(errors="replace")])
+    (app / "THIRD-PARTY-NOTICES.txt").write_text("\n".join(text), encoding="utf-8")
 
 def process_guard():
     pattern = (r"^/Applications/Straja Backup SQL[.]app/Contents/MacOS/StrajaBackupSQL( |$|-Agent)"
@@ -250,7 +284,7 @@ def main():
         copy(ROOT / "target/release" / binary, app / binary)
     (app / "default-language.txt").write_text("en\n")
     shutil.copytree(ROOT / "docs", app / "docs")
-    shutil.copy2(ROOT / "THIRD-PARTY-NOTICES.txt", app)
+    rust_notices(app)
     clients(app)
     if MAC:
         for keg in sorted(BREW_KEGS):
